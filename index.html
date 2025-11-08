@@ -3,149 +3,125 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Shia Lyrics App — Offline</title>
-<meta name="description" content="Shia Lyrics App — search, filter, read and save nauhas, marsiyas and manqabats (offline-friendly)." />
+<title>Shia Lyrics — Offline (Lazy Load)</title>
+<meta name="description" content="Shia Lyrics — lazy-loaded offline app with reciter/tag filters and stylized verse tiles." />
 <style>
-  /* ---- Basic theme (light-red/gold) ---- */
   :root{
-    --bg: linear-gradient(135deg,#1e1f29,#3b3c5a);
-    --page-bg: #fbfbfc;
-    --card: #ffffff;
-    --muted: #6b7280;
-    --accent: #e65b5b;
-    --accent-2:#d94f4f;
-    --gold: #f9ca24;
-    --radius: 16px;
-    --shadow: 0 10px 30px rgba(15,23,42,0.08);
+    --bg-start:#1e1f29; --bg-end:#3b3c5a;
+    --accent:#e65b5b; --accent-2:#d94f4f; --gold:#f9ca24;
+    --card:#ffffff; --muted:#6b7280; --radius:14px; --shadow: 0 12px 30px rgba(2,6,23,0.12);
   }
-  /* reset */
   *{box-sizing:border-box}
-  html,body{height:100%}
+  html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial; -webkit-font-smoothing:antialiased}
   body{
-    margin:0;
-    font-family: system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
-    background: var(--bg);
+    background: linear-gradient(135deg,var(--bg-start),var(--bg-end));
     color:#fff;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
     line-height:1.45;
   }
 
-  /* Hero */
-  .hero{
-    padding:36px 20px;
-    text-align:center;
-    background: rgba(0,0,0,0.16);
-    backdrop-filter: blur(6px);
-    border-bottom-left-radius:20px;
-    border-bottom-right-radius:20px;
-    margin-bottom:14px;
-  }
-  .hero h1{font-size:2.5rem;margin:0;color:var(--gold);text-shadow:0 2px 8px rgba(0,0,0,0.45)}
+  /* Header / Search */
+  .hero{padding:28px 18px;text-align:center;background:rgba(0,0,0,0.12);backdrop-filter:blur(6px);border-bottom-left-radius:18px;border-bottom-right-radius:18px;margin-bottom:12px}
+  .hero h1{margin:0;color:var(--gold);font-size:2rem}
   .hero p{margin:8px 0 0;color:#dcdde1}
-
-  /* search */
-  .search-bar{display:flex;justify-content:center;gap:10px;margin-top:18px}
+  .search-bar{display:flex;gap:10px;justify-content:center;margin-top:14px}
   .search-bar input{
-    width:60%;
-    max-width:760px;
-    padding:12px 16px;border-radius:30px;border:none;outline:none;font-size:1rem;
-    background: #fff;color:#111;
-    box-shadow:0 6px 18px rgba(2,6,23,0.15);
+    width:66%;max-width:820px;padding:12px 16px;border-radius:999px;border:none;background:#fff;color:#111;box-shadow:0 8px 22px rgba(2,6,23,0.12)
   }
-  .search-bar button{
-    padding:11px 18px;border-radius:999px;border:none;background:linear-gradient(180deg,var(--accent),var(--accent-2));color:#fff;font-weight:700;
-    cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,0.18)
-  }
-  .search-bar button:hover{transform:translateY(-2px)}
-
-  /* stats bar */
-  .stats-bar{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:18px 6px}
-  .stat-item{min-width:110px;background:rgba(255,255,255,0.06);padding:12px;border-radius:12px}
-  .stat-value{font-size:1.4rem;color:var(--gold);font-weight:700}
-  .stat-label{font-size:.85rem;color:#dcdde1}
+  .search-bar button{padding:11px 18px;border-radius:999px;border:none;background:linear-gradient(180deg,var(--accent),var(--accent-2));color:#fff;font-weight:700;cursor:pointer}
 
   /* container */
-  .container{max-width:1100px;margin:0 auto;padding:16px}
+  .container{max-width:1100px;margin:12px auto;padding:0 14px}
+  .stats{display:flex;gap:12px;justify-content:center;margin:12px 0;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,0.06);padding:10px 14px;border-radius:12px;color:#fff;min-width:110px;text-align:center}
+  .stat .v{color:var(--gold);font-weight:700;font-size:1.2rem}
 
-  /* top chips */
+  /* chips */
   .chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0;overflow:auto;padding-bottom:6px}
-  .chip{background:#fff;color:#111;padding:8px 12px;border-radius:999px;border:1px solid #eee;cursor:pointer;white-space:nowrap;font-weight:600}
-  .chip:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(2,6,23,0.08)}
+  .chip{background:#fff;color:#111;padding:8px 12px;border-radius:999px;border:1px solid #eee;cursor:pointer;font-weight:600;white-space:nowrap}
+  .chip:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(2,6,23,0.08)}
 
   /* layout */
-  .layout{display:grid;grid-template-columns:1fr 300px;gap:18px}
-  @media(max-width:900px){ .layout{grid-template-columns:1fr} .sidebar{display:none} }
+  .layout{display:grid;grid-template-columns:1fr 300px;gap:16px}
+  @media(max-width:920px){ .layout{grid-template-columns:1fr} .sidebar{display:none} }
 
-  /* results grid */
-  .results{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-  .card{
-    background: #ffffff;border-radius:14px;padding:14px;color:#111;box-shadow:var(--shadow);
-    display:flex;flex-direction:column;gap:8px;cursor:pointer;transition:transform .18s ease, box-shadow .18s ease;
-    border:1px solid rgba(0,0,0,0.04)
-  }
-  .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.12)}
-  .card h3{margin:0;font-size:1.05rem}
-  .card .snippet{color:#444;font-size:.92rem;line-height:1.35;height:60px;overflow:hidden}
-  .card .meta{display:flex;justify-content:space-between;align-items:center;font-size:.82rem;color:var(--muted)}
-  .card .tags{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
+  /* results area - holds scroll container */
+  .results-wrap{height:62vh;overflow:auto;border-radius:12px;padding:8px}
+  .results{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;padding-bottom:8px}
+
+  /* card */
+  .card{background:var(--card);color:#111;padding:12px;border-radius:12px;box-shadow:var(--shadow);cursor:pointer;display:flex;flex-direction:column;gap:8px;border:1px solid rgba(0,0,0,0.04);transition:transform .16s, box-shadow .16s}
+  .card:hover{transform:translateY(-6px);box-shadow:0 22px 48px rgba(2,6,23,0.12)}
+  .card h3{margin:0;font-size:1.02rem}
+  .card .snippet{color:#444;font-size:.92rem;height:56px;overflow:hidden}
+  .card .meta{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted)}
+  .card .tags{display:flex;gap:6px;flex-wrap:wrap}
   .tag{background:rgba(249,202,36,0.12);color:var(--gold);padding:4px 8px;border-radius:10px;font-size:.75rem;cursor:pointer}
-  .fav-icon{color:var(--muted);font-weight:700;padding:6px;border-radius:8px}
-  .fav-icon.active{color:var(--accent)}
 
-  /* sidebar panels */
+  .fav{color:var(--muted);font-weight:700;user-select:none}
+  .fav.active{color:var(--accent)}
+
+  /* sidebar */
   .sidebar .panel{background:#fff;color:#111;padding:12px;border-radius:12px;box-shadow:var(--shadow);margin-bottom:12px}
   .panel h4{margin:0 0 8px 0}
   .list-item{padding:8px;border-radius:8px;cursor:pointer;color:#222}
   .list-item:hover{background:#f6f6f6}
 
-  /* modal */
-  .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;padding:20px;z-index:9999}
-  .modal .box{background:#2f3640;color:#fff;border-radius:12px;padding:18px;max-width:840px;width:100%;max-height:86vh;overflow:auto;position:relative}
-  .modal h2{color:var(--gold);margin:0 0 8px}
-  .modal .meta{color:#dcdde1;font-size:.95rem;display:flex;gap:12px;flex-wrap:wrap}
-  .modal .lyrics{margin-top:12px;color:#f5f6fa;white-space:pre-wrap}
+  /* modal - stylized verse tiles */
+  .modal{display:none;position:fixed;inset:0;background:rgba(3,3,3,0.6);align-items:center;justify-content:center;padding:18px;z-index:9999}
+  .modal .box{background:#ffffff;color:#111;border-radius:14px;padding:18px;max-width:920px;width:100%;max-height:88vh;overflow:auto;position:relative}
+  .modal h2{margin:0;color:var(--gold)}
+  .modal .meta{color:#444;margin-top:6px;font-size:.95rem;display:flex;gap:10px;flex-wrap:wrap}
+  .verse-tiles{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+  .verse-card{border-radius:10px;padding:12px;background:linear-gradient(180deg,#fff,#f8f8f8);border:1px solid #eee;box-shadow:0 10px 22px rgba(2,6,23,0.04)}
+  .verse-line{margin:0;padding:0;color:#222;line-height:1.5}
   .close-btn{position:absolute;right:12px;top:12px;background:#e84118;border:none;border-radius:50%;width:36px;height:36px;color:#fff;cursor:pointer}
 
   /* actions */
-  .actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-  .btn{padding:8px 14px;border-radius:999px;border:none;cursor:pointer}
+  .actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  .btn{padding:8px 12px;border-radius:999px;border:none;cursor:pointer}
   .btn-outline{background:#fff;color:#111;border:1px solid rgba(0,0,0,0.06)}
   .btn-accent{background:linear-gradient(180deg,var(--accent),var(--accent-2));color:#fff}
 
-  /* toast */
-  .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:80px;background:#222;color:#fff;padding:12px 18px;border-radius:22px;box-shadow:0 8px 24px rgba(0,0,0,0.4);display:none;z-index:10001}
-  .toast.show{display:flex;align-items:center;gap:10px;animation:fade 3s ease-in-out}
-  @keyframes fade{0%{opacity:0;transform:translateX(-50%) translateY(20px)}10%{opacity:1;transform:translateX(-50%) translateY(0)}90%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(20px)}}
+  /* loading small */
+  .loading{display:flex;gap:10px;align-items:center;justify-content:center;padding:18px;color:#ddd}
+  .spinner{width:28px;height:28px;border-radius:50%;border:3px solid rgba(255,255,255,0.18);border-top-color:var(--gold);animation:spin 1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
 
-  footer{position:fixed;bottom:0;left:0;right:0;padding:10px 6px;text-align:center;color:#dcdde1;background:linear-gradient(180deg,rgba(0,0,0,0.12),transparent)}
+  /* toast */
+  .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:70px;background:#222;color:#fff;padding:10px 16px;border-radius:20px;display:none;z-index:10001}
+  .toast.show{display:block;animation:fade 3s}
+  @keyframes fade{0%{opacity:0;transform:translate(-50%,20px)}10%{opacity:1;transform:translate(-50%,0)}90%{opacity:1}100%{opacity:0;transform:translate(-50%,20px)}}
+
+  footer{padding:10px;text-align:center;color:#dcdde1;margin-top:18px}
 </style>
 </head>
 <body>
 
   <div class="hero">
     <h1>Shia Lyrics App</h1>
-    <p>Find Nauha, Marsiya & Manqabat lyrics instantly — search, filter, save & share</p>
-    <div class="search-bar" style="margin-top:14px">
-      <input id="searchInput" placeholder="Search lyrics, reciter, tags or any phrase..." />
+    <p>Lazy-loaded, offline-ready — click tags or reciters to filter, open lyrics in stylized verse tiles.</p>
+    <div class="search-bar">
+      <input id="searchInput" placeholder="Search title, reciter, tag or phrase..." />
       <button id="searchBtn">🔎 Search</button>
     </div>
   </div>
 
   <div class="container">
-    <div class="stats-bar" style="justify-content:center">
-      <div class="stat-item"><div class="stat-value" id="totalLyrics">0</div><div class="stat-label">Total</div></div>
-      <div class="stat-item"><div class="stat-value" id="favoritesCount">0</div><div class="stat-label">Favorites</div></div>
-      <div class="stat-item"><div class="stat-value" id="nauhaCount">0</div><div class="stat-label">Nauha</div></div>
-      <div class="stat-item"><div class="stat-value" id="marsiyaCount">0</div><div class="stat-label">Marsiya</div></div>
+    <div class="stats">
+      <div class="stat"><div class="v" id="totalCount">0</div><div class="label">Total</div></div>
+      <div class="stat"><div class="v" id="favCount">0</div><div class="label">Favorites</div></div>
+      <div class="stat"><div class="v" id="nauhaCount">0</div><div class="label">Nauha</div></div>
+      <div class="stat"><div class="v" id="marsiyaCount">0</div><div class="label">Marsiya</div></div>
     </div>
 
-    <!-- chips -->
     <div class="chips" id="chipsContainer"></div>
 
     <div class="layout">
       <main>
-        <div id="results" class="results"></div>
+        <div class="results-wrap" id="resultsWrap">
+          <div id="results" class="results"></div>
+          <div id="loadingMore" class="loading" style="display:none"><div class="spinner"></div><div>Loading more…</div></div>
+        </div>
       </main>
 
       <aside class="sidebar">
@@ -167,8 +143,8 @@
       <button class="close-btn" id="closeModal">&times;</button>
       <h2 id="modalTitle">Title</h2>
       <div class="meta"><div id="modalReciter"></div><div id="modalType"></div><div id="modalDate"></div></div>
-      <div style="margin-top:10px" id="modalTags"></div>
-      <div class="lyrics" id="modalLyrics" style="margin-top:12px"></div>
+      <div id="modalTagRow" style="margin-top:8px"></div>
+      <div class="verse-tiles" id="verseTiles"></div>
 
       <div class="actions">
         <button class="btn btn-outline" id="copyBtn">📋 Copy</button>
@@ -178,267 +154,265 @@
     </div>
   </div>
 
-  <div class="toast" id="toast"><span id="toastMsg"></span></div>
+  <div class="toast" id="toast"></div>
 
   <footer>© 2025 Shia Lyrics App</footer>
 
 <script>
-/* ----------------------
-  Data loading & fallback
-   - App expects `lyrics.json` in same folder.
-   - If fetch fails (file:// or missing), embedded sample is used.
-------------------------*/
+/* ====== Config ====== */
+const BATCH = 12;             // items per lazy batch
+const JUNK_PATTERNS = [/httrack/i,/website copier/i,/wget/i,/bot/i,/crawler/i,/generator/i,/curl/i];
+
+/* ====== Data + fallback ====== */
 let LYRICS = [];
 const SAMPLE = [
-  { id:1, title:"Ya Hussain", reciter:"Nadeem Sarwar", type:"Nauha", tags:["Ashura","Karbala","Hussain"], lyrics:"Ya Hussain, Ya Hussain\\nAshk be-sakhta..." , date:"2023-08-15" },
-  { id:2, title:"Hussain Ki Beti", reciter:"Syed Ali Abbas", type:"Marsiya", tags:["Sakina","Karbala"], lyrics:"Hussain ki beti ne jab dekha..." , date:"2023-09-01" },
-  { id:3, title:"Madine Ki Galiyan", reciter:"Mir Hasan", type:"Manqabat", tags:["Madina","Prophet"], lyrics:"Madine ki galiyan chhoo kar..." , date:"2023-07-20" }
+  {id:1,title:"Ya Hussain",reciter:"Nadeem Sarwar",type:"Nauha",tags:["Ashura","Karbala"],lyrics:"Ya Hussain\\nYa Hussain\\nHar zaban pe tera naam hai",date:"2023-08-15"},
+  {id:2,title:"Hussain Ki Beti",reciter:"Syed Ali Abbas",type:"Marsiya",tags:["Sakina","Karbala"],lyrics:"Hussain ki beti ne jab dekha\\nBaba ka lahu...",date:"2023-09-01"},
+  {id:3,title:"Madine Ki Galiyan",reciter:"Mir Hasan",type:"Manqabat",tags:["Madina"],lyrics:"Madine ki galiyan chhoo kar\\nDil ko behlaana...",date:"2023-07-20"}
 ];
 
+/* state for lazy loading */
+let currentResults = [];      // filtered result set
+let offset = 0;
+let favorites = JSON.parse(localStorage.getItem('shia_favs')||'[]').map(Number);
+let currentItem = null;
+let resultsWrap, resultsEl, loadingMoreEl;
+
+/* utility */
+function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c])); }
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2800); }
+
+/* load data (attempt lyrics.json then fallback) */
 async function loadData(){
   try{
     const res = await fetch('lyrics.json');
     if(!res.ok) throw new Error('no-json');
     const json = await res.json();
-    LYRICS = Array.isArray(json) ? json : [];
-    console.log('Loaded lyrics.json — entries:', LYRICS.length);
+    if(Array.isArray(json) && json.length>0) LYRICS = json;
+    else LYRICS = SAMPLE.slice();
+    console.log('Loaded lyrics.json entries:', LYRICS.length);
   }catch(err){
-    console.warn('lyrics.json not loaded. Using sample dataset.', err);
+    console.warn('lyrics.json load failed — using sample', err);
     LYRICS = SAMPLE.slice();
   }
-  // normalize fields & search index
+  // normalize & build search token
   LYRICS.forEach(it=>{
     it.title = it.title || '';
     it.reciter = it.reciter || '';
-    it.type = it.type || (it.tags&&it.tags.length? 'Nauha' : '');
+    it.type = it.type || (it.tags && it.tags.length? 'Nauha':'');
     it.tags = it.tags || [];
     it.lyrics = it.lyrics || '';
     it.date = it.date || '';
-    it._search = (it.title + ' ' + it.reciter + ' ' + it.tags.join(' ') + ' ' + it.lyrics).toLowerCase();
+    it._search = (it.title + ' ' + it.reciter + ' ' + (it.tags||[]).join(' ') + ' ' + it.lyrics).toLowerCase();
   });
-  initUI();
 }
 
-/* ----------------------
-  UI logic
-------------------------*/
-let favorites = JSON.parse(localStorage.getItem('shia_favorites') || '[]').map(Number);
-let currentDisplayed = [];
-let currentItem = null;
+/* Debounce */
+function debounce(fn, wait=300){
+  let t;
+  return (...args)=>{ clearTimeout(t); t = setTimeout(()=>fn(...args), wait); };
+}
 
+/* ====== UI Build ====== */
 function initUI(){
+  resultsWrap = document.getElementById('resultsWrap');
+  resultsEl = document.getElementById('results');
+  loadingMoreEl = document.getElementById('loadingMore');
   buildChips(['sajjad','sakina','karbala','ashura','madina']);
-  buildRecitersAndTags();
-  renderResults(LYRICS.slice(0,40));
+  buildRecitersTags();
+  // initial default: no filter => show first batch of all (but not render all)
+  currentResults = LYRICS.slice(); offset = 0; resultsEl.innerHTML=''; loadMore();
   updateStats();
   attachEvents();
 }
 
-function attachEvents(){
-  document.getElementById('searchBtn').addEventListener('click', doSearch);
-  document.getElementById('searchInput').addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); doSearch(); }});
-  document.getElementById('closeModal').addEventListener('click', closeModal);
-  document.getElementById('copyBtn').addEventListener('click', copyLyrics);
-  document.getElementById('shareBtn').addEventListener('click', shareLyrics);
-  document.getElementById('favBtn').addEventListener('click', () => toggleFavorite(currentItem && currentItem.id));
-}
-
-/* chips */
+/* build top chips */
 function buildChips(arr){
-  const c = document.getElementById('chipsContainer');
-  c.innerHTML = '';
-  arr.forEach(ch=>{
-    const el = document.createElement('div');
-    el.className = 'chip';
-    el.textContent = ch;
-    el.onclick = ()=> { document.getElementById('searchInput').value = ch; doSearch(); };
+  const c = document.getElementById('chipsContainer'); c.innerHTML='';
+  arr.forEach(s=>{
+    const el=document.createElement('div'); el.className='chip'; el.textContent=s;
+    el.onclick = ()=>{ document.getElementById('searchInput').value = s; doSearch(); };
     c.appendChild(el);
   });
 }
 
-/* reciters & tags sidebars */
-function buildRecitersAndTags(){
+/* filter & clean reciters/tags - remove junk patterns */
+function isJunk(name){
+  if(!name) return true;
+  for(const p of JUNK_PATTERNS) if(p.test(name)) return true;
+  return false;
+}
+
+function buildRecitersTags(){
   const recMap = {}, tagMap = {};
-  LYRICS.forEach(it => {
-    if(it.reciter) recMap[it.reciter] = (recMap[it.reciter]||0) + 1;
-    (it.tags||[]).forEach(t => tagMap[t] = (tagMap[t]||0) + 1);
+  LYRICS.forEach(it=>{
+    const r = (it.reciter||'').trim();
+    if(r && !isJunk(r)) recMap[r] = (recMap[r]||0)+1;
+    (it.tags||[]).forEach(t=>{
+      if(t && typeof t==='string') tagMap[t] = (tagMap[t]||0)+1;
+    });
   });
-
-  const recList = Object.entries(recMap).sort((a,b)=>b[1]-a[1]).slice(0,80);
-  const tList = Object.entries(tagMap).sort((a,b)=>b[1]-a[1]).slice(0,120);
-
-  const recDiv = document.getElementById('recitersList'); recDiv.innerHTML = '';
-  recList.forEach(([name,count])=>{
-    const d = document.createElement('div'); d.className='list-item'; d.textContent = `${name} (${count})`;
-    d.onclick = ()=> filterByReciter(name);
+  const recDiv = document.getElementById('recitersList'); recDiv.innerHTML='';
+  Object.entries(recMap).sort((a,b)=>b[1]-a[1]).slice(0,80).forEach(([name,cnt])=>{
+    const d=document.createElement('div'); d.className='list-item'; d.textContent=`${name} (${cnt})`; d.onclick=()=>{ filterByReciter(name); };
     recDiv.appendChild(d);
   });
-
-  const tagsDiv = document.getElementById('tagsList'); tagsDiv.innerHTML = '';
-  tList.forEach(([name,count])=>{
-    const d = document.createElement('div'); d.className='list-item'; d.textContent = `${name} (${count})`;
-    d.onclick = ()=> filterByTag(name);
+  const tagsDiv = document.getElementById('tagsList'); tagsDiv.innerHTML='';
+  Object.entries(tagMap).sort((a,b)=>b[1]-a[1]).slice(0,120).forEach(([name,cnt])=>{
+    const d=document.createElement('div'); d.className='list-item'; d.textContent=`${name} (${cnt})`; d.onclick=()=>{ filterByTag(name); };
     tagsDiv.appendChild(d);
   });
 }
 
-/* render results */
-function renderResults(items){
-  currentDisplayed = items || [];
-  const out = document.getElementById('results');
-  out.innerHTML = '';
-  if(!items || items.length===0){
-    out.innerHTML = '<div style="grid-column:1/-1;padding:24px;text-align:center;color:#ddd">No results</div>';
-    updateStats();
-    return;
-  }
-  items.forEach(it=>{
-    const card = document.createElement('div'); card.className='card';
-    const isFav = favorites.includes(it.id);
-    const tagsHtml = (it.tags||[]).map(t=>`<span class="tag" data-tag="${escapeHtml(t)}">${escapeHtml(t)}</span>`).join('');
-    card.innerHTML = `<h3>${escapeHtml(it.title)} <span style="float:right" class="fav-icon ${isFav? 'active':''}" data-id="${it.id}">❤</span></h3>
-      <div class="snippet">${escapeHtml((it.lyrics||'').substring(0,160))}...</div>
-      <div class="meta"><div>${escapeHtml(it.reciter||'')}</div><div>${escapeHtml(it.type||'')}</div></div>
-      <div class="tags">${tagsHtml}</div>
-    `;
-    // click handlers
-    card.addEventListener('click', ()=> openModal(it));
-    // tag clicks inside card
-    card.querySelectorAll('.tag').forEach(tn => tn.addEventListener('click', (e)=>{
-      e.stopPropagation();
-      const tag = tn.getAttribute('data-tag');
-      filterByTag(tag);
-    }));
-    // favorite icon handler
-    card.querySelectorAll('.fav-icon').forEach(fi=>{
-      fi.addEventListener('click', (e)=>{
-        e.stopPropagation();
-        const id = Number(fi.getAttribute('data-id'));
-        toggleFavorite(id);
-      });
-    });
+/* update stats */
+function updateStats(){
+  document.getElementById('totalCount').textContent = LYRICS.length;
+  document.getElementById('nauhaCount').textContent = LYRICS.filter(x=> (x.type||'').toLowerCase()==='nauha').length;
+  document.getElementById('marsiyaCount').textContent = LYRICS.filter(x=> (x.type||'').toLowerCase()==='marsiya').length;
+  document.getElementById('favCount').textContent = (favorites||[]).length;
+}
 
-    out.appendChild(card);
+/* attach events */
+function attachEvents(){
+  document.getElementById('searchBtn').addEventListener('click', doSearch);
+  document.getElementById('searchInput').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); doSearch(); }});
+  document.getElementById('closeModal').addEventListener('click', closeModal);
+  document.getElementById('copyBtn').addEventListener('click', copyCurrent);
+  document.getElementById('shareBtn').addEventListener('click', shareCurrent);
+  document.getElementById('favBtn').addEventListener('click', ()=> toggleFav(currentItem&&currentItem.id));
+  // lazy scroll
+  resultsWrap.addEventListener('scroll', ()=> {
+    const {scrollTop, scrollHeight, clientHeight} = resultsWrap;
+    if(scrollTop + clientHeight > scrollHeight - 160) loadMore();
   });
-  updateStats();
 }
 
-/* search */
-function doSearch(){
+/* ====== Lazy load results in batches ====== */
+function loadMore(){
+  if(offset >= currentResults.length) return;
+  if(loadingMoreEl.style.display !== 'none') return; // already loading
+  loadingMoreEl.style.display = 'flex';
+  // simulate small delay
+  setTimeout(()=>{
+    const slice = currentResults.slice(offset, offset + BATCH);
+    slice.forEach(it => renderCard(it));
+    offset += slice.length;
+    loadingMoreEl.style.display = 'none';
+  }, 200);
+}
+
+/* render one card */
+function renderCard(it){
+  const div = document.createElement('div'); div.className='card';
+  const isFav = favorites.includes(Number(it.id));
+  const tagsHtml = (it.tags||[]).slice(0,6).map(t=>`<span class="tag" data-tag="${escapeHtml(t)}">${escapeHtml(t)}</span>`).join('');
+  div.innerHTML = `<h3>${escapeHtml(it.title)} <span style="float:right" class="fav ${isFav? 'active':''}" data-id="${it.id}">❤</span></h3>
+    <div class="snippet">${escapeHtml((it.lyrics||'').substring(0,160))}...</div>
+    <div class="meta"><div>${escapeHtml(it.reciter||'')}</div><div>${escapeHtml(it.type||'')}</div></div>
+    <div class="tags">${tagsHtml}</div>`;
+  // click open
+  div.addEventListener('click', ()=> openModal(it));
+  // tags click
+  div.querySelectorAll('.tag').forEach(tn=> tn.addEventListener('click', e=>{ e.stopPropagation(); filterByTag(tn.dataset.tag); }));
+  // fav click
+  div.querySelectorAll('.fav').forEach(fi=>{
+    fi.addEventListener('click', e=>{ e.stopPropagation(); toggleFav(Number(fi.dataset.id)); fi.classList.toggle('active'); });
+  });
+  resultsEl.appendChild(div);
+}
+
+/* ====== Search & Filters (debounced) ====== */
+const doSearch = debounce(()=>{
   const q = (document.getElementById('searchInput').value||'').toLowerCase().trim();
-  if(!q){ renderResults(LYRICS.slice(0,60)); return; }
-  let results = LYRICS.filter(it => it._search.includes(q));
-  if(results.length===0){
+  offset = 0; resultsEl.innerHTML = '';
+  if(!q){ currentResults = LYRICS.slice(); loadMore(); return; }
+  let res = LYRICS.filter(it => it._search.includes(q));
+  if(res.length===0){
     const tokens = q.split(/\s+/).filter(Boolean);
-    results = LYRICS.filter(it => tokens.every(t=> it._search.includes(t)));
+    res = LYRICS.filter(it => tokens.every(t=> it._search.includes(t)));
   }
-  renderResults(results);
-}
+  currentResults = res;
+  loadMore();
+}, 250);
 
-/* filters */
+/* filter functions */
 function filterByReciter(name){
-  const res = LYRICS.filter(it => (it.reciter||'').toLowerCase() === name.toLowerCase());
-  renderResults(res);
-  showToast(`Filtered by reciter: ${name}`);
+  offset = 0; resultsEl.innerHTML = ''; currentResults = LYRICS.filter(it => (it.reciter||'').toLowerCase() === name.toLowerCase()); loadMore(); showToast(`Reciter: ${name}`);
 }
 function filterByTag(tag){
-  const res = LYRICS.filter(it => (it.tags||[]).map(x=>x.toLowerCase()).includes(tag.toLowerCase()));
-  renderResults(res);
-  showToast(`Filtered by tag: ${tag}`);
+  offset = 0; resultsEl.innerHTML = ''; currentResults = LYRICS.filter(it => (it.tags||[]).map(x=>x.toLowerCase()).includes(tag.toLowerCase())); loadMore(); showToast(`Tag: ${tag}`);
 }
 
-/* modal & actions */
+/* ====== Modal display: stylized verse tiles ====== */
 function openModal(item){
   currentItem = item;
   document.getElementById('modalTitle').textContent = item.title;
   document.getElementById('modalReciter').textContent = item.reciter || '';
   document.getElementById('modalType').textContent = item.type || '';
   document.getElementById('modalDate').textContent = item.date ? new Date(item.date).toLocaleDateString() : '';
-  // tags
-  const tagsContainer = document.getElementById('modalTags'); tagsContainer.innerHTML = '';
+  // tags row
+  const tagRow = document.getElementById('modalTagRow'); tagRow.innerHTML = '';
   (item.tags||[]).forEach(t=>{
-    const sp = document.createElement('span'); sp.className='tag'; sp.textContent = t; sp.onclick = ()=> filterByTag(t);
-    tagsContainer.appendChild(sp);
+    const el = document.createElement('span'); el.className='tag'; el.textContent = t; el.style.marginRight='6px'; el.onclick = ()=> filterByTag(t);
+    tagRow.appendChild(el);
   });
-  document.getElementById('modalLyrics').textContent = item.lyrics || '';
-  // fav button
-  const favBtn = document.getElementById('favBtn');
-  if(favorites.includes(item.id)) favBtn.textContent = '❤ Remove from Favorites'; else favBtn.textContent = '❤ Add to Favorites';
+  // split lyrics into verses by blank lines (preserve meaningful line groups)
+  const tiles = document.getElementById('verseTiles'); tiles.innerHTML = '';
+  const raw = String(item.lyrics || '').replace(/\r/g,'');
+  const paras = raw.split(/\n\s*\n/).filter(Boolean); // paragraphs separated by blank line
+  paras.forEach(p=>{
+    const card = document.createElement('div'); card.className='verse-card';
+    // each line within paragraph
+    const lines = p.split(/\n/).filter(Boolean);
+    lines.forEach(line=>{
+      const el = document.createElement('p'); el.className='verse-line'; el.textContent = line;
+      card.appendChild(el);
+    });
+    tiles.appendChild(card);
+  });
+  // fav button text
+  const favBtn = document.getElementById('favBtn'); favBtn.textContent = favorites.includes(Number(item.id)) ? '❤ Remove from Favorites' : '❤ Add to Favorites';
   document.getElementById('modal').style.display = 'flex';
 }
-function closeModal(){ document.getElementById('modal').style.display = 'none'; }
 
-/* copy/share */
-async function copyLyrics(){
-  if(!currentItem) return showToast('No lyrics selected');
-  try{
-    await navigator.clipboard.writeText(currentItem.lyrics || '');
-    showToast('Lyrics copied to clipboard');
-  }catch(e){
-    // fallback prompt
-    const text = currentItem.lyrics || '';
-    prompt('Copy the lyrics below', text);
-  }
+/* close modal */
+function closeModal(){ document.getElementById('modal').style.display = 'none'; currentItem = null; }
+
+/* copy & share */
+async function copyCurrent(){
+  if(!currentItem) return showToast('No lyrics open');
+  try{ await navigator.clipboard.writeText(currentItem.lyrics || ''); showToast('Copied to clipboard'); }
+  catch(e){ prompt('Copy the lyrics (Ctrl+C)', currentItem.lyrics || ''); }
 }
-function shareLyrics(){
-  if(!currentItem) return showToast('No lyrics selected');
-  const text = `${currentItem.title} — ${currentItem.reciter}\n\n${(currentItem.lyrics||'').slice(0,200)}...`;
-  if(navigator.share){
-    navigator.share({title: currentItem.title, text, url: location.href}).then(()=>showToast('Shared')).catch(()=>showToast('Share cancelled'));
-  } else {
-    // fallback: copy to clipboard
-    copyLyrics();
-  }
+function shareCurrent(){
+  if(!currentItem) return showToast('No lyrics open');
+  const txt = `${currentItem.title} — ${currentItem.reciter}\n\n${(currentItem.lyrics||'').slice(0,200)}...`;
+  if(navigator.share){ navigator.share({title: currentItem.title, text: txt, url: location.href}).then(()=>showToast('Shared')).catch(()=>showToast('Share cancelled')); }
+  else { copyCurrent(); }
 }
 
-/* favorites */
-function toggleFavorite(id){
+/* ====== favorites management ====== */
+function toggleFav(id){
   id = Number(id);
   if(!id) return;
   const idx = favorites.indexOf(id);
-  if(idx > -1){
-    favorites.splice(idx,1);
-    showToast('Removed from favorites');
-  } else {
-    favorites.push(id);
-    showToast('Added to favorites');
-  }
-  localStorage.setItem('shia_favorites', JSON.stringify(favorites));
+  if(idx > -1){ favorites.splice(idx,1); showToast('Removed from favorites'); }
+  else { favorites.push(id); showToast('Added to favorites'); }
+  localStorage.setItem('shia_favs', JSON.stringify(favorites));
+  // reflect in UI
   updateStats();
-  renderResults(currentDisplayed.length? currentDisplayed : LYRICS.slice(0,40));
-  updateFavoritesCount();
+  // if modal open, update button
+  if(currentItem && Number(currentItem.id)===id){
+    document.getElementById('favBtn').textContent = favorites.includes(id) ? '❤ Remove from Favorites' : '❤ Add to Favorites';
+  }
 }
 
-/* stats & UI */
-function updateStats(){
-  document.getElementById('totalLyrics').textContent = LYRICS.length;
-  document.getElementById('nauhaCount').textContent = LYRICS.filter(l=> (l.type||'').toLowerCase()==='nauha').length;
-  document.getElementById('marsiyaCount').textContent = LYRICS.filter(l=> (l.type||'').toLowerCase()==='marsiya').length;
-  updateFavoritesCount();
-}
-function updateFavoritesCount(){ document.getElementById('favoritesCount').textContent = favorites.length; }
-
-/* toast */
-let toastTimer = null;
-function showToast(msg){
-  const t = document.getElementById('toast');
-  document.getElementById('toastMsg').textContent = msg;
-  t.classList.add('show');
-  if(toastTimer) clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=> t.classList.remove('show'), 3000);
-}
-
-/* helpers */
-function escapeHtml(s){ return String(s||'').replace(/[&<>"]/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c])); }
-
-/* init */
+/* ====== init ====== */
 document.addEventListener('DOMContentLoaded', async ()=>{
   await loadData();
-
-  // If page loaded as file://, warn user and advise to run local server for full features
-  if(location.protocol === 'file:'){
-    showToast('Tip: For best results run a local server (python -m http.server) or upload to hosting.');
-  }
+  initUI();
+  // advise running local server if loaded via file://
+  if(location.protocol === 'file:') showToast('Tip: Run a local server (python -m http.server) for best results & SW support.');
 });
 </script>
 </body>
