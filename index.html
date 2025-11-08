@@ -1,162 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nauha Lyrics Chatbot</title>
-<style>
-    body {
-        font-family: 'Poppins', sans-serif;
-        background: linear-gradient(135deg, #111, #333);
-        color: #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-    }
-    .chat-container {
-        width: 420px;
-        max-width: 90%;
-        background: rgba(255,255,255,0.08);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        box-shadow: 0 0 30px rgba(0,0,0,0.5);
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-    }
-    .chat-header {
-        text-align: center;
-        padding: 15px;
-        background: rgba(255,255,255,0.1);
-        font-weight: 600;
-        letter-spacing: 1px;
-    }
-    .chat-box {
-        flex: 1;
-        padding: 15px;
-        overflow-y: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-    .msg {
-        max-width: 85%;
-        padding: 10px 14px;
-        border-radius: 12px;
-        line-height: 1.5;
-        white-space: pre-wrap;
-    }
-    .user {
-        align-self: flex-end;
-        background: #0078ff;
-    }
-    .bot {
-        align-self: flex-start;
-        background: rgba(255,255,255,0.2);
-    }
-    .chat-input {
-        display: flex;
-        border-top: 1px solid rgba(255,255,255,0.1);
-    }
-    .chat-input input {
-        flex: 1;
-        padding: 12px;
-        border: none;
-        background: transparent;
-        color: #fff;
-        outline: none;
-    }
-    .chat-input button {
-        background: #0078ff;
-        border: none;
-        padding: 0 20px;
-        color: #fff;
-        cursor: pointer;
-        font-weight: 600;
-        transition: 0.3s;
-    }
-    .chat-input button:hover {
-        background: #005fcc;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyrics Finder</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background: #f0f4f8; display: flex; flex-direction: column; align-items: center; padding: 30px; }
+        h1 { margin-bottom: 20px; color: #2c3e50; }
+        .search-container { display: flex; gap: 10px; margin-bottom: 20px; }
+        input { padding: 10px 15px; border-radius: 8px; border: 1px solid #ccc; width: 300px; font-size: 1rem; }
+        button { padding: 10px 15px; border-radius: 8px; border: none; background: #3498db; color: white; cursor: pointer; font-size: 1rem; transition: 0.3s; }
+        button:hover { background: #2980b9; }
+        .lyrics-container { width: 100%; max-width: 600px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); min-height: 200px; white-space: pre-wrap; }
+        .error { color: red; }
+    </style>
 </head>
 <body>
-<div class="chat-container">
-    <div class="chat-header">🎵 Nauha Lyrics Chatbot</div>
-    <div class="chat-box" id="chatBox">
-        <div class="msg bot">Assalamualaikum! Type the name of any Nauha or Reciter 👇</div>
-    </div>
-    <div class="chat-input">
-        <input type="text" id="userInput" placeholder="Type e.g. Janum Ali Ali..." />
-        <button onclick="sendMessage()">Send</button>
-    </div>
+
+<h1>Lyrics Finder</h1>
+
+<div class="search-container">
+    <input type="text" id="songInput" placeholder="Enter song or artist name...">
+    <button onclick="fetchLyrics()">Search <i class="fas fa-music"></i></button>
+</div>
+
+<div class="lyrics-container" id="lyricsContainer">
+    🎵 Enter a song or artist and click Search to view lyrics.
 </div>
 
 <script>
-async function fetchLyrics(query) {
+async function fetchLyrics() {
+    const query = document.getElementById('songInput').value.trim();
+    const container = document.getElementById('lyricsContainer');
+
+    if (!query) {
+        container.innerHTML = '<span class="error">Please enter a song or artist name.</span>';
+        return;
+    }
+
+    container.innerHTML = '🔄 Searching...';
+
     try {
-        // --- Option 1: Direct fetch (may fail if CORS blocked)
-        let searchUrl = `https://nauhalyrics.app/?s=${encodeURIComponent(query)}`;
+        // Use a public CORS proxy
+        const url = `https://api.allorigins.win/get?url=${encodeURIComponent('https://nauhalyrics.app/?s=' + query)}`;
+        const response = await fetch(url);
 
-        // --- Option 2: Free CORS proxy (uncomment if needed)
-        // let proxy = 'https://api.allorigins.win/get?url=';
-        // let searchUrl = proxy + encodeURIComponent(`https://nauhalyrics.app/?s=${encodeURIComponent(query)}`);
+        if (!response.ok) throw new Error('Network response was not ok');
 
-        let response = await fetch(searchUrl);
-        let text = await response.text();
+        const data = await response.json();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(data.contents, 'text/html');
 
-        // Extract first lyrics page link using regex
-        let match = text.match(/href="(https:\/\/nauhalyrics\.app\/lyrics\/\d+[^"]*)"/i);
-        if (!match) return "❌ No lyrics found for this title.";
-
-        let lyricsPage = match[1];
-        let lyricRes = await fetch(lyricsPage);
-        let lyricHtml = await lyricRes.text();
-
-        // Extract title and lyrics using regex
-        let title = lyricHtml.match(/<h1[^>]*>(.*?)<\/h1>/i)?.[1] || "Untitled";
-        let lyrics = lyricHtml.match(/<div class="lyrics-text">(.*?)<\/div>/is)?.[1]
-            ?.replace(/<[^>]+>/g, '') || "Lyrics not found.";
-        
-        return `🎶 *${title}*\n\n${lyrics.trim()}\n\n🔗 Source: ${lyricsPage}`;
-    } catch (e) {
-        console.error(e);
-        return "⚠️ Error fetching lyrics. Try again later.";
+        // Attempt to extract lyrics from the fetched HTML
+        const lyrics = doc.querySelector('.entry-content') || doc.querySelector('.lyrics') || doc.body;
+        container.innerHTML = lyrics ? lyrics.innerText.trim() : '❌ Lyrics not found for this query.';
+    } catch (err) {
+        console.error(err);
+        container.innerHTML = `<span class="error">⚠️ Failed to fetch lyrics. Try again later.</span>`;
     }
 }
-
-async function sendMessage() {
-    const input = document.getElementById("userInput");
-    const chatBox = document.getElementById("chatBox");
-    const query = input.value.trim();
-    if (!query) return;
-
-    // Add user message
-    const userMsg = document.createElement("div");
-    userMsg.className = "msg user";
-    userMsg.textContent = query;
-    chatBox.appendChild(userMsg);
-    input.value = "";
-
-    // Auto scroll
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-    // Add bot loading
-    const botMsg = document.createElement("div");
-    botMsg.className = "msg bot";
-    botMsg.textContent = "⏳ Searching lyrics...";
-    chatBox.appendChild(botMsg);
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-    // Fetch lyrics
-    const lyrics = await fetchLyrics(query);
-
-    // Replace loading text
-    botMsg.textContent = lyrics;
-    chatBox.scrollTop = chatBox.scrollHeight;
-}
 </script>
+
 </body>
 </html>
