@@ -1,40 +1,153 @@
-
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Nauha Lyrics — Offline</title>
-<link rel="stylesheet" href="styles.css" />
+<title>Shia Lyrics App — Offline</title>
+<meta name="description" content="Shia Lyrics App — search, filter, read and save nauhas, marsiyas and manqabats (offline-friendly)." />
+<style>
+  /* ---- Basic theme (light-red/gold) ---- */
+  :root{
+    --bg: linear-gradient(135deg,#1e1f29,#3b3c5a);
+    --page-bg: #fbfbfc;
+    --card: #ffffff;
+    --muted: #6b7280;
+    --accent: #e65b5b;
+    --accent-2:#d94f4f;
+    --gold: #f9ca24;
+    --radius: 16px;
+    --shadow: 0 10px 30px rgba(15,23,42,0.08);
+  }
+  /* reset */
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    background: var(--bg);
+    color:#fff;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    line-height:1.45;
+  }
+
+  /* Hero */
+  .hero{
+    padding:36px 20px;
+    text-align:center;
+    background: rgba(0,0,0,0.16);
+    backdrop-filter: blur(6px);
+    border-bottom-left-radius:20px;
+    border-bottom-right-radius:20px;
+    margin-bottom:14px;
+  }
+  .hero h1{font-size:2.5rem;margin:0;color:var(--gold);text-shadow:0 2px 8px rgba(0,0,0,0.45)}
+  .hero p{margin:8px 0 0;color:#dcdde1}
+
+  /* search */
+  .search-bar{display:flex;justify-content:center;gap:10px;margin-top:18px}
+  .search-bar input{
+    width:60%;
+    max-width:760px;
+    padding:12px 16px;border-radius:30px;border:none;outline:none;font-size:1rem;
+    background: #fff;color:#111;
+    box-shadow:0 6px 18px rgba(2,6,23,0.15);
+  }
+  .search-bar button{
+    padding:11px 18px;border-radius:999px;border:none;background:linear-gradient(180deg,var(--accent),var(--accent-2));color:#fff;font-weight:700;
+    cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,0.18)
+  }
+  .search-bar button:hover{transform:translateY(-2px)}
+
+  /* stats bar */
+  .stats-bar{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:18px 6px}
+  .stat-item{min-width:110px;background:rgba(255,255,255,0.06);padding:12px;border-radius:12px}
+  .stat-value{font-size:1.4rem;color:var(--gold);font-weight:700}
+  .stat-label{font-size:.85rem;color:#dcdde1}
+
+  /* container */
+  .container{max-width:1100px;margin:0 auto;padding:16px}
+
+  /* top chips */
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0;overflow:auto;padding-bottom:6px}
+  .chip{background:#fff;color:#111;padding:8px 12px;border-radius:999px;border:1px solid #eee;cursor:pointer;white-space:nowrap;font-weight:600}
+  .chip:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(2,6,23,0.08)}
+
+  /* layout */
+  .layout{display:grid;grid-template-columns:1fr 300px;gap:18px}
+  @media(max-width:900px){ .layout{grid-template-columns:1fr} .sidebar{display:none} }
+
+  /* results grid */
+  .results{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{
+    background: #ffffff;border-radius:14px;padding:14px;color:#111;box-shadow:var(--shadow);
+    display:flex;flex-direction:column;gap:8px;cursor:pointer;transition:transform .18s ease, box-shadow .18s ease;
+    border:1px solid rgba(0,0,0,0.04)
+  }
+  .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.12)}
+  .card h3{margin:0;font-size:1.05rem}
+  .card .snippet{color:#444;font-size:.92rem;line-height:1.35;height:60px;overflow:hidden}
+  .card .meta{display:flex;justify-content:space-between;align-items:center;font-size:.82rem;color:var(--muted)}
+  .card .tags{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
+  .tag{background:rgba(249,202,36,0.12);color:var(--gold);padding:4px 8px;border-radius:10px;font-size:.75rem;cursor:pointer}
+  .fav-icon{color:var(--muted);font-weight:700;padding:6px;border-radius:8px}
+  .fav-icon.active{color:var(--accent)}
+
+  /* sidebar panels */
+  .sidebar .panel{background:#fff;color:#111;padding:12px;border-radius:12px;box-shadow:var(--shadow);margin-bottom:12px}
+  .panel h4{margin:0 0 8px 0}
+  .list-item{padding:8px;border-radius:8px;cursor:pointer;color:#222}
+  .list-item:hover{background:#f6f6f6}
+
+  /* modal */
+  .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;padding:20px;z-index:9999}
+  .modal .box{background:#2f3640;color:#fff;border-radius:12px;padding:18px;max-width:840px;width:100%;max-height:86vh;overflow:auto;position:relative}
+  .modal h2{color:var(--gold);margin:0 0 8px}
+  .modal .meta{color:#dcdde1;font-size:.95rem;display:flex;gap:12px;flex-wrap:wrap}
+  .modal .lyrics{margin-top:12px;color:#f5f6fa;white-space:pre-wrap}
+  .close-btn{position:absolute;right:12px;top:12px;background:#e84118;border:none;border-radius:50%;width:36px;height:36px;color:#fff;cursor:pointer}
+
+  /* actions */
+  .actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .btn{padding:8px 14px;border-radius:999px;border:none;cursor:pointer}
+  .btn-outline{background:#fff;color:#111;border:1px solid rgba(0,0,0,0.06)}
+  .btn-accent{background:linear-gradient(180deg,var(--accent),var(--accent-2));color:#fff}
+
+  /* toast */
+  .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:80px;background:#222;color:#fff;padding:12px 18px;border-radius:22px;box-shadow:0 8px 24px rgba(0,0,0,0.4);display:none;z-index:10001}
+  .toast.show{display:flex;align-items:center;gap:10px;animation:fade 3s ease-in-out}
+  @keyframes fade{0%{opacity:0;transform:translateX(-50%) translateY(20px)}10%{opacity:1;transform:translateX(-50%) translateY(0)}90%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(20px)}}
+
+  footer{position:fixed;bottom:0;left:0;right:0;padding:10px 6px;text-align:center;color:#dcdde1;background:linear-gradient(180deg,rgba(0,0,0,0.12),transparent)}
+</style>
 </head>
 <body>
-  <header class="header">
-    <div class="brand">
-      <div class="logo">ن</div>
-      <div>
-        <div class="title">Nauha Lyrics</div>
-        <div class="subtitle">Chat + Search • Offline-ready</div>
-      </div>
+
+  <div class="hero">
+    <h1>Shia Lyrics App</h1>
+    <p>Find Nauha, Marsiya & Manqabat lyrics instantly — search, filter, save & share</p>
+    <div class="search-bar" style="margin-top:14px">
+      <input id="searchInput" placeholder="Search lyrics, reciter, tags or any phrase..." />
+      <button id="searchBtn">🔎 Search</button>
     </div>
-    <div style="display:flex;gap:8px;align-items:center">
-      <div class="small">Total: <span id="totalCount">0</span></div>
-      <button id="btnClear" class="btn btn-outline">Clear</button>
-    </div>
-  </header>
+  </div>
+
   <div class="container">
-    <div class="topbar">
-      <div class="search" style="flex:1;display:flex;gap:8px;">
-        <input id="searchInput" placeholder="Search by title, reciter, tags or phrase" />
-        <button id="searchBtn">Search</button>
-      </div>
+    <div class="stats-bar" style="justify-content:center">
+      <div class="stat-item"><div class="stat-value" id="totalLyrics">0</div><div class="stat-label">Total</div></div>
+      <div class="stat-item"><div class="stat-value" id="favoritesCount">0</div><div class="stat-label">Favorites</div></div>
+      <div class="stat-item"><div class="stat-value" id="nauhaCount">0</div><div class="stat-label">Nauha</div></div>
+      <div class="stat-item"><div class="stat-value" id="marsiyaCount">0</div><div class="stat-label">Marsiya</div></div>
     </div>
 
-    <div class="chips" id="chipsContainer" aria-hidden="false" style="margin-bottom:12px"></div>
+    <!-- chips -->
+    <div class="chips" id="chipsContainer"></div>
 
-    <div class="main">
-      <div class="content">
+    <div class="layout">
+      <main>
         <div id="results" class="results"></div>
-      </div>
+      </main>
+
       <aside class="sidebar">
         <div class="panel">
           <h4>Reciters</h4>
@@ -48,69 +161,285 @@
     </div>
   </div>
 
-  <div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;padding:18px">
-    <div style="background:white;padding:18px;border-radius:12px;max-width:800px;width:100%;max-height:80vh;overflow:auto">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <div><strong id="modalTitle"></strong><div id="modalMeta" class="small"></div></div>
-        <button id="closeModal" class="btn btn-outline">Close</button>
+  <!-- modal -->
+  <div class="modal" id="modal">
+    <div class="box" role="dialog" aria-modal="true">
+      <button class="close-btn" id="closeModal">&times;</button>
+      <h2 id="modalTitle">Title</h2>
+      <div class="meta"><div id="modalReciter"></div><div id="modalType"></div><div id="modalDate"></div></div>
+      <div style="margin-top:10px" id="modalTags"></div>
+      <div class="lyrics" id="modalLyrics" style="margin-top:12px"></div>
+
+      <div class="actions">
+        <button class="btn btn-outline" id="copyBtn">📋 Copy</button>
+        <button class="btn btn-outline" id="shareBtn">🔗 Share</button>
+        <button class="btn btn-accent" id="favBtn">❤ Add to Favorites</button>
       </div>
-      <pre id="modalLyrics" style="white-space:pre-wrap;"></pre>
     </div>
   </div>
 
+  <div class="toast" id="toast"><span id="toastMsg"></span></div>
+
+  <footer>© 2025 Shia Lyrics App</footer>
+
 <script>
+/* ----------------------
+  Data loading & fallback
+   - App expects `lyrics.json` in same folder.
+   - If fetch fails (file:// or missing), embedded sample is used.
+------------------------*/
 let LYRICS = [];
-async function load(){ try{ const r = await fetch('lyrics.json'); LYRICS = await r.json(); }catch(e){ LYRICS = []; console.warn('lyrics.json not found'); }
-  LYRICS.forEach(it=>{ it._search = ((it.title||'')+' '+(it.reciter||'')+' '+(it.tags||[]).join(' ')+' '+(it.lyrics||'')).toLowerCase(); });
-  document.getElementById('totalCount').textContent = LYRICS.length;
-  buildLists(); renderResults(LYRICS.slice(0,60)); buildChips(['recent','popular','sajjad','sakina']); }
+const SAMPLE = [
+  { id:1, title:"Ya Hussain", reciter:"Nadeem Sarwar", type:"Nauha", tags:["Ashura","Karbala","Hussain"], lyrics:"Ya Hussain, Ya Hussain\\nAshk be-sakhta..." , date:"2023-08-15" },
+  { id:2, title:"Hussain Ki Beti", reciter:"Syed Ali Abbas", type:"Marsiya", tags:["Sakina","Karbala"], lyrics:"Hussain ki beti ne jab dekha..." , date:"2023-09-01" },
+  { id:3, title:"Madine Ki Galiyan", reciter:"Mir Hasan", type:"Manqabat", tags:["Madina","Prophet"], lyrics:"Madine ki galiyan chhoo kar..." , date:"2023-07-20" }
+];
 
-function buildLists(){
-  const recMap = {}; const tagMap = {};
-  LYRICS.forEach(it=>{ if(it.reciter){ recMap[it.reciter] = (recMap[it.reciter]||0)+1 } if(it.tags){ it.tags.forEach(t=> tagMap[t] = (tagMap[t]||0)+1) } });
-  const reciters = Object.keys(recMap).sort((a,b)=> recMap[b]-recMap[a]).slice(0,60);
-  const tags = Object.keys(tagMap).sort((a,b)=> tagMap[b]-tagMap[a]).slice(0,120);
-  const rlist = document.getElementById('recitersList'); rlist.innerHTML=''; reciters.forEach(r=>{ const d = document.createElement('div'); d.className='list-item'; d.textContent = r + ' ('+recMap[r]+')'; d.onclick = ()=> filterByReciter(r); rlist.appendChild(d); });
-  const tlist = document.getElementById('tagsList'); tlist.innerHTML=''; tags.forEach(t=>{ const d = document.createElement('div'); d.className='list-item'; d.textContent = t + ' ('+tagMap[t]+')'; d.onclick = ()=> filterByTag(t); tlist.appendChild(d); });
+async function loadData(){
+  try{
+    const res = await fetch('lyrics.json');
+    if(!res.ok) throw new Error('no-json');
+    const json = await res.json();
+    LYRICS = Array.isArray(json) ? json : [];
+    console.log('Loaded lyrics.json — entries:', LYRICS.length);
+  }catch(err){
+    console.warn('lyrics.json not loaded. Using sample dataset.', err);
+    LYRICS = SAMPLE.slice();
+  }
+  // normalize fields & search index
+  LYRICS.forEach(it=>{
+    it.title = it.title || '';
+    it.reciter = it.reciter || '';
+    it.type = it.type || (it.tags&&it.tags.length? 'Nauha' : '');
+    it.tags = it.tags || [];
+    it.lyrics = it.lyrics || '';
+    it.date = it.date || '';
+    it._search = (it.title + ' ' + it.reciter + ' ' + it.tags.join(' ') + ' ' + it.lyrics).toLowerCase();
+  });
+  initUI();
 }
 
-function buildChips(arr){ const c = document.getElementById('chipsContainer'); c.innerHTML=''; arr.forEach(ch=>{ const el = document.createElement('div'); el.className='chip'; el.textContent = ch; el.onclick = ()=> { document.getElementById('searchInput').value = ch; doSearch(); }; c.appendChild(el); }); }
+/* ----------------------
+  UI logic
+------------------------*/
+let favorites = JSON.parse(localStorage.getItem('shia_favorites') || '[]').map(Number);
+let currentDisplayed = [];
+let currentItem = null;
 
+function initUI(){
+  buildChips(['sajjad','sakina','karbala','ashura','madina']);
+  buildRecitersAndTags();
+  renderResults(LYRICS.slice(0,40));
+  updateStats();
+  attachEvents();
+}
+
+function attachEvents(){
+  document.getElementById('searchBtn').addEventListener('click', doSearch);
+  document.getElementById('searchInput').addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); doSearch(); }});
+  document.getElementById('closeModal').addEventListener('click', closeModal);
+  document.getElementById('copyBtn').addEventListener('click', copyLyrics);
+  document.getElementById('shareBtn').addEventListener('click', shareLyrics);
+  document.getElementById('favBtn').addEventListener('click', () => toggleFavorite(currentItem && currentItem.id));
+}
+
+/* chips */
+function buildChips(arr){
+  const c = document.getElementById('chipsContainer');
+  c.innerHTML = '';
+  arr.forEach(ch=>{
+    const el = document.createElement('div');
+    el.className = 'chip';
+    el.textContent = ch;
+    el.onclick = ()=> { document.getElementById('searchInput').value = ch; doSearch(); };
+    c.appendChild(el);
+  });
+}
+
+/* reciters & tags sidebars */
+function buildRecitersAndTags(){
+  const recMap = {}, tagMap = {};
+  LYRICS.forEach(it => {
+    if(it.reciter) recMap[it.reciter] = (recMap[it.reciter]||0) + 1;
+    (it.tags||[]).forEach(t => tagMap[t] = (tagMap[t]||0) + 1);
+  });
+
+  const recList = Object.entries(recMap).sort((a,b)=>b[1]-a[1]).slice(0,80);
+  const tList = Object.entries(tagMap).sort((a,b)=>b[1]-a[1]).slice(0,120);
+
+  const recDiv = document.getElementById('recitersList'); recDiv.innerHTML = '';
+  recList.forEach(([name,count])=>{
+    const d = document.createElement('div'); d.className='list-item'; d.textContent = `${name} (${count})`;
+    d.onclick = ()=> filterByReciter(name);
+    recDiv.appendChild(d);
+  });
+
+  const tagsDiv = document.getElementById('tagsList'); tagsDiv.innerHTML = '';
+  tList.forEach(([name,count])=>{
+    const d = document.createElement('div'); d.className='list-item'; d.textContent = `${name} (${count})`;
+    d.onclick = ()=> filterByTag(name);
+    tagsDiv.appendChild(d);
+  });
+}
+
+/* render results */
 function renderResults(items){
-  const out = document.getElementById('results'); out.innerHTML='';
-  if(!items || items.length===0){ out.innerHTML = '<div class="small">No results</div>'; return; }
-  items.forEach(it=>{ const div = document.createElement('div'); div.className='card';
-    const tags = (it.tags||[]).join(', ');
-    div.innerHTML = '<h3>'+escapeHtml(it.title)+'</h3><div class="meta">'+escapeHtml(it.reciter||'')+' • '+escapeHtml(it.year||'')+'</div><p>'+escapeHtml((it.lyrics||'').slice(0,200))+'...</p>';
-    const actions = document.createElement('div'); actions.className='card-actions';
-    const view = document.createElement('button'); view.className='btn btn-outline'; view.textContent='View'; view.onclick = ()=> openModal(it);
-    const fav = document.createElement('button'); fav.className='btn btn-accent'; fav.textContent='Save'; fav.onclick = ()=> toggleSave(it.id);
-    actions.appendChild(view); actions.appendChild(fav); div.appendChild(actions);
-    out.appendChild(div);
-  }); 
+  currentDisplayed = items || [];
+  const out = document.getElementById('results');
+  out.innerHTML = '';
+  if(!items || items.length===0){
+    out.innerHTML = '<div style="grid-column:1/-1;padding:24px;text-align:center;color:#ddd">No results</div>';
+    updateStats();
+    return;
+  }
+  items.forEach(it=>{
+    const card = document.createElement('div'); card.className='card';
+    const isFav = favorites.includes(it.id);
+    const tagsHtml = (it.tags||[]).map(t=>`<span class="tag" data-tag="${escapeHtml(t)}">${escapeHtml(t)}</span>`).join('');
+    card.innerHTML = `<h3>${escapeHtml(it.title)} <span style="float:right" class="fav-icon ${isFav? 'active':''}" data-id="${it.id}">❤</span></h3>
+      <div class="snippet">${escapeHtml((it.lyrics||'').substring(0,160))}...</div>
+      <div class="meta"><div>${escapeHtml(it.reciter||'')}</div><div>${escapeHtml(it.type||'')}</div></div>
+      <div class="tags">${tagsHtml}</div>
+    `;
+    // click handlers
+    card.addEventListener('click', ()=> openModal(it));
+    // tag clicks inside card
+    card.querySelectorAll('.tag').forEach(tn => tn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const tag = tn.getAttribute('data-tag');
+      filterByTag(tag);
+    }));
+    // favorite icon handler
+    card.querySelectorAll('.fav-icon').forEach(fi=>{
+      fi.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        const id = Number(fi.getAttribute('data-id'));
+        toggleFavorite(id);
+      });
+    });
+
+    out.appendChild(card);
+  });
+  updateStats();
 }
 
-function doSearch(){ const q = document.getElementById('searchInput').value.trim().toLowerCase(); if(!q){ renderResults(LYRICS.slice(0,60)); return; } const res = LYRICS.filter(it=> it._search.includes(q)); if(res.length===0){ const tokens = q.split(/\s+/).filter(Boolean); const rr = LYRICS.filter(it=> tokens.every(t=> it._search.includes(t))); renderResults(rr); } else renderResults(res); }
+/* search */
+function doSearch(){
+  const q = (document.getElementById('searchInput').value||'').toLowerCase().trim();
+  if(!q){ renderResults(LYRICS.slice(0,60)); return; }
+  let results = LYRICS.filter(it => it._search.includes(q));
+  if(results.length===0){
+    const tokens = q.split(/\s+/).filter(Boolean);
+    results = LYRICS.filter(it => tokens.every(t=> it._search.includes(t)));
+  }
+  renderResults(results);
+}
 
-document.getElementById('searchBtn').addEventListener('click', doSearch);
-document.getElementById('searchInput').addEventListener('keypress', e=>{ if(e.key==='Enter'){ e.preventDefault(); doSearch(); } });
-document.getElementById('btnClear').addEventListener('click', ()=>{ document.getElementById('searchInput').value=''; renderResults(LYRICS.slice(0,60)); });
+/* filters */
+function filterByReciter(name){
+  const res = LYRICS.filter(it => (it.reciter||'').toLowerCase() === name.toLowerCase());
+  renderResults(res);
+  showToast(`Filtered by reciter: ${name}`);
+}
+function filterByTag(tag){
+  const res = LYRICS.filter(it => (it.tags||[]).map(x=>x.toLowerCase()).includes(tag.toLowerCase()));
+  renderResults(res);
+  showToast(`Filtered by tag: ${tag}`);
+}
 
-function filterByReciter(name){ const res = LYRICS.filter(it=> (it.reciter||'').toLowerCase()===name.toLowerCase()); renderResults(res); }
-function filterByTag(tag){ const res = LYRICS.filter(it=> (it.tags||[]).map(x=>x.toLowerCase()).includes(tag.toLowerCase())); renderResults(res); }
+/* modal & actions */
+function openModal(item){
+  currentItem = item;
+  document.getElementById('modalTitle').textContent = item.title;
+  document.getElementById('modalReciter').textContent = item.reciter || '';
+  document.getElementById('modalType').textContent = item.type || '';
+  document.getElementById('modalDate').textContent = item.date ? new Date(item.date).toLocaleDateString() : '';
+  // tags
+  const tagsContainer = document.getElementById('modalTags'); tagsContainer.innerHTML = '';
+  (item.tags||[]).forEach(t=>{
+    const sp = document.createElement('span'); sp.className='tag'; sp.textContent = t; sp.onclick = ()=> filterByTag(t);
+    tagsContainer.appendChild(sp);
+  });
+  document.getElementById('modalLyrics').textContent = item.lyrics || '';
+  // fav button
+  const favBtn = document.getElementById('favBtn');
+  if(favorites.includes(item.id)) favBtn.textContent = '❤ Remove from Favorites'; else favBtn.textContent = '❤ Add to Favorites';
+  document.getElementById('modal').style.display = 'flex';
+}
+function closeModal(){ document.getElementById('modal').style.display = 'none'; }
 
-function openModal(it){ document.getElementById('modal').style.display='flex'; document.getElementById('modalTitle').textContent = it.title; document.getElementById('modalMeta').textContent = (it.reciter||'') + ' • ' + (it.year||''); document.getElementById('modalLyrics').textContent = it.lyrics||''; }
-document.getElementById('closeModal').addEventListener('click', ()=> document.getElementById('modal').style.display='none');
+/* copy/share */
+async function copyLyrics(){
+  if(!currentItem) return showToast('No lyrics selected');
+  try{
+    await navigator.clipboard.writeText(currentItem.lyrics || '');
+    showToast('Lyrics copied to clipboard');
+  }catch(e){
+    // fallback prompt
+    const text = currentItem.lyrics || '';
+    prompt('Copy the lyrics below', text);
+  }
+}
+function shareLyrics(){
+  if(!currentItem) return showToast('No lyrics selected');
+  const text = `${currentItem.title} — ${currentItem.reciter}\n\n${(currentItem.lyrics||'').slice(0,200)}...`;
+  if(navigator.share){
+    navigator.share({title: currentItem.title, text, url: location.href}).then(()=>showToast('Shared')).catch(()=>showToast('Share cancelled'));
+  } else {
+    // fallback: copy to clipboard
+    copyLyrics();
+  }
+}
 
-// saved functions
+/* favorites */
+function toggleFavorite(id){
+  id = Number(id);
+  if(!id) return;
+  const idx = favorites.indexOf(id);
+  if(idx > -1){
+    favorites.splice(idx,1);
+    showToast('Removed from favorites');
+  } else {
+    favorites.push(id);
+    showToast('Added to favorites');
+  }
+  localStorage.setItem('shia_favorites', JSON.stringify(favorites));
+  updateStats();
+  renderResults(currentDisplayed.length? currentDisplayed : LYRICS.slice(0,40));
+  updateFavoritesCount();
+}
 
-function loadSaved(){ return new Set(JSON.parse(localStorage.getItem('nl_saved')||'[]')); }
-function saveSavedSet(s){ localStorage.setItem('nl_saved', JSON.stringify(Array.from(s))); renderSaved(); }
-function toggleSave(id){ const s = loadSaved(); if(s.has(id)){ s.delete(id); alert('Removed from saved'); } else { s.add(id); alert('Saved'); } saveSavedSet(s); }
-function renderSaved(){ const s = loadSaved(); const el = document.getElementById('recitersList'); /* reuse reciters list area for saved? */ const savedDiv = document.getElementById('tagsList'); savedDiv.innerHTML=''; if(s.size===0){ savedDiv.innerHTML='<div class="small">No saved items</div>'; return; } Array.from(s).forEach(id=>{ const it = LYRICS.find(x=> x.id==id); if(!it) return; const d = document.createElement('div'); d.className='list-item'; d.textContent = it.title; d.onclick = ()=> openModal(it); savedDiv.appendChild(d); }); }
-function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m])); }
+/* stats & UI */
+function updateStats(){
+  document.getElementById('totalLyrics').textContent = LYRICS.length;
+  document.getElementById('nauhaCount').textContent = LYRICS.filter(l=> (l.type||'').toLowerCase()==='nauha').length;
+  document.getElementById('marsiyaCount').textContent = LYRICS.filter(l=> (l.type||'').toLowerCase()==='marsiya').length;
+  updateFavoritesCount();
+}
+function updateFavoritesCount(){ document.getElementById('favoritesCount').textContent = favorites.length; }
 
-load();
+/* toast */
+let toastTimer = null;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  if(toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> t.classList.remove('show'), 3000);
+}
+
+/* helpers */
+function escapeHtml(s){ return String(s||'').replace(/[&<>"]/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c])); }
+
+/* init */
+document.addEventListener('DOMContentLoaded', async ()=>{
+  await loadData();
+
+  // If page loaded as file://, warn user and advise to run local server for full features
+  if(location.protocol === 'file:'){
+    showToast('Tip: For best results run a local server (python -m http.server) or upload to hosting.');
+  }
+});
 </script>
 </body>
 </html>
