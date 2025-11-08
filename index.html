@@ -3,84 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lyrics Finder</title>
+<title>Nauha Lyrics Finder</title>
 <style>
     body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: #f4f4f9;
+        font-family: 'Segoe UI', sans-serif;
         margin: 0;
-        padding: 0;
+        background: #f8fafc;
+        color: #1f2937;
     }
-    .container {
-        max-width: 900px;
-        margin: 50px auto;
+    header {
+        background: #2c3e50;
+        color: white;
         padding: 20px;
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    }
-    h1 {
         text-align: center;
-        color: #333;
     }
-    .search-box {
+    header h1 {
+        margin: 0;
+        font-size: 2rem;
+    }
+    .search-container {
         display: flex;
         justify-content: center;
         margin: 20px 0;
     }
-    input[type="text"] {
-        padding: 12px;
-        width: 70%;
-        border-radius: 8px 0 0 8px;
+    .search-container input {
+        width: 300px;
+        padding: 10px 15px;
+        border-radius: 25px;
         border: 1px solid #ccc;
-        outline: none;
         font-size: 1rem;
+        outline: none;
     }
-    button {
-        padding: 12px 20px;
+    .search-container button {
+        margin-left: 10px;
+        padding: 10px 20px;
+        border-radius: 25px;
         border: none;
         background: #3498db;
         color: white;
         cursor: pointer;
-        border-radius: 0 8px 8px 0;
         font-size: 1rem;
-        transition: background 0.3s;
-    }
-    button:hover {
-        background: #2980b9;
     }
     .results {
-        margin-top: 30px;
+        max-width: 800px;
+        margin: 0 auto 50px auto;
     }
     .lyrics-card {
+        background: white;
         padding: 15px 20px;
-        margin-bottom: 15px;
-        background: #f8f8f8;
-        border-radius: 10px;
+        margin: 10px 0;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s;
+        transition: transform 0.2s;
     }
     .lyrics-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transform: translateY(-2px);
     }
-    .lyrics-title {
-        font-weight: bold;
-        margin-bottom: 8px;
-        color: #2c3e50;
+    .snippet {
+        color: #4b5563;
     }
-    .lyrics-snippet {
-        color: #555;
-        font-size: 0.95rem;
-        line-height: 1.4;
-    }
-
-    /* Modal */
     .modal {
         display: none;
         position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
+        top:0; left:0;
+        width: 100%;
+        height: 100%;
         background: rgba(0,0,0,0.6);
         justify-content: center;
         align-items: center;
@@ -89,152 +77,128 @@
     .modal-content {
         background: white;
         padding: 30px;
+        border-radius: 20px;
         max-width: 600px;
         width: 90%;
-        border-radius: 15px;
+        max-height: 80%;
+        overflow-y: auto;
+        text-align: left;
         position: relative;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+    .modal-content h2 {
+        margin-top: 0;
     }
     .close-btn {
         position: absolute;
-        top: 15px; right: 20px;
-        font-size: 1.2rem;
+        top: 15px;
+        right: 15px;
         background: #e74c3c;
         color: white;
         border: none;
-        border-radius: 50%;
-        width: 30px; height: 30px;
+        padding: 5px 10px;
+        border-radius: 8px;
         cursor: pointer;
     }
-    .modal-title {
-        font-weight: bold;
-        margin-bottom: 15px;
-        font-size: 1.2rem;
-        color: #2c3e50;
-    }
-    .modal-lyrics {
-        font-size: 1rem;
-        color: #333;
-        line-height: 1.5;
-        margin-bottom: 15px;
-        max-height: 400px;
-        overflow-y: auto;
-    }
-    .source-link {
-        display: inline-block;
-        padding: 8px 15px;
-        background: #3498db;
-        color: white;
-        text-decoration: none;
-        border-radius: 8px;
-        transition: background 0.3s;
-    }
-    .source-link:hover {
-        background: #2980b9;
+    .source {
+        font-size: 0.85rem;
+        color: #6b7280;
+        margin-top: 15px;
     }
 </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Lyrics Finder</h1>
-    <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Enter artist or song name...">
-        <button onclick="searchLyrics()">Search</button>
-    </div>
+<header>
+    <h1>Nauha Lyrics Finder</h1>
+</header>
 
-    <div class="results" id="results"></div>
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search by reciter or title...">
+    <button onclick="searchLyrics()">Search</button>
 </div>
 
-<!-- Modal -->
+<div class="results" id="results"></div>
+
 <div class="modal" id="lyricsModal">
     <div class="modal-content">
-        <button class="close-btn" onclick="closeModal()">×</button>
-        <div class="modal-title" id="modalTitle"></div>
-        <div class="modal-lyrics" id="modalLyrics"></div>
-        <a href="#" target="_blank" id="modalSource" class="source-link">View Full Lyrics Source</a>
+        <button class="close-btn" onclick="closeModal()">X</button>
+        <h2 id="modalTitle"></h2>
+        <pre id="modalLyrics"></pre>
+        <div class="source" id="modalSource"></div>
     </div>
 </div>
 
 <script>
-    // Sample lyrics database
+    // Sample local lyrics database
     const lyricsDB = [
         {
-            artist: "Nadeem Sarwar",
-            title: "Noha 1",
-            lyrics: `Bismillah, Noha one full lyrics goes here, this is just sample text for demo purpose. 
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris.`,
-            source: "https://example.com/noha1"
+            title: "Nauha 1",
+            reciter: "Nadeem Sarwar",
+            lyrics: `Ya Ali Madad
+Ya Ali Madad
+Meri zindagi mein tujhko main chahoon
+Har ek pal main tujhe yaad karoon
+Teri rehmat se hai roshan ye dil
+Teri hifazat mein main hoon mehfooz`,
+            source: "Local Collection"
         },
         {
-            artist: "Nadeem Sarwar",
-            title: "Noha 2",
-            lyrics: `Second Noha full lyrics by Nadeem Sarwar. Fusce dapibus turpis ac lorem vehicula, sed varius ex fermentum. 
-            Aliquam erat volutpat.`,
-            source: "https://example.com/noha2"
+            title: "Nauha 2",
+            reciter: "Mateen Fatema",
+            lyrics: `Ali ki shaan hai buland
+Mazloomon ka sahara
+Hussain ke shajar par hai humara pyaar
+Karbala ka safar yaad aata hai
+Har qadam par dard samajhta hai`,
+            source: "Local Collection"
         },
         {
-            artist: "Other Artist",
-            title: "Manqabat 1",
-            lyrics: `Manqabat lyrics snippet. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.`,
-            source: "https://example.com/manqabat1"
+            title: "Marsiya 1",
+            reciter: "Neha Naqvi",
+            lyrics: `Aaye hai jo shaam ka saaya
+Woh din yaad aata hai
+Karbalay mein jo gham hai
+Woh dil ko chhupata hai
+Nauha ka har lafz hai yaadgaar`,
+            source: "Local Collection"
         }
     ];
 
     function searchLyrics() {
-        const query = document.getElementById("searchInput").value.toLowerCase();
-        const resultsDiv = document.getElementById("results");
-        resultsDiv.innerHTML = "";
-
-        if(!query) {
-            resultsDiv.innerHTML = "<p>Please enter a search term.</p>";
-            return;
-        }
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = '';
 
         const filtered = lyricsDB.filter(item => 
-            item.artist.toLowerCase().includes(query) || 
-            item.title.toLowerCase().includes(query)
+            item.title.toLowerCase().includes(query) ||
+            item.reciter.toLowerCase().includes(query)
         );
 
-        if(filtered.length === 0) {
-            resultsDiv.innerHTML = "<p>No lyrics found.</p>";
+        if (filtered.length === 0) {
+            resultsDiv.innerHTML = "<p>No results found</p>";
             return;
         }
 
         filtered.forEach(item => {
-            const card = document.createElement("div");
-            card.className = "lyrics-card";
-            
-            // Show first 30% as snippet
             const snippetLength = Math.floor(item.lyrics.length * 0.3);
-            const snippet = item.lyrics.substring(0, snippetLength) + "...";
-
-            card.innerHTML = `
-                <div class="lyrics-title">${item.title} - ${item.artist}</div>
-                <div class="lyrics-snippet">${snippet}</div>
-            `;
-
-            card.onclick = () => showModal(item);
-
+            const snippet = item.lyrics.substring(0, snippetLength) + '...';
+            const card = document.createElement('div');
+            card.className = 'lyrics-card';
+            card.innerHTML = `<strong>${item.title}</strong> - ${item.reciter}<p class="snippet">${snippet}</p>`;
+            card.onclick = () => openModal(item);
             resultsDiv.appendChild(card);
         });
     }
 
-    function showModal(item) {
-        document.getElementById("modalTitle").innerText = `${item.title} - ${item.artist}`;
-        document.getElementById("modalLyrics").innerText = item.lyrics;
-        document.getElementById("modalSource").href = item.source;
-        document.getElementById("lyricsModal").style.display = "flex";
+    function openModal(item) {
+        document.getElementById('modalTitle').textContent = `${item.title} - ${item.reciter}`;
+        document.getElementById('modalLyrics').textContent = item.lyrics;
+        document.getElementById('modalSource').textContent = `Source: ${item.source}`;
+        document.getElementById('lyricsModal').style.display = 'flex';
     }
 
     function closeModal() {
-        document.getElementById("lyricsModal").style.display = "none";
-    }
-
-    // Close modal when clicking outside
-    window.onclick = function(e) {
-        const modal = document.getElementById("lyricsModal");
-        if(e.target === modal) closeModal();
+        document.getElementById('lyricsModal').style.display = 'none';
     }
 </script>
 
