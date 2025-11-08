@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lyrics Finder</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-        body { background: #f0f4f8; display: flex; flex-direction: column; align-items: center; padding: 30px; }
-        h1 { margin-bottom: 20px; color: #2c3e50; }
-        .search-container { display: flex; gap: 10px; margin-bottom: 20px; }
-        input { padding: 10px 15px; border-radius: 8px; border: 1px solid #ccc; width: 300px; font-size: 1rem; }
-        button { padding: 10px 15px; border-radius: 8px; border: none; background: #3498db; color: white; cursor: pointer; font-size: 1rem; transition: 0.3s; }
-        button:hover { background: #2980b9; }
-        .lyrics-container { width: 100%; max-width: 600px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); min-height: 200px; white-space: pre-wrap; }
-        .error { color: red; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lyrics Finder</title>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+    body { background:#f0f4f8; display:flex; flex-direction:column; align-items:center; padding:30px; min-height:100vh; }
+    h1 { margin-bottom:20px; color:#2c3e50; }
+    .search-container { display:flex; gap:10px; margin-bottom:20px; }
+    input { padding:10px 15px; border-radius:8px; border:1px solid #ccc; width:300px; font-size:1rem; }
+    button { padding:10px 15px; border-radius:8px; border:none; background:#3498db; color:white; cursor:pointer; font-size:1rem; transition:0.3s; }
+    button:hover { background:#2980b9; }
+    .lyrics-container { width:100%; max-width:600px; background:white; padding:20px; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.1); min-height:200px; white-space:pre-wrap; overflow:auto; }
+    .error { color:red; }
+</style>
 </head>
 <body>
 
@@ -36,7 +36,7 @@ async function fetchLyrics() {
     const query = document.getElementById('songInput').value.trim();
     const container = document.getElementById('lyricsContainer');
 
-    if (!query) {
+    if(!query){
         container.innerHTML = '<span class="error">Please enter a song or artist name.</span>';
         return;
     }
@@ -44,22 +44,22 @@ async function fetchLyrics() {
     container.innerHTML = '🔄 Searching...';
 
     try {
-        // Use a public CORS proxy
+        // Fetch through public CORS proxy
         const url = `https://api.allorigins.win/get?url=${encodeURIComponent('https://nauhalyrics.app/?s=' + query)}`;
         const response = await fetch(url);
 
-        if (!response.ok) throw new Error('Network response was not ok');
+        if(!response.ok) throw new Error('Network response not ok');
 
         const data = await response.json();
         const parser = new DOMParser();
-        const doc = parser.parseFromString(data.contents, 'text/html');
+        const doc = parser.parseFromString(data.contents,'text/html');
 
-        // Attempt to extract lyrics from the fetched HTML
+        // Attempt to extract lyrics
         const lyrics = doc.querySelector('.entry-content') || doc.querySelector('.lyrics') || doc.body;
         container.innerHTML = lyrics ? lyrics.innerText.trim() : '❌ Lyrics not found for this query.';
-    } catch (err) {
+    } catch(err){
         console.error(err);
-        container.innerHTML = `<span class="error">⚠️ Failed to fetch lyrics. Try again later.</span>`;
+        container.innerHTML = '<span class="error">⚠️ Failed to fetch lyrics. Try again later.</span>';
     }
 }
 </script>
