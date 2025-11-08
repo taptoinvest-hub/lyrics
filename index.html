@@ -3,204 +3,153 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nauha Lyrics Finder</title>
+<title>Nauha Lyrics Clone</title>
 <style>
-    body {
-        font-family: 'Segoe UI', sans-serif;
-        margin: 0;
-        background: #f8fafc;
-        color: #1f2937;
-    }
-    header {
-        background: #2c3e50;
-        color: white;
-        padding: 20px;
-        text-align: center;
-    }
-    header h1 {
-        margin: 0;
-        font-size: 2rem;
-    }
-    .search-container {
-        display: flex;
-        justify-content: center;
-        margin: 20px 0;
-    }
-    .search-container input {
-        width: 300px;
-        padding: 10px 15px;
-        border-radius: 25px;
-        border: 1px solid #ccc;
-        font-size: 1rem;
-        outline: none;
-    }
-    .search-container button {
-        margin-left: 10px;
-        padding: 10px 20px;
-        border-radius: 25px;
-        border: none;
-        background: #3498db;
-        color: white;
-        cursor: pointer;
-        font-size: 1rem;
-    }
-    .results {
-        max-width: 800px;
-        margin: 0 auto 50px auto;
-    }
-    .lyrics-card {
-        background: white;
-        padding: 15px 20px;
-        margin: 10px 0;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        cursor: pointer;
-        transition: transform 0.2s;
-    }
-    .lyrics-card:hover {
-        transform: translateY(-2px);
-    }
-    .snippet {
-        color: #4b5563;
-    }
-    .modal {
-        display: none;
-        position: fixed;
-        top:0; left:0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.6);
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    }
-    .modal-content {
-        background: white;
-        padding: 30px;
-        border-radius: 20px;
-        max-width: 600px;
-        width: 90%;
-        max-height: 80%;
-        overflow-y: auto;
-        text-align: left;
-        position: relative;
-    }
-    .modal-content h2 {
-        margin-top: 0;
-    }
-    .close-btn {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        background: #e74c3c;
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 8px;
-        cursor: pointer;
-    }
-    .source {
-        font-size: 0.85rem;
-        color: #6b7280;
-        margin-top: 15px;
-    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+    body { background:#f4f4f4; padding:20px; }
+    h1 { text-align:center; margin-bottom:20px; color:#2c3e50; }
+    .filters { display:flex; justify-content:center; gap:10px; margin-bottom:20px; flex-wrap:wrap; }
+    .filters button { padding:8px 16px; border:none; border-radius:20px; background:#3498db; color:white; cursor:pointer; transition:0.3s; }
+    .filters button.active, .filters button:hover { background:#2c3e50; }
+    .search-bar { text-align:center; margin-bottom:20px; }
+    .search-bar input { width:80%; max-width:500px; padding:10px 15px; border-radius:20px; border:1px solid #ccc; outline:none; }
+    .lyrics-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:15px; }
+    .lyric-card { background:white; padding:15px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); cursor:pointer; transition:0.3s; }
+    .lyric-card:hover { transform:translateY(-5px); box-shadow:0 5px 15px rgba(0,0,0,0.15); }
+    .lyric-title { font-weight:bold; margin-bottom:8px; color:#2c3e50; }
+    .lyric-snippet { color:#555; font-size:0.9rem; }
+    /* Modal */
+    .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:1000; }
+    .modal-content { background:white; max-width:600px; width:90%; padding:20px; border-radius:15px; position:relative; max-height:80vh; overflow-y:auto; }
+    .close-btn { position:absolute; top:10px; right:10px; background:#e74c3c; color:white; border:none; border-radius:50%; width:30px; height:30px; cursor:pointer; font-weight:bold; }
+    .modal-content h2 { margin-bottom:15px; color:#2c3e50; }
+    .modal-content p { white-space:pre-wrap; line-height:1.5; color:#333; }
 </style>
 </head>
 <body>
 
-<header>
-    <h1>Nauha Lyrics Finder</h1>
-</header>
+<h1>Nauha Lyrics Clone</h1>
 
-<div class="search-container">
-    <input type="text" id="searchInput" placeholder="Search by reciter or title...">
-    <button onclick="searchLyrics()">Search</button>
+<div class="filters">
+    <button class="filter-btn active" data-category="all">All</button>
+    <button class="filter-btn" data-category="Nauha">Nauha</button>
+    <button class="filter-btn" data-category="Manqabat">Manqabat</button>
+    <button class="filter-btn" data-category="Marsiya">Marsiya</button>
 </div>
 
-<div class="results" id="results"></div>
+<div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search by title or reciter...">
+</div>
 
-<div class="modal" id="lyricsModal">
+<div class="lyrics-list" id="lyricsList">
+    <!-- Lyrics cards inserted here -->
+</div>
+
+<!-- Modal -->
+<div class="modal" id="lyricModal">
     <div class="modal-content">
-        <button class="close-btn" onclick="closeModal()">X</button>
+        <button class="close-btn" onclick="closeModal()">×</button>
         <h2 id="modalTitle"></h2>
-        <pre id="modalLyrics"></pre>
-        <div class="source" id="modalSource"></div>
+        <p id="modalContent"></p>
     </div>
 </div>
 
 <script>
-    // Sample local lyrics database
-    const lyricsDB = [
-        {
-            title: "Nauha 1",
-            reciter: "Nadeem Sarwar",
-            lyrics: `Ya Ali Madad
-Ya Ali Madad
-Meri zindagi mein tujhko main chahoon
-Har ek pal main tujhe yaad karoon
-Teri rehmat se hai roshan ye dil
-Teri hifazat mein main hoon mehfooz`,
-            source: "Local Collection"
-        },
-        {
-            title: "Nauha 2",
-            reciter: "Mateen Fatema",
-            lyrics: `Ali ki shaan hai buland
-Mazloomon ka sahara
-Hussain ke shajar par hai humara pyaar
-Karbala ka safar yaad aata hai
-Har qadam par dard samajhta hai`,
-            source: "Local Collection"
-        },
-        {
-            title: "Marsiya 1",
-            reciter: "Neha Naqvi",
-            lyrics: `Aaye hai jo shaam ka saaya
-Woh din yaad aata hai
-Karbalay mein jo gham hai
-Woh dil ko chhupata hai
-Nauha ka har lafz hai yaadgaar`,
-            source: "Local Collection"
-        }
-    ];
+// Sample lyrics database
+const lyricsDB = [
+    {
+        title:"Nauha Example 1",
+        reciter:"Nadeem Sarwar",
+        type:"Nauha",
+        lyrics:`Ya Ali Madad, Ya Ali Madad
+Main Hussaini hoon, Muharram ka fidaa hoon
+Aasman se aye noha ka raag, dil ko chu jaaye
+Ashk bahaa ke yaad karo Imam Hussain`
+    },
+    {
+        title:"Manqabat Example 1",
+        reciter:"Amin Mirza",
+        type:"Manqabat",
+        lyrics:`Shah-e-Madina, Ya Ali
+Tere husn ka nazaara, rooh ko sukoon de
+Zulmat mein roshan, Noor-e-Madina`
+    },
+    {
+        title:"Marsiya Example 1",
+        reciter:"Neha Naqvi",
+        type:"Marsiya",
+        lyrics:`Bibi Fatima ka ghar udaas
+Zulmat mein roshan, shola-e-Mohabbat
+Aashiqon ka raag, qatil ka saaz
+Ya Hussain! Ya Hussain!`
+    },
+    // Add more lyrics here
+];
 
-    function searchLyrics() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
-        const resultsDiv = document.getElementById('results');
-        resultsDiv.innerHTML = '';
+// Elements
+const lyricsList = document.getElementById('lyricsList');
+const searchInput = document.getElementById('searchInput');
+const filterBtns = document.querySelectorAll('.filter-btn');
+const modal = document.getElementById('lyricModal');
+const modalTitle = document.getElementById('modalTitle');
+const modalContent = document.getElementById('modalContent');
 
-        const filtered = lyricsDB.filter(item => 
-            item.title.toLowerCase().includes(query) ||
-            item.reciter.toLowerCase().includes(query)
-        );
+// Render lyrics
+function renderLyrics(filter='all', query=''){
+    lyricsList.innerHTML = '';
+    const filtered = lyricsDB.filter(item => {
+        const matchCategory = filter==='all' || item.type===filter;
+        const matchQuery = item.title.toLowerCase().includes(query.toLowerCase()) || item.reciter.toLowerCase().includes(query.toLowerCase());
+        return matchCategory && matchQuery;
+    });
 
-        if (filtered.length === 0) {
-            resultsDiv.innerHTML = "<p>No results found</p>";
-            return;
-        }
+    filtered.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'lyric-card';
+        const snippet = item.lyrics.split(' ').slice(0, Math.ceil(item.lyrics.split(' ').length*0.3)).join(' ') + '...';
+        card.innerHTML = `
+            <div class="lyric-title">${item.title}</div>
+            <div class="lyric-snippet">${snippet}</div>
+            <div class="lyric-reciter" style="margin-top:5px;font-size:0.8rem;color:#888;">Reciter: ${item.reciter}</div>
+        `;
+        card.addEventListener('click', () => openModal(item));
+        lyricsList.appendChild(card);
+    });
 
-        filtered.forEach(item => {
-            const snippetLength = Math.floor(item.lyrics.length * 0.3);
-            const snippet = item.lyrics.substring(0, snippetLength) + '...';
-            const card = document.createElement('div');
-            card.className = 'lyrics-card';
-            card.innerHTML = `<strong>${item.title}</strong> - ${item.reciter}<p class="snippet">${snippet}</p>`;
-            card.onclick = () => openModal(item);
-            resultsDiv.appendChild(card);
-        });
+    if(filtered.length===0){
+        lyricsList.innerHTML='<p style="grid-column:1/-1;text-align:center;color:#555;">No lyrics found.</p>';
     }
+}
 
-    function openModal(item) {
-        document.getElementById('modalTitle').textContent = `${item.title} - ${item.reciter}`;
-        document.getElementById('modalLyrics').textContent = item.lyrics;
-        document.getElementById('modalSource').textContent = `Source: ${item.source}`;
-        document.getElementById('lyricsModal').style.display = 'flex';
-    }
+// Open modal
+function openModal(item){
+    modalTitle.textContent = item.title + ' - ' + item.reciter;
+    modalContent.textContent = item.lyrics;
+    modal.style.display = 'flex';
+}
 
-    function closeModal() {
-        document.getElementById('lyricsModal').style.display = 'none';
-    }
+// Close modal
+function closeModal(){
+    modal.style.display = 'none';
+}
+
+// Filter buttons
+filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        filterBtns.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        renderLyrics(btn.dataset.category, searchInput.value);
+    });
+});
+
+// Search
+searchInput.addEventListener('input', () => {
+    const activeFilter = document.querySelector('.filter-btn.active').dataset.category;
+    renderLyrics(activeFilter, searchInput.value);
+});
+
+// Initial render
+renderLyrics();
 </script>
-
 </body>
 </html>
