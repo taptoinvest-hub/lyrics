@@ -1,0 +1,80 @@
+<!-- template/lyric-template.html
+  Generator will replace {{TITLE}}, {{RECITER}}, {{YEAR}}, {{SLUG}}, {{TAGS_HTML}}, {{ROMAN_BLOCK}}, {{URDU_BLOCK}}, {{DESCRIPTION}}, {{CANONICAL}}
+-->
+<!doctype html>
+<html lang="ur">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>{{TITLE}} — Shias.in</title>
+  <meta name="description" content="{{DESCRIPTION}}" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="canonical" href="{{CANONICAL}}" />
+</head>
+<body>
+  <header class="site-header"><div class="wrap"><a class="brand" href="/lyrics/">Shias.in</a></div></header>
+
+  <main class="wrap" style="padding-top:20px">
+    <article class="card">
+      <h1>{{TITLE}}</h1>
+      <div class="meta"><div>{{RECITER}}</div><div>{{YEAR}}</div></div>
+      <div style="margin-top:10px">{{TAGS_HTML}}</div>
+
+      <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+        <label style="font-weight:600">View:</label>
+        <select id="viewSelect">
+          <option value="stacked">Roman above Urdu (stacked)</option>
+          <option value="side">Side-by-side</option>
+        </select>
+        <a href="/lyrics/" style="margin-left:auto">◀ Back</a>
+      </div>
+
+      <div id="lyricsContainer" style="margin-top:12px">
+        <div id="romanBlock">{{ROMAN_BLOCK}}</div>
+        <div id="urduBlock" style="margin-top:12px">{{URDU_BLOCK}}</div>
+      </div>
+
+      <div class="actions" style="margin-top:12px">
+        <button id="copyAll" class="btn btn-outline">Copy All</button>
+        <button id="shareBtn" class="btn btn-outline">Share</button>
+      </div>
+    </article>
+  </main>
+
+  <footer class="wrap footer">© 2025 Shias.in</footer>
+
+<script>
+  // view toggle
+  const viewSel = document.getElementById('viewSelect');
+  const roman = document.getElementById('romanBlock');
+  const urdu = document.getElementById('urduBlock');
+  function applyView(){
+    const v = viewSel.value;
+    if(v==='side'){
+      // side-by-side two columns
+      roman.style.display='inline-block'; urdu.style.display='inline-block';
+      roman.style.width='49%'; urdu.style.width='49%'; roman.style.verticalAlign='top'; urdu.style.verticalAlign='top'; urdu.style.marginLeft='2%';
+    } else {
+      roman.style.display='block'; urdu.style.display='block'; roman.style.width='100%'; urdu.style.width='100%'; urdu.style.marginLeft='0';
+    }
+  }
+  viewSel.addEventListener('change', applyView);
+  applyView();
+
+  // copy all
+  document.getElementById('copyAll').addEventListener('click', async ()=>{
+    const text = (roman ? roman.innerText + "\\n\\n" : "") + (urdu ? urdu.innerText : "");
+    try { await navigator.clipboard.writeText(text); alert('Copied'); } catch(e){ prompt('Copy the lyrics', text); }
+  });
+
+  // share
+  document.getElementById('shareBtn').addEventListener('click', ()=>{
+    const title = document.title;
+    const desc = document.querySelector('meta[name="description"]').getAttribute('content');
+    if(navigator.share) navigator.share({title, text: desc, url: location.href}).catch(()=>{});
+    else { alert('Use copy to share the link'); }
+  });
+</script>
+
+</body>
+</html>
