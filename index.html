@@ -3,62 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lyrics Finder</title>
-<link rel="icon" href="favicon.ico" type="image/x-icon">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<title>Offline Lyrics Finder</title>
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
-  body { background: #f0f4f8; min-height: 100vh; display:flex; flex-direction:column; align-items:center; padding:40px; }
-  h1 { color:#2c3e50; margin-bottom:20px; text-align:center; }
-  .search-container { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:20px; }
-  input { padding:10px 15px; border-radius:8px; border:1px solid #ccc; width:300px; font-size:1rem; }
-  button { padding:10px 15px; border-radius:8px; border:none; background:#3498db; color:white; cursor:pointer; font-size:1rem; transition:0.3s; }
+  body { font-family: Arial, sans-serif; background: #f0f4f8; display:flex; flex-direction:column; align-items:center; padding:40px; min-height:100vh; }
+  h1 { color:#2c3e50; margin-bottom:20px; }
+  input, button { padding:10px 15px; border-radius:8px; border:1px solid #ccc; margin:5px; font-size:1rem; }
+  button { background:#3498db; color:white; border:none; cursor:pointer; transition:0.3s; }
   button:hover { background:#2980b9; }
-  .lyrics-container { width:100%; max-width:600px; background:white; padding:20px; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.1); min-height:200px; white-space:pre-wrap; overflow:auto; }
+  .lyrics-container { width:100%; max-width:700px; background:white; padding:20px; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.1); margin-top:20px; white-space:pre-wrap; overflow:auto; min-height:200px; }
   .error { color:red; }
-  .spinner { display:inline-block; width:30px; height:30px; border:3px solid rgba(0,0,0,0.1); border-top-color:#3498db; border-radius:50%; animation: spin 1s linear infinite; }
-  @keyframes spin { 0%{ transform:rotate(0deg); } 100%{ transform:rotate(360deg); } }
 </style>
 </head>
 <body>
 
-<h1>🎵 Lyrics Finder</h1>
-
-<div class="search-container">
-  <input type="text" id="artistInput" placeholder="Enter artist name">
-  <input type="text" id="songInput" placeholder="Enter song title">
-  <button onclick="fetchLyrics()">Search <i class="fas fa-music"></i></button>
-</div>
+<h1>🎵 Offline Lyrics Finder</h1>
+<input type="text" id="artistInput" placeholder="Enter artist/reciter name">
+<input type="text" id="songInput" placeholder="Enter song/nauha title">
+<button onclick="searchLyrics()">Search Lyrics</button>
 
 <div class="lyrics-container" id="lyricsContainer">
-  Enter an artist and song title, then click Search to view lyrics.
+  Enter artist and song title, then click Search to view lyrics.
 </div>
 
 <script>
-async function fetchLyrics() {
-  const artist = document.getElementById('artistInput').value.trim();
-  const song = document.getElementById('songInput').value.trim();
+const lyricsDB = [
+  {
+    artist: "Nadeem Sarwar",
+    song: "Ya Hussain",
+    lyrics: `Ya Hussain, Ya Hussain
+Lab pe dua, dil mein chain
+Karbala ki yaad sataye
+Aashiqan ki dastaan ban jaye`
+  },
+  {
+    artist: "Nadeem Sarwar",
+    song: "Ali Ali",
+    lyrics: `Ali Ali, Ali Ali
+Har dil mein basaye Ali Ali
+Zakhmon ki shifa paaye
+Duniya ke rang chhode`
+  },
+  {
+    artist: "Sami Abbas",
+    song: "Ya Abbas",
+    lyrics: `Ya Abbas, Ya Abbas
+Sahib-e-Karrar, Shah-e-Qamar
+Haq ke raaste pe chalo
+Matloob-e-Rasool ka naam`
+  }
+  // You can add hundreds of lyrics objects here
+];
+
+function searchLyrics() {
+  const artist = document.getElementById('artistInput').value.trim().toLowerCase();
+  const song = document.getElementById('songInput').value.trim().toLowerCase();
   const container = document.getElementById('lyricsContainer');
 
-  if (!artist || !song) {
+  if(!artist || !song){
     container.innerHTML = '<span class="error">Please enter both artist and song title.</span>';
     return;
   }
 
-  container.innerHTML = '<div class="spinner"></div> Fetching lyrics...';
+  const result = lyricsDB.find(l => l.artist.toLowerCase() === artist && l.song.toLowerCase() === song);
 
-  try {
-    const res = await fetch(`https://api.lyrics.ovh/v1/${encodeURIComponent(artist)}/${encodeURIComponent(song)}`);
-    const data = await res.json();
-
-    if(data.lyrics){
-      container.innerHTML = `<h2>${song} - ${artist}</h2><pre>${data.lyrics}</pre>`;
-    } else {
-      container.innerHTML = '<span class="error">Lyrics not found. Try another song or artist.</span>';
-    }
-  } catch(err){
-    console.error(err);
-    container.innerHTML = '<span class="error">Failed to fetch lyrics. Try again later.</span>';
+  if(result){
+    container.innerHTML = `<h2>${result.song} - ${result.artist}</h2><pre>${result.lyrics}</pre>`;
+  } else {
+    container.innerHTML = '<span class="error">Lyrics not found. Add them to the offline database.</span>';
   }
 }
 </script>
