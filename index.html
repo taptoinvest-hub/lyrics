@@ -3,191 +3,219 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nauha Lyrics - Shia Edition</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+<title>Shia Lyrics App</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-    /* Reset & Body */
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Montserrat', sans-serif; }
-    body { background:#1b1b1b; color:#eee; padding:20px; }
-    h1 { text-align:center; margin-bottom:20px; color:#f39c12; text-shadow: 0 0 5px #f39c12; }
+/* Reset & base styles */
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', sans-serif; }
+body { background:#f4f4f9; min-height:100vh; display:flex; flex-direction:column; }
+a { text-decoration:none; color:inherit; }
 
-    /* Filters */
-    .filters { display:flex; justify-content:center; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
-    .filters button {
-        padding:8px 20px; border:none; border-radius:25px;
-        background: #2c3e50; color:#f1c40f; cursor:pointer;
-        font-weight:600; box-shadow: 0 0 8px rgba(241,196,15,0.5);
-        transition: all 0.3s ease;
-    }
-    .filters button.active, .filters button:hover { background:#f39c12; color:#1b1b1b; box-shadow: 0 0 15px #f39c12; }
+/* Header */
+header { background:#2c3e50; color:white; padding:20px 30px; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; }
+header .logo { font-size:1.8rem; font-weight:bold; }
+header nav { display:flex; gap:15px; flex-wrap:wrap; }
+header nav a { color:white; padding:5px 10px; border-radius:5px; transition:0.3s; }
+header nav a:hover { background:#34495e; }
 
-    /* Search bar */
-    .search-bar { text-align:center; margin-bottom:20px; }
-    .search-bar input {
-        width:80%; max-width:500px; padding:12px 20px;
-        border-radius:25px; border:none; outline:none;
-        font-size:1rem; box-shadow: 0 0 10px rgba(243,156,18,0.5);
-        background:#2c3e50; color:#eee;
-    }
-    .search-bar input::placeholder { color:#bbb; }
+/* Main */
+.main { flex:1; display:flex; padding:20px; gap:20px; flex-wrap:wrap; justify-content:center; }
 
-    /* Lyrics grid */
-    .lyrics-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:15px; }
+/* Search & Filters */
+.filters { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; width:100%; justify-content:center; }
+.filters input[type="text"] { padding:10px; width:250px; border:1px solid #ccc; border-radius:5px; }
+.filters select { padding:10px; border-radius:5px; border:1px solid #ccc; }
 
-    /* Lyric card */
-    .lyric-card {
-        background:#2c3e50; padding:20px; border-radius:15px;
-        cursor:pointer; transition: 0.3s; position:relative;
-        overflow:hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-    }
-    .lyric-card::before {
-        content:''; position:absolute; top:0; left:0; width:100%; height:100%;
-        background:linear-gradient(45deg, #f39c12, #e74c3c, #8e44ad);
-        opacity:0; transition:0.5s;
-        z-index:0;
-    }
-    .lyric-card:hover::before { opacity:0.15; }
-    .lyric-title { font-weight:700; margin-bottom:10px; color:#f1c40f; position:relative; z-index:1; }
-    .lyric-snippet { font-size:0.9rem; color:#ddd; position:relative; z-index:1; }
-    .lyric-reciter { margin-top:10px; font-size:0.8rem; color:#aaa; position:relative; z-index:1; }
+/* Cards Grid */
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:15px; width:100%; }
 
-    /* Modal */
-    .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
-             background:rgba(0,0,0,0.85); align-items:center; justify-content:center; z-index:1000; }
-    .modal-content {
-        background:#1b1b1b; max-width:700px; width:90%; padding:25px; border-radius:20px;
-        position:relative; max-height:80vh; overflow-y:auto; box-shadow: 0 0 20px #f39c12;
-        border:2px solid #f39c12;
-    }
-    .close-btn { position:absolute; top:10px; right:10px; background:#e74c3c; color:white; 
-                 border:none; border-radius:50%; width:35px; height:35px; cursor:pointer; font-weight:bold; font-size:1.2rem; }
-    .modal-content h2 { margin-bottom:15px; color:#f39c12; text-shadow: 0 0 5px #f39c12; }
-    .modal-content p { white-space:pre-wrap; line-height:1.6; color:#ddd; font-size:0.95rem; }
+/* Card */
+.card { background:white; padding:15px 20px; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.08); display:flex; flex-direction:column; justify-content:space-between; transition:0.3s; }
+.card:hover { transform:translateY(-5px); box-shadow:0 10px 20px rgba(0,0,0,0.15); }
+.card h3 { margin-bottom:10px; font-size:1.1rem; color:#2c3e50; }
+.card p { font-size:0.9rem; color:#555; margin-bottom:10px; line-height:1.4; }
+.card small { color:#888; font-size:0.8rem; margin-bottom:10px; }
+.card button { background:#3498db; color:white; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; transition:0.3s; }
+.card button:hover { background:#2980b9; }
 
-    /* Tooltip */
-    .tooltip {
-        position:absolute; background:#f39c12; color:#1b1b1b; padding:4px 8px; border-radius:5px;
-        font-size:0.75rem; opacity:0; transition:0.3s; pointer-events:none;
-    }
+/* Modal */
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:1000; padding:15px; }
+.modal-content { background:white; padding:25px 30px; border-radius:15px; max-width:600px; width:100%; max-height:80vh; overflow-y:auto; position:relative; }
+.modal-content h2 { margin-bottom:10px; }
+.modal-content p { margin-bottom:10px; line-height:1.5; }
+.modal-content .close { position:absolute; top:15px; right:15px; background:#e74c3c; color:white; border:none; padding:5px 10px; border-radius:50%; cursor:pointer; font-size:1rem; }
+.modal-content button { margin-top:10px; }
+
+/* Footer */
+footer { background:#2c3e50; color:white; padding:15px 30px; text-align:center; font-size:0.9rem; }
+
+/* Responsive */
+@media(max-width:600px) { .filters input[type="text"], .filters select { width:100%; } }
 </style>
 </head>
 <body>
 
-<h1>🕌 Nauha Lyrics - Shia Edition</h1>
+<header>
+  <div class="logo"><i class="fas fa-book"></i> Shia Lyrics</div>
+  <nav>
+    <a href="#" onclick="showCategory('all')">Home</a>
+    <a href="#" onclick="showCategory('nauha')">Nauha</a>
+    <a href="#" onclick="showCategory('manqabat')">Manqabat</a>
+    <a href="#" onclick="showCategory('marsiya')">Marsiya</a>
+    <a href="#" onclick="showCategory('mostSaved')">Most Saved</a>
+    <a href="#" onclick="showCategory('newlyAdded')">Newly Added</a>
+  </nav>
+</header>
 
-<div class="filters">
-    <button class="filter-btn active" data-category="all">All</button>
-    <button class="filter-btn" data-category="Nauha">Nauha</button>
-    <button class="filter-btn" data-category="Manqabat">Manqabat</button>
-    <button class="filter-btn" data-category="Marsiya">Marsiya</button>
+<div class="main">
+  <div class="filters">
+    <input type="text" id="searchInput" placeholder="Search by title, reciter, or tag" oninput="filterLyrics()">
+    <select id="typeFilter" onchange="filterLyrics()">
+      <option value="all">All Types</option>
+      <option value="nauha">Nauha</option>
+      <option value="manqabat">Manqabat</option>
+      <option value="marsiya">Marsiya</option>
+    </select>
+  </div>
+
+  <div class="grid" id="lyricsGrid">
+    <!-- Lyrics cards will be inserted here -->
+  </div>
 </div>
-
-<div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search by title or reciter...">
-</div>
-
-<div class="lyrics-list" id="lyricsList"></div>
 
 <!-- Modal -->
-<div class="modal" id="lyricModal">
-    <div class="modal-content">
-        <button class="close-btn" onclick="closeModal()">×</button>
-        <h2 id="modalTitle"></h2>
-        <p id="modalContent"></p>
-    </div>
+<div class="modal" id="lyricsModal">
+  <div class="modal-content">
+    <button class="close" onclick="closeModal()">&times;</button>
+    <h2 id="modalTitle"></h2>
+    <p><strong>Reciter:</strong> <span id="modalReciter"></span></p>
+    <p><strong>Type:</strong> <span id="modalType"></span></p>
+    <p><strong>Tags:</strong> <span id="modalTags"></span></p>
+    <p><strong>Date Added:</strong> <span id="modalDate"></span></p>
+    <p><strong>Popularity:</strong> <span id="modalPop"></span></p>
+    <p id="modalLyrics"></p>
+    <button onclick="saveFavorite()">💾 Save to Favorites</button>
+  </div>
 </div>
 
+<footer>
+  &copy; 2025 Shia Lyrics App | All Rights Reserved
+</footer>
+
 <script>
-// Lyrics database (add more Shia-relevant lyrics)
-const lyricsDB = [
-    {
-        title:"Nauha - Ya Ali Madad",
-        reciter:"Nadeem Sarwar",
-        type:"Nauha",
-        lyrics:`Ya Ali Madad, Ya Ali Madad
-Main Hussaini hoon, Muharram ka fidaa hoon
-Aasman se aye noha ka raag, dil ko chu jaaye
-Ashk bahaa ke yaad karo Imam Hussain`
-    },
-    {
-        title:"Manqabat - Shah-e-Madina",
-        reciter:"Amin Mirza",
-        type:"Manqabat",
-        lyrics:`Shah-e-Madina, Ya Ali
-Tere husn ka nazaara, rooh ko sukoon de
-Zulmat mein roshan, Noor-e-Madina`
-    },
-    {
-        title:"Marsiya - Bibi Fatima",
-        reciter:"Neha Naqvi",
-        type:"Marsiya",
-        lyrics:`Bibi Fatima ka ghar udaas
-Zulmat mein roshan, shola-e-Mohabbat
-Aashiqon ka raag, qatil ka saaz
-Ya Hussain! Ya Hussain!`
-    },
+// Sample Lyrics Data
+const lyricsData = [
+  {
+    id: 1,
+    title: "Ya Hussain",
+    reciter: "Nadeem Sarwar",
+    type: "nauha",
+    tags: ["Muharram","Imam Hussain","Battle of Karbala"],
+    dateAdded: "2025-11-08",
+    popularity: 1200,
+    lyrics: `Ya Hussain! Ya Hussain! Ya Hussain!
+    Your sacrifice will never be forgotten.
+    We remember Karbala with tears and prayers.`
+  },
+  {
+    id: 2,
+    title: "Manqabat Ali",
+    reciter: "Syed Ali Raza",
+    type: "manqabat",
+    tags: ["Imam Ali","Ahlul Bayt"],
+    dateAdded: "2025-10-20",
+    popularity: 800,
+    lyrics: `Ali Ali! The lion of Allah!
+    His bravery and knowledge guide us all.`
+  },
+  {
+    id: 3,
+    title: "Marsiya of Karbala",
+    reciter: "Mir Hasan",
+    type: "marsiya",
+    tags: ["Muharram","Karbala","Imam Hussain"],
+    dateAdded: "2025-11-01",
+    popularity: 950,
+    lyrics: `Tears fall remembering the tragedy of Karbala,
+    Imam Hussain's love and sacrifice inspire hearts.`
+  }
 ];
 
-// Elements
-const lyricsList = document.getElementById('lyricsList');
-const searchInput = document.getElementById('searchInput');
-const filterBtns = document.querySelectorAll('.filter-btn');
-const modal = document.getElementById('lyricModal');
-const modalTitle = document.getElementById('modalTitle');
-const modalContent = document.getElementById('modalContent');
+// Favorites storage
+let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
-// Render lyrics
-function renderLyrics(filter='all', query=''){
-    lyricsList.innerHTML = '';
-    const filtered = lyricsDB.filter(item => {
-        const matchCategory = filter==='all' || item.type===filter;
-        const matchQuery = item.title.toLowerCase().includes(query.toLowerCase()) || item.reciter.toLowerCase().includes(query.toLowerCase());
-        return matchCategory && matchQuery;
-    });
-
-    filtered.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'lyric-card';
-        const snippet = item.lyrics.split(' ').slice(0, Math.ceil(item.lyrics.split(' ').length*0.3)).join(' ') + '...';
-        card.innerHTML = `
-            <div class="lyric-title">${item.title}</div>
-            <div class="lyric-snippet">${snippet}</div>
-            <div class="lyric-reciter">Reciter: ${item.reciter}</div>
-        `;
-        card.addEventListener('click', () => openModal(item));
-        lyricsList.appendChild(card);
-    });
-
-    if(filtered.length===0){
-        lyricsList.innerHTML='<p style="grid-column:1/-1;text-align:center;color:#bbb;">No lyrics found.</p>';
-    }
+// Display Lyrics Cards
+function displayLyrics(data) {
+  const grid = document.getElementById('lyricsGrid');
+  grid.innerHTML = '';
+  data.forEach(lyric => {
+    const snippet = lyric.lyrics.split(' ').slice(0, Math.ceil(lyric.lyrics.split(' ').length*0.3)).join(' ') + '...';
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <h3>${lyric.title}</h3>
+      <p>${snippet}</p>
+      <small>Reciter: ${lyric.reciter}</small>
+      <small>Type: ${lyric.type}</small>
+      <button onclick="openModal(${lyric.id})">View Full Lyrics</button>
+    `;
+    grid.appendChild(card);
+  });
 }
 
-// Modal
-function openModal(item){
-    modalTitle.textContent = item.title + ' - ' + item.reciter;
-    modalContent.textContent = item.lyrics;
-    modal.style.display = 'flex';
+// Filter Lyrics
+function filterLyrics() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const type = document.getElementById('typeFilter').value;
+  let filtered = lyricsData.filter(l => 
+    (l.title.toLowerCase().includes(search) || l.reciter.toLowerCase().includes(search) || l.tags.join(' ').toLowerCase().includes(search)) &&
+    (type==='all' || l.type===type)
+  );
+  displayLyrics(filtered);
 }
-function closeModal(){ modal.style.display='none'; }
 
-// Filters
-filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        filterBtns.forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
-        renderLyrics(btn.dataset.category, searchInput.value);
-    });
-});
+// Show category from header nav
+function showCategory(category) {
+  let filtered = lyricsData;
+  if(category==='mostSaved') filtered = lyricsData.sort((a,b)=>b.popularity - a.popularity);
+  else if(category==='newlyAdded') filtered = lyricsData.sort((a,b)=>new Date(b.dateAdded)-new Date(a.dateAdded));
+  else if(category!=='all') filtered = lyricsData.filter(l=>l.type===category);
+  displayLyrics(filtered);
+}
 
-// Search
-searchInput.addEventListener('input', () => {
-    const activeFilter = document.querySelector('.filter-btn.active').dataset.category;
-    renderLyrics(activeFilter, searchInput.value);
-});
+// Modal functions
+let currentModalId = null;
+function openModal(id){
+  currentModalId = id;
+  const lyric = lyricsData.find(l=>l.id===id);
+  document.getElementById('modalTitle').innerText = lyric.title;
+  document.getElementById('modalReciter').innerText = lyric.reciter;
+  document.getElementById('modalType').innerText = lyric.type;
+  document.getElementById('modalTags').innerText = lyric.tags.join(', ');
+  document.getElementById('modalDate').innerText = lyric.dateAdded;
+  document.getElementById('modalPop').innerText = lyric.popularity;
+  document.getElementById('modalLyrics').innerText = lyric.lyrics;
+  document.getElementById('lyricsModal').style.display='flex';
+}
+function closeModal(){
+  document.getElementById('lyricsModal').style.display='none';
+}
 
-// Initial render
-renderLyrics();
+// Save to Favorites
+function saveFavorite(){
+  if(!favorites.includes(currentModalId)){
+    favorites.push(currentModalId);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    alert('💾 Saved to Favorites!');
+  } else {
+    alert('Already in Favorites!');
+  }
+}
+
+// Initialize
+window.onload = function(){
+  displayLyrics(lyricsData);
+}
 </script>
 
 </body>
