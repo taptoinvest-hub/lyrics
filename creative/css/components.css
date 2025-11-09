@@ -1,0 +1,20 @@
+/* components.css - individual UI components styling */
+
+.btn-primary{padding:10px 14px;border-radius:10px}
+.btn-secondary{padding:8px 12px;border-radius:10px}
+.slide-count{font-size:13px;color:var(--muted);margin-top:8px}
+.section input[type="text"], .section textarea{width:100%}
+.section .row{gap:10px}
+.small-muted{font-size:13px;color:var(--muted)}
+
+/* thumbnail overlay buttons */
+.thumb-overlay{position:absolute;right:6px;top:6px;display:flex;flex-direction:column;gap:6px;opacity:0;transition:opacity .12s}
+.thumbnail:hover .thumb-overlay{opacity:1}
+.thumb-btn{background:rgba(0,0,0,0.45);border:0;color:#fff;padding:6px;border-radius:6px;font-size:12px;cursor:pointer}
+
+/* dark-mode helper */
+body.dark-mode{
+  --bg:#071223;
+  --panel:#09101a;
+  background: linear-gradient(180deg,#051021 0%, #031823 100%);
+}
