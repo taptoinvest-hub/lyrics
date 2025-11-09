@@ -1,0 +1,236 @@
+/* App Layout */
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background: var(--bg-primary);
+}
+
+/* Left Panel */
+.left-panel {
+  width: var(--sidebar-width);
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition-slow);
+  overflow: hidden;
+  position: relative;
+  z-index: 20;
+}
+
+.left-panel.collapsed {
+  width: var(--sidebar-collapsed-width);
+}
+
+.left-panel.collapsed .section-content,
+.left-panel.collapsed .section-header h2,
+.left-panel.collapsed .platform-info,
+.left-panel.collapsed .input-group label,
+.left-panel.collapsed .bg-controls,
+.left-panel.collapsed .text-controls,
+.left-panel.collapsed .layout-presets,
+.left-panel.collapsed .slide-actions,
+.left-panel.collapsed .export-options {
+  display: none;
+}
+
+.left-panel.collapsed .section-header {
+  justify-content: center;
+  padding: 16px 8px;
+}
+
+.left-panel.collapsed .panel-header h1 {
+  display: none;
+}
+
+.left-panel.collapsed .panel-header {
+  justify-content: center;
+  padding: 20px 8px;
+}
+
+.left-panel.collapsed .collapse-btn i {
+  transform: rotate(180deg);
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+/* Top Bar */
+.top-bar {
+  height: var(--top-bar-height);
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  gap: 20px;
+  position: relative;
+  z-index: 10;
+  box-shadow: var(--shadow-sm);
+}
+
+.top-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: 1;
+}
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Preview Container */
+.preview-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  gap: 24px;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+/* Slide Canvas Container */
+.slide-canvas-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+}
+
+.slide-canvas-container:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.canvas-wrapper {
+  position: relative;
+  background: white;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  transition: var(--transition-slow);
+  max-width: 90%;
+  max-height: 90%;
+}
+
+#slideCanvas {
+  display: block;
+  background: white;
+  border-radius: var(--border-radius);
+  width: 100%;
+  height: 100%;
+}
+
+/* Thumbnail Strip Container */
+.thumbnail-strip-container {
+  height: 100px;
+  background: var(--bg-card);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.thumbnail-strip {
+  height: 100%;
+  padding: 12px 16px;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  align-items: center;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.thumbnail-strip::-webkit-scrollbar {
+  display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-width: 280px;
+  }
+  
+  .left-panel {
+    position: absolute;
+    z-index: 1000;
+    height: 100%;
+    box-shadow: var(--shadow-xl);
+  }
+  
+  .left-panel:not(.collapsed) {
+    width: var(--sidebar-width);
+  }
+  
+  .main-content {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 100%;
+    --top-bar-height: 56px;
+  }
+  
+  .left-panel:not(.collapsed) {
+    width: 100%;
+  }
+  
+  .top-bar {
+    padding: 0 16px;
+    gap: 12px;
+  }
+  
+  .top-bar-left,
+  .top-bar-right {
+    gap: 12px;
+  }
+  
+  .preview-container {
+    padding: 16px;
+    gap: 16px;
+  }
+  
+  .thumbnail-strip-container {
+    height: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-bar {
+    flex-direction: column;
+    height: auto;
+    padding: 12px 16px;
+    gap: 12px;
+  }
+  
+  .top-bar-left,
+  .top-bar-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .preview-container {
+    padding: 12px;
+  }
+}
