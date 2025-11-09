@@ -1545,7 +1545,7 @@
                     <h2><i class="fas fa-magic"></i> Quick Create</h2>
                 </div>
                 <div class="section-content">
-                    <textarea id="commandBox" placeholder="Paste your carousel command here...&#10;Example:&#10;## SLIDE 1&#10;title: Welcome&#10;description: Get started&#10;cta: Begin"></textarea>
+                    <textarea id="commandBox" placeholder="Paste your carousel command here...&#10;Example:&#10;## SLIDE 1&#10;title: Welcome&#10;title_size: 72&#10;title_color: #1E293B&#10;description: Get started&#10;description_size: 32&#10;cta: Begin&#10;layout: center"></textarea>
                     <button class="btn-primary" id="generateSlidesBtn">
                         <i class="fas fa-bolt"></i> Generate Carousel
                     </button>
@@ -1570,6 +1570,7 @@
                         <option value="twitter">Twitter/X</option>
                         <option value="threads">Threads</option>
                         <option value="youtube">YouTube</option>
+                        <option value="google-ads">Google Ads</option>
                         <option value="custom">Custom</option>
                     </select>
                     <div class="platform-info" id="platformInfo">
@@ -1742,7 +1743,6 @@
                         <select id="exportFormat">
                             <option value="png">PNG Format</option>
                             <option value="jpg">JPG Format</option>
-                            <option value="pdf">PDF Document</option>
                         </select>
                     </div>
                 </div>
@@ -1861,7 +1861,7 @@
                 this.history = [];
                 this.historyIndex = -1;
                 
-                // Platform configurations
+                // Platform configurations - ADDED GOOGLE ADS
                 this.platforms = {
                     instagram: { width: 1080, height: 1080, ratio: '1:1' },
                     linkedin: { width: 1200, height: 627, ratio: '1.91:1' },
@@ -1871,6 +1871,7 @@
                     twitter: { width: 1200, height: 675, ratio: '16:9' },
                     threads: { width: 1080, height: 1350, ratio: '4:5' },
                     youtube: { width: 1280, height: 720, ratio: '16:9' },
+                    'google-ads': { width: 300, height: 250, ratio: '6:5' },
                     custom: { width: 1080, height: 1080, ratio: 'custom' }
                 };
 
@@ -2252,6 +2253,7 @@
                     twitter: 'fab fa-twitter',
                     threads: 'fab fa-threads',
                     youtube: 'fab fa-youtube',
+                    'google-ads': 'fab fa-google',
                     custom: 'fas fa-cog'
                 };
                 
@@ -2455,7 +2457,16 @@
                 const newSlide = {
                     id: Date.now(),
                     background: { type: 'gradient', gradient: this.getRandomGradient() },
-                    text: { headline: 'New Slide', subtext: 'Add your content here', cta: 'Learn More', watermark: '' },
+                    text: { 
+                        headline: 'New Slide', 
+                        subtext: 'Add your content here', 
+                        cta: 'Learn More', 
+                        watermark: '',
+                        headline_size: 72,
+                        headline_color: '#1E293B',
+                        subtext_size: 32,
+                        subtext_color: '#64748B'
+                    },
                     layout: 'center'
                 };
                 
@@ -2521,7 +2532,7 @@
                 this.renderCurrentSlide();
             }
 
-            // Command Box Generation - IMPROVED with fixed positioning
+            // Command Box Generation - IMPROVED with font size and color controls
             generateFromCommand() {
                 const command = document.getElementById('commandBox').value.trim();
                 if (!command) {
@@ -2586,7 +2597,10 @@
                                 subtext: '', 
                                 cta: '', 
                                 watermark: '',
-                                highlight: ''
+                                headline_size: 72,
+                                headline_color: '#1E293B',
+                                subtext_size: 32,
+                                subtext_color: '#64748B'
                             },
                             layout: 'center'
                         };
@@ -2604,8 +2618,20 @@
                         else if (line.startsWith('title:')) {
                             currentSlide.text.headline = line.replace('title:', '').trim();
                         }
+                        else if (line.startsWith('title_size:')) {
+                            currentSlide.text.headline_size = parseInt(line.replace('title_size:', '').trim()) || 72;
+                        }
+                        else if (line.startsWith('title_color:')) {
+                            currentSlide.text.headline_color = line.replace('title_color:', '').trim();
+                        }
                         else if (line.startsWith('description:')) {
                             currentSlide.text.subtext = line.replace('description:', '').trim();
+                        }
+                        else if (line.startsWith('description_size:')) {
+                            currentSlide.text.subtext_size = parseInt(line.replace('description_size:', '').trim()) || 32;
+                        }
+                        else if (line.startsWith('description_color:')) {
+                            currentSlide.text.subtext_color = line.replace('description_color:', '').trim();
                         }
                         else if (line.startsWith('cta:')) {
                             currentSlide.text.cta = line.replace('cta:', '').trim();
@@ -2615,9 +2641,6 @@
                         }
                         else if (line.startsWith('watermark:')) {
                             currentSlide.text.watermark = line.replace('watermark:', '').trim();
-                        }
-                        else if (line.startsWith('title_highlight:')) {
-                            currentSlide.text.highlight = line.replace('title_highlight:', '').trim();
                         }
                     }
                 }
@@ -2717,15 +2740,16 @@
                 if (!text) return;
 
                 const layoutConfig = this.layouts[layout] || this.layouts.center;
-                const padding = 80;
+                const padding = Math.min(width, height) * 0.07; // Dynamic padding based on canvas size
 
                 // Draw headline with creative styling
                 if (text.headline) {
                     const x = width * layoutConfig.headline.x;
                     const y = height * layoutConfig.headline.y;
+                    const headlineSize = text.headline_size || this.fonts.headline.size;
                     
-                    this.ctx.font = `bold ${this.fonts.headline.size}px ${this.fonts.headline.family}`;
-                    this.ctx.fillStyle = this.fonts.headline.color;
+                    this.ctx.font = `bold ${headlineSize}px ${this.fonts.headline.family}`;
+                    this.ctx.fillStyle = text.headline_color || this.fonts.headline.color;
                     this.ctx.textAlign = 'center';
                     this.ctx.textBaseline = 'middle';
                     
@@ -2734,7 +2758,7 @@
                     this.ctx.shadowBlur = 10;
                     this.ctx.shadowOffsetY = 2;
                     
-                    this.wrapText(this.ctx, text.headline, x, y, width - (padding * 2), this.fonts.headline.size + 10);
+                    this.wrapText(this.ctx, text.headline, x, y, width - (padding * 2), headlineSize + 10);
                     
                     // Reset shadow
                     this.ctx.shadowColor = 'transparent';
@@ -2746,13 +2770,14 @@
                 if (text.subtext) {
                     const x = width * layoutConfig.subtext.x;
                     const y = height * layoutConfig.subtext.y;
+                    const subtextSize = text.subtext_size || this.fonts.subtext.size;
                     
-                    this.ctx.font = `${this.fonts.subtext.weight} ${this.fonts.subtext.size}px ${this.fonts.subtext.family}`;
-                    this.ctx.fillStyle = this.fonts.subtext.color;
+                    this.ctx.font = `${this.fonts.subtext.weight} ${subtextSize}px ${this.fonts.subtext.family}`;
+                    this.ctx.fillStyle = text.subtext_color || this.fonts.subtext.color;
                     this.ctx.textAlign = 'center';
                     this.ctx.textBaseline = 'middle';
                     
-                    this.wrapText(this.ctx, text.subtext, x, y, width - (padding * 2), this.fonts.subtext.size + 8);
+                    this.wrapText(this.ctx, text.subtext, x, y, width - (padding * 2), subtextSize + 8);
                 }
 
                 // Draw CTA button
@@ -2909,7 +2934,7 @@
                 }
             }
 
-            // Export Functionality - FIXED
+            // Export Functionality - FIXED - Now properly renders all elements
             exportCurrentSlide() {
                 if (this.slides.length === 0) {
                     alert('No slides to export. Please create a slide first.');
@@ -2958,7 +2983,7 @@
                 // Draw background
                 this.drawBackgroundOnCanvas(tempCtx, slide.background, platform.width, platform.height);
                 
-                // Draw text
+                // Draw text - FIXED: Now properly renders all text elements
                 this.drawCreativeTextOnCanvas(tempCtx, slide.text, slide.layout, platform.width, platform.height);
 
                 // Export
@@ -3007,27 +3032,78 @@
             }
 
             drawCreativeTextOnCanvas(ctx, text, layout, width, height) {
-                // Same as drawCreativeText but for export canvas
+                // Same as drawCreativeText but for export canvas - FIXED to render all elements
                 if (!text) return;
 
                 const layoutConfig = this.layouts[layout] || this.layouts.center;
-                const padding = 80;
+                const padding = Math.min(width, height) * 0.07;
 
                 // Draw headline
                 if (text.headline) {
                     const x = width * layoutConfig.headline.x;
                     const y = height * layoutConfig.headline.y;
+                    const headlineSize = text.headline_size || this.fonts.headline.size;
                     
-                    ctx.font = `bold ${this.fonts.headline.size}px ${this.fonts.headline.family}`;
-                    ctx.fillStyle = this.fonts.headline.color;
+                    ctx.font = `bold ${headlineSize}px ${this.fonts.headline.family}`;
+                    ctx.fillStyle = text.headline_color || this.fonts.headline.color;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     
-                    this.wrapText(ctx, text.headline, x, y, width - (padding * 2), this.fonts.headline.size + 10);
+                    this.wrapText(ctx, text.headline, x, y, width - (padding * 2), headlineSize + 10);
                 }
 
-                // Draw other text elements similarly...
-                // (Implementation similar to drawCreativeText)
+                // Draw subtext
+                if (text.subtext) {
+                    const x = width * layoutConfig.subtext.x;
+                    const y = height * layoutConfig.subtext.y;
+                    const subtextSize = text.subtext_size || this.fonts.subtext.size;
+                    
+                    ctx.font = `${this.fonts.subtext.weight} ${subtextSize}px ${this.fonts.subtext.family}`;
+                    ctx.fillStyle = text.subtext_color || this.fonts.subtext.color;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    
+                    this.wrapText(ctx, text.subtext, x, y, width - (padding * 2), subtextSize + 8);
+                }
+
+                // Draw CTA button
+                if (text.cta) {
+                    const x = width * layoutConfig.cta.x;
+                    const y = height * layoutConfig.cta.y;
+                    
+                    // Draw button background
+                    ctx.font = `bold ${this.fonts.cta.size}px ${this.fonts.cta.family}`;
+                    const textMetrics = ctx.measureText(text.cta);
+                    const buttonWidth = textMetrics.width + 100;
+                    const buttonHeight = 80;
+                    const buttonX = x - buttonWidth / 2;
+                    const buttonY = y - buttonHeight / 2;
+
+                    // Button gradient
+                    const buttonGradient = ctx.createLinearGradient(buttonX, buttonY, buttonX, buttonY + buttonHeight);
+                    buttonGradient.addColorStop(0, '#00A3FF');
+                    buttonGradient.addColorStop(1, '#0077CC');
+                    
+                    ctx.fillStyle = buttonGradient;
+                    
+                    // Rounded rectangle
+                    ctx.beginPath();
+                    ctx.roundRect(buttonX, buttonY, buttonWidth, buttonHeight, 20);
+                    ctx.fill();
+                    
+                    // Button text
+                    ctx.fillStyle = this.fonts.cta.color;
+                    ctx.fillText(text.cta, x, y);
+                }
+
+                // Draw watermark
+                if (text.watermark) {
+                    ctx.font = `${this.fonts.watermark.weight} ${this.fonts.watermark.size}px ${this.fonts.watermark.family}`;
+                    ctx.fillStyle = this.fonts.watermark.color;
+                    ctx.textAlign = 'right';
+                    ctx.textBaseline = 'bottom';
+                    ctx.fillText(text.watermark, width - 40, height - 40);
+                }
             }
 
             async exportAsZIP(format) {
@@ -3041,7 +3117,7 @@
                     tempCanvas.width = platform.width;
                     tempCanvas.height = platform.height;
 
-                    // Draw slide
+                    // Draw slide - FIXED: Now properly renders all elements
                     this.drawBackgroundOnCanvas(tempCtx, slide.background, platform.width, platform.height);
                     this.drawCreativeTextOnCanvas(tempCtx, slide.text, slide.layout, platform.width, platform.height);
 
@@ -3226,6 +3302,17 @@ KEYBOARD SHORTCUTS:
 • Ctrl+O: Load project file
 • +/-: Zoom in/out | Ctrl+0: Fit to screen
 • Escape: Toggle left panel
+
+COMMAND SYNTAX:
+• title: Your headline text
+• title_size: 72 (font size)
+• title_color: #1E293B (color)
+• description: Your description text
+• description_size: 32 (font size)
+• description_color: #64748B (color)
+• cta: Call to action text
+• layout: center/top/bottom
+• watermark: Your brand name
 
 SHARING:
 • Share projects via URL (valid 24 hours)
