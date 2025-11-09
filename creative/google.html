@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Ads Studio - Carousel Builder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables - Canva Inspired */
+        :root {
+          --primary-color: #4285F4;
+          --primary-light: #8AB4F8;
+          --primary-dark: #1967D2;
+          --secondary-color: #34A853;
+          --accent-color: #EA4335;
+          --warning-color: #FBBC05;
+          
+          --bg-primary: #FFFFFF;
+          --bg-secondary: #F8F9FA;
+          --bg-tertiary: #E8F0FE;
+          --bg-card: #FFFFFF;
+          --bg-overlay: rgba(255, 255, 255, 0.95);
+          
+          --text-primary: #202124;
+          --text-secondary: #5F6368;
+          --text-muted: #9AA0A6;
+          --text-inverse: #FFFFFF;
+          
+          --border-color: #DADCE0;
+          --border-light: #E8EAED;
+          --border-dark: #BDC1C6;
+          
+          --shadow-sm: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+          --shadow-md: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+          --shadow-lg: 0 2px 6px 2px rgba(60,64,67,0.15), 0 1px 2px 0 rgba(60,64,67,0.3);
+          
+          --sidebar-width: 320px;
+          --top-bar-height: 70px;
+          --border-radius: 8px;
+          --border-radius-lg: 12px;
+          
+          --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Dark Mode */
+        [data-mode="dark"] {
+          --bg-primary: #202124;
+          --bg-secondary: #303134;
+          --bg-tertiary: #3C4043;
+          --bg-card: #303134;
+          
+          --text-primary: #E8EAED;
+          --text-secondary: #BDC1C6;
+          --text-muted: #9AA0A6;
+          
+          --border-color: #5F6368;
+          --border-light: #3C4043;
+        }
+
+        /* Reset and Base Styles */
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          background-color: var(--bg-primary);
+          color: var(--text-primary);
+          overflow: hidden;
+        }
+
+        /* Smooth Color Scrollbar */
+        ::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+          background: var(--bg-secondary);
+          border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background: var(--primary-color);
+          border-radius: 4px;
+          transition: var(--transition);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+          background: var(--primary-dark);
+        }
+
+        /* App Layout */
+        .app-container {
+          display: flex;
+          height: 100vh;
+          background: var(--bg-primary);
+        }
+
+        /* Left Panel */
+        .left-panel {
+          width: var(--sidebar-width);
+          background: var(--bg-secondary);
+          border-right: 1px solid var(--border-color);
+          display: flex;
+          flex-direction: column;
+          overflow-y: auto;
+        }
+
+        /* Platform Header */
+        .platform-header {
+          background: var(--bg-card);
+          border-bottom: 1px solid var(--border-color);
+          padding: 20px 24px;
+        }
+
+        .platform-info {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 16px;
+        }
+
+        .platform-info i {
+          font-size: 24px;
+          color: var(--primary-color);
+        }
+
+        .platform-info h1 {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 1.5rem;
+          font-weight: 600;
+        }
+
+        /* Format Selector */
+        .format-selector {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+        }
+
+        .format-btn {
+          padding: 12px 8px;
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          background: var(--bg-primary);
+          color: var(--text-secondary);
+          cursor: pointer;
+          transition: var(--transition);
+          text-align: center;
+          font-size: 0.75rem;
+          font-weight: 500;
+        }
+
+        .format-btn:hover {
+          border-color: var(--primary-color);
+          color: var(--primary-color);
+        }
+
+        .format-btn.active {
+          background: var(--primary-color);
+          color: white;
+          border-color: var(--primary-color);
+        }
+
+        /* Section Styles */
+        .section {
+          border-bottom: 1px solid var(--border-color);
+          padding: 20px 24px;
+        }
+
+        .section h3 {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: var(--text-secondary);
+          margin-bottom: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+
+        /* Gradient Grid */
+        .gradient-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 8px;
+        }
+
+        .gradient-btn {
+          height: 60px;
+          border: 2px solid var(--border-color);
+          border-radius: var(--border-radius);
+          cursor: pointer;
+          transition: var(--transition);
+        }
+
+        .gradient-btn:hover {
+          transform: scale(1.05);
+          border-color: var(--primary-color);
+        }
+
+        .gradient-btn.active {
+          border-color: var(--primary-color);
+          box-shadow: 0 0 0 2px var(--primary-light);
+        }
+
+        /* Text Controls */
+        .text-controls {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .input-group {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+
+        .input-group label {
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: var(--text-secondary);
+        }
+
+        .input-group input, .input-group textarea {
+          padding: 12px;
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          background: var(--bg-primary);
+          color: var(--text-primary);
+          font-size: 0.875rem;
+        }
+
+        .input-group input:focus, .input-group textarea:focus {
+          outline: none;
+          border-color: var(--primary-color);
+        }
+
+        /* Buttons */
+        .btn-primary {
+          background: var(--primary-color);
+          color: white;
+          border: none;
+          padding: 12px 20px;
+          border-radius: var(--border-radius);
+          cursor: pointer;
+          font-weight: 500;
+          transition: var(--transition);
+          width: 100%;
+        }
+
+        .btn-primary:hover {
+          background: var(--primary-dark);
+        }
+
+        /* Main Content */
+        .main-content {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+        }
+
+        /* Top Bar */
+        .top-bar {
+          height: var(--top-bar-height);
+          background: var(--bg-card);
+          border-bottom: 1px solid var(--border-color);
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0 24px;
+        }
+
+        .watermark-control {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .watermark-toggle {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 0.875rem;
+          color: var(--text-secondary);
+        }
+
+        /* Canvas Container */
+        .canvas-container {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 24px;
+          background: var(--bg-secondary);
+          overflow: auto;
+        }
+
+        .canvas-wrapper {
+          position: relative;
+          background: white;
+          border-radius: var(--border-radius-lg);
+          box-shadow: var(--shadow-lg);
+          overflow: hidden;
+        }
+
+        #adsCanvas {
+          display: block;
+          background: white;
+          cursor: move;
+        }
+
+        /* Canvas Elements */
+        .canvas-element {
+          position: absolute;
+          cursor: move;
+          border: 2px solid transparent;
+          transition: var(--transition);
+        }
+
+        .canvas-element.selected {
+          border-color: var(--primary-color);
+        }
+
+        .canvas-element.text-element {
+          padding: 8px;
+          min-width: 100px;
+          min-height: 40px;
+        }
+
+        .canvas-element.cta-element {
+          background: var(--primary-color);
+          color: white;
+          padding: 12px 24px;
+          border-radius: 20px;
+          font-weight: 600;
+          text-align: center;
+          min-width: 120px;
+        }
+
+        /* Resize Handles */
+        .resize-handle {
+          position: absolute;
+          width: 8px;
+          height: 8px;
+          background: var(--primary-color);
+          border: 2px solid white;
+          border-radius: 50%;
+          z-index: 10;
+        }
+
+        .resize-nw { top: -4px; left: -4px; cursor: nw-resize; }
+        .resize-ne { top: -4px; right: -4px; cursor: ne-resize; }
+        .resize-sw { bottom: -4px; left: -4px; cursor: sw-resize; }
+        .resize-se { bottom: -4px; right: -4px; cursor: se-resize; }
+
+        /* Watermark */
+        .watermark {
+          position: absolute;
+          bottom: 10px;
+          left: 10px;
+          color: rgba(0,0,0,0.3);
+          font-size: 12px;
+          font-weight: 600;
+          pointer-events: none;
+        }
+
+        /* 30 Abstract Gradient Backgrounds */
+        .gradient-ocean-blue { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .gradient-sunset-purple { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .gradient-tropical-green { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .gradient-forest { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .gradient-golden-hour { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .gradient-cotton-candy { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+        .gradient-peach { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+        .gradient-berry { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+        .gradient-sky { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); }
+        .gradient-lime { background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%); }
+        .gradient-deep-space { background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); }
+        .gradient-coral-reef { background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%); }
+        .gradient-midnight { background: linear-gradient(135deg, #0c0c6c 0%, #3a2c84 100%); }
+        .gradient-desert { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+        .gradient-aurora { background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%); }
+        .gradient-sunset { background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%); }
+        .gradient-ocean-depth { background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%); }
+        .gradient-berry-smoothie { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+        .gradient-forest-mist { background: linear-gradient(135deg, #c2e59c 0%, #64b3f4 100%); }
+        .gradient-royal { background: linear-gradient(135deg, #9d50bb 0%, #6e48aa 100%); }
+        .gradient-citrus { background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); }
+        .gradient-deep-sea { background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%); }
+        .gradient-warm-fire { background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%); }
+        .gradient-cool-mint { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .gradient-purple-rain { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .gradient-sunrise { background: linear-gradient(135deg, #fad0c4 0%, #ffd1ff 100%); }
+        .gradient-electric { background: linear-gradient(135deg, #a8ff78 0%, #78ffd6 100%); }
+        .gradient-twilight { background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); }
+        .gradient-coral { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+        .gradient-galaxy { background: linear-gradient(135deg, #3a2c84 0%, #0c0c6c 100%); }
+    </style>
+</head>
+<body data-platform="google-ads">
+    <div class="app-container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+            <!-- Platform Header -->
+            <div class="platform-header">
+                <div class="platform-info">
+                    <i class="fab fa-google"></i>
+                    <h1>Google Ads Studio</h1>
+                </div>
+                <div class="format-selector" id="formatSelector">
+                    <!-- Formats will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Background Gradients -->
+            <div class="section">
+                <h3>Background Gradients</h3>
+                <div class="gradient-grid" id="gradientGrid">
+                    <!-- Gradients will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Text Content -->
+            <div class="section">
+                <h3>Text Content</h3>
+                <div class="text-controls">
+                    <div class="input-group">
+                        <label for="headlineText">Headline</label>
+                        <input type="text" id="headlineText" placeholder="Enter headline">
+                    </div>
+                    <div class="input-group">
+                        <label for="descriptionText">Description</label>
+                        <textarea id="descriptionText" placeholder="Enter description" rows="3"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label for="ctaText">Call to Action</label>
+                        <input type="text" id="ctaText" placeholder="Learn More">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="section">
+                <button class="btn-primary" id="addTextBtn">
+                    <i class="fas fa-plus"></i> Add Text Element
+                </button>
+                <button class="btn-primary" id="addCtaBtn" style="margin-top: 8px;">
+                    <i class="fas fa-mouse-pointer"></i> Add CTA Button
+                </button>
+                <button class="btn-primary" id="exportBtn" style="margin-top: 8px; background: var(--secondary-color);">
+                    <i class="fas fa-download"></i> Export Ad
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="watermark-control">
+                    <div class="watermark-toggle">
+                        <input type="checkbox" id="watermarkToggle" checked>
+                        <label for="watermarkToggle">Show Watermark</label>
+                    </div>
+                </div>
+                <div class="theme-controls">
+                    <button class="btn-primary" id="darkModeToggle" style="width: auto; padding: 8px 12px;">
+                        <i class="fas fa-moon"></i> Dark Mode
+                    </button>
+                </div>
+            </div>
+
+            <!-- Canvas Area -->
+            <div class="canvas-container">
+                <div class="canvas-wrapper">
+                    <canvas id="adsCanvas"></canvas>
+                    <div class="watermark" id="watermark">MarkTika</div>
+                    <!-- Canvas elements will be added here dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class GoogleAdsStudio {
+            constructor() {
+                this.canvas = document.getElementById('adsCanvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.currentFormat = 'inline-rectangle';
+                this.elements = [];
+                this.selectedElement = null;
+                this.isDragging = false;
+                this.isResizing = false;
+                this.dragOffset = { x: 0, y: 0 };
+                this.watermarkEnabled = true;
+                
+                // Google Ads formats
+                this.formats = {
+                    'small-square': { width: 200, height: 200, name: 'Small Square' },
+                    'square': { width: 250, height: 250, name: 'Square' },
+                    'banner': { width: 468, height: 60, name: 'Banner' },
+                    'leaderboard': { width: 728, height: 90, name: 'Leaderboard' },
+                    'inline-rectangle': { width: 300, height: 250, name: 'Inline Rectangle' },
+                    'large-rectangle': { width: 336, height: 280, name: 'Large Rectangle' },
+                    'skyscraper': { width: 120, height: 600, name: 'Skyscraper' },
+                    'half-page': { width: 300, height: 600, name: 'Half Page' }
+                };
+
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.populateFormatSelector();
+                this.populateGradients();
+                this.updateCanvasSize();
+                this.renderCanvas();
+            }
+
+            setupEventListeners() {
+                // Format selection
+                document.getElementById('formatSelector').addEventListener('click', (e) => {
+                    if (e.target.classList.contains('format-btn')) {
+                        this.setFormat(e.target.dataset.format);
+                    }
+                });
+
+                // Gradient selection
+                document.getElementById('gradientGrid').addEventListener('click', (e) => {
+                    if (e.target.classList.contains('gradient-btn')) {
+                        this.setBackground(e.target.dataset.gradient);
+                    }
+                });
+
+                // Text input changes
+                document.getElementById('headlineText').addEventListener('input', () => this.updateTextElements());
+                document.getElementById('descriptionText').addEventListener('input', () => this.updateTextElements());
+                document.getElementById('ctaText').addEventListener('input', () => this.updateCtaElements());
+
+                // Action buttons
+                document.getElementById('addTextBtn').addEventListener('click', () => this.addTextElement());
+                document.getElementById('addCtaBtn').addEventListener('click', () => this.addCtaElement());
+                document.getElementById('exportBtn').addEventListener('click', () => this.exportAd());
+
+                // Watermark toggle
+                document.getElementById('watermarkToggle').addEventListener('change', (e) => {
+                    this.watermarkEnabled = e.target.checked;
+                    document.getElementById('watermark').style.display = e.target.checked ? 'block' : 'none';
+                });
+
+                // Dark mode toggle
+                document.getElementById('darkModeToggle').addEventListener('click', () => this.toggleDarkMode());
+
+                // Canvas interactions
+                this.canvas.addEventListener('mousedown', (e) => this.handleMouseDown(e));
+                this.canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+                this.canvas.addEventListener('mouseup', () => this.handleMouseUp());
+                this.canvas.addEventListener('dblclick', (e) => this.handleDoubleClick(e));
+            }
+
+            populateFormatSelector() {
+                const container = document.getElementById('formatSelector');
+                container.innerHTML = '';
+                
+                Object.entries(this.formats).forEach(([key, format]) => {
+                    const button = document.createElement('button');
+                    button.className = `format-btn ${key === this.currentFormat ? 'active' : ''}`;
+                    button.dataset.format = key;
+                    button.textContent = `${format.name}\n${format.width}×${format.height}`;
+                    container.appendChild(button);
+                });
+            }
+
+            populateGradients() {
+                const gradients = [
+                    'ocean-blue', 'sunset-purple', 'tropical-green', 'forest', 'golden-hour',
+                    'cotton-candy', 'peach', 'berry', 'sky', 'lime', 'deep-space', 'coral-reef',
+                    'midnight', 'desert', 'aurora', 'sunset', 'ocean-depth', 'berry-smoothie',
+                    'forest-mist', 'royal', 'citrus', 'deep-sea', 'warm-fire', 'cool-mint',
+                    'purple-rain', 'sunrise', 'electric', 'twilight', 'coral', 'galaxy'
+                ];
+
+                const container = document.getElementById('gradientGrid');
+                gradients.forEach(gradient => {
+                    const button = document.createElement('button');
+                    button.className = 'gradient-btn';
+                    button.classList.add(`gradient-${gradient}`);
+                    button.dataset.gradient = gradient;
+                    container.appendChild(button);
+                });
+            }
+
+            setFormat(format) {
+                this.currentFormat = format;
+                this.updateCanvasSize();
+                
+                // Update active format button
+                document.querySelectorAll('.format-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.format === format);
+                });
+            }
+
+            setBackground(gradient) {
+                // Remove existing background element
+                this.elements = this.elements.filter(el => el.type !== 'background');
+                
+                // Add new background
+                this.elements.unshift({
+                    type: 'background',
+                    gradient: gradient,
+                    x: 0,
+                    y: 0,
+                    width: this.canvas.width,
+                    height: this.canvas.height
+                });
+                
+                this.renderCanvas();
+            }
+
+            updateCanvasSize() {
+                const format = this.formats[this.currentFormat];
+                this.canvas.width = format.width;
+                this.canvas.height = format.height;
+                this.renderCanvas();
+            }
+
+            addTextElement() {
+                const text = document.getElementById('headlineText').value || 'Your Headline';
+                this.elements.push({
+                    type: 'text',
+                    text: text,
+                    x: 50,
+                    y: 50,
+                    width: 200,
+                    height: 40,
+                    fontSize: 24,
+                    color: '#202124'
+                });
+                this.renderCanvas();
+            }
+
+            addCtaElement() {
+                const text = document.getElementById('ctaText').value || 'Learn More';
+                this.elements.push({
+                    type: 'cta',
+                    text: text,
+                    x: 50,
+                    y: 100,
+                    width: 120,
+                    height: 40,
+                    fontSize: 14
+                });
+                this.renderCanvas();
+            }
+
+            updateTextElements() {
+                this.elements.forEach(el => {
+                    if (el.type === 'text') {
+                        el.text = document.getElementById('headlineText').value || 'Your Headline';
+                    }
+                });
+                this.renderCanvas();
+            }
+
+            updateCtaElements() {
+                this.elements.forEach(el => {
+                    if (el.type === 'cta') {
+                        el.text = document.getElementById('ctaText').value || 'Learn More';
+                    }
+                });
+                this.renderCanvas();
+            }
+
+            handleMouseDown(e) {
+                const rect = this.canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                // Check if clicking on resize handle
+                if (this.selectedElement) {
+                    const handles = this.getResizeHandles(this.selectedElement);
+                    for (const [handle, handleX, handleY] of handles) {
+                        if (this.isPointInHandle(x, y, handleX, handleY)) {
+                            this.isResizing = true;
+                            this.resizeHandle = handle;
+                            return;
+                        }
+                    }
+                }
+
+                // Find clicked element
+                this.selectedElement = null;
+                for (let i = this.elements.length - 1; i >= 0; i--) {
+                    const el = this.elements[i];
+                    if (el.type !== 'background' && this.isPointInElement(x, y, el)) {
+                        this.selectedElement = el;
+                        this.dragOffset.x = x - el.x;
+                        this.dragOffset.y = y - el.y;
+                        this.isDragging = true;
+                        
+                        // Bring to front
+                        this.elements.splice(i, 1);
+                        this.elements.push(el);
+                        break;
+                    }
+                }
+
+                this.renderCanvas();
+            }
+
+            handleMouseMove(e) {
+                if (!this.isDragging && !this.isResizing) return;
+
+                const rect = this.canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                if (this.isDragging && this.selectedElement) {
+                    this.selectedElement.x = x - this.dragOffset.x;
+                    this.selectedElement.y = y - this.dragOffset.y;
+                } else if (this.isResizing && this.selectedElement) {
+                    this.resizeElement(x, y);
+                }
+
+                this.renderCanvas();
+            }
+
+            handleMouseUp() {
+                this.isDragging = false;
+                this.isResizing = false;
+                this.resizeHandle = null;
+            }
+
+            handleDoubleClick(e) {
+                const rect = this.canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                for (const el of this.elements) {
+                    if (el.type === 'text' && this.isPointInElement(x, y, el)) {
+                        const newText = prompt('Enter new text:', el.text);
+                        if (newText !== null) {
+                            el.text = newText;
+                            this.renderCanvas();
+                        }
+                        break;
+                    }
+                }
+            }
+
+            isPointInElement(x, y, element) {
+                return x >= element.x && x <= element.x + element.width &&
+                       y >= element.y && y <= element.y + element.height;
+            }
+
+            isPointInHandle(x, y, handleX, handleY) {
+                const handleSize = 8;
+                return x >= handleX - handleSize && x <= handleX + handleSize &&
+                       y >= handleY - handleSize && y <= handleY + handleSize;
+            }
+
+            getResizeHandles(element) {
+                return [
+                    ['nw', element.x, element.y],
+                    ['ne', element.x + element.width, element.y],
+                    ['sw', element.x, element.y + element.height],
+                    ['se', element.x + element.width, element.y + element.height]
+                ];
+            }
+
+            resizeElement(x, y) {
+                if (!this.selectedElement) return;
+
+                switch (this.resizeHandle) {
+                    case 'nw':
+                        this.selectedElement.width += this.selectedElement.x - x;
+                        this.selectedElement.height += this.selectedElement.y - y;
+                        this.selectedElement.x = x;
+                        this.selectedElement.y = y;
+                        break;
+                    case 'ne':
+                        this.selectedElement.width = x - this.selectedElement.x;
+                        this.selectedElement.height += this.selectedElement.y - y;
+                        this.selectedElement.y = y;
+                        break;
+                    case 'sw':
+                        this.selectedElement.width += this.selectedElement.x - x;
+                        this.selectedElement.height = y - this.selectedElement.y;
+                        this.selectedElement.x = x;
+                        break;
+                    case 'se':
+                        this.selectedElement.width = x - this.selectedElement.x;
+                        this.selectedElement.height = y - this.selectedElement.y;
+                        break;
+                }
+
+                // Minimum size
+                this.selectedElement.width = Math.max(50, this.selectedElement.width);
+                this.selectedElement.height = Math.max(20, this.selectedElement.height);
+            }
+
+            renderCanvas() {
+                // Clear canvas
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+                // Draw elements
+                this.elements.forEach(element => {
+                    switch (element.type) {
+                        case 'background':
+                            this.drawBackground(element);
+                            break;
+                        case 'text':
+                            this.drawText(element);
+                            break;
+                        case 'cta':
+                            this.drawCta(element);
+                            break;
+                    }
+                });
+
+                // Draw selection and resize handles
+                if (this.selectedElement && this.selectedElement.type !== 'background') {
+                    this.drawSelection(this.selectedElement);
+                }
+            }
+
+            drawBackground(element) {
+                const gradient = this.ctx.createLinearGradient(0, 0, element.width, element.height);
+                
+                // Get gradient colors based on gradient name
+                const gradients = {
+                    'ocean-blue': ['#667eea', '#764ba2'],
+                    'sunset-purple': ['#f093fb', '#f5576c'],
+                    'tropical-green': ['#4facfe', '#00f2fe'],
+                    // Add more gradient definitions as needed
+                };
+
+                const colors = gradients[element.gradient] || ['#667eea', '#764ba2'];
+                gradient.addColorStop(0, colors[0]);
+                gradient.addColorStop(1, colors[1]);
+
+                this.ctx.fillStyle = gradient;
+                this.ctx.fillRect(element.x, element.y, element.width, element.height);
+            }
+
+            drawText(element) {
+                this.ctx.fillStyle = element.color;
+                this.ctx.font = `bold ${element.fontSize}px Montserrat`;
+                this.ctx.textAlign = 'left';
+                this.ctx.textBaseline = 'top';
+                
+                // Word wrap
+                const words = element.text.split(' ');
+                let line = '';
+                let y = element.y;
+
+                for (let n = 0; n < words.length; n++) {
+                    const testLine = line + words[n] + ' ';
+                    const metrics = this.ctx.measureText(testLine);
+                    const testWidth = metrics.width;
+
+                    if (testWidth > element.width && n > 0) {
+                        this.ctx.fillText(line, element.x, y);
+                        line = words[n] + ' ';
+                        y += element.fontSize;
+                    } else {
+                        line = testLine;
+                    }
+                }
+                this.ctx.fillText(line, element.x, y);
+            }
+
+            drawCta(element) {
+                // Button background
+                this.ctx.fillStyle = '#4285F4';
+                this.ctx.beginPath();
+                this.ctx.roundRect(element.x, element.y, element.width, element.height, 20);
+                this.ctx.fill();
+
+                // Button text
+                this.ctx.fillStyle = 'white';
+                this.ctx.font = `bold ${element.fontSize}px Inter`;
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+                this.ctx.fillText(
+                    element.text,
+                    element.x + element.width / 2,
+                    element.y + element.height / 2
+                );
+            }
+
+            drawSelection(element) {
+                // Selection border
+                this.ctx.strokeStyle = '#4285F4';
+                this.ctx.lineWidth = 2;
+                this.ctx.setLineDash([5, 5]);
+                this.ctx.strokeRect(element.x - 2, element.y - 2, element.width + 4, element.height + 4);
+                this.ctx.setLineDash([]);
+
+                // Resize handles
+                const handles = this.getResizeHandles(element);
+                handles.forEach(([_, x, y]) => {
+                    this.ctx.fillStyle = '#4285F4';
+                    this.ctx.beginPath();
+                    this.ctx.arc(x, y, 4, 0, 2 * Math.PI);
+                    this.ctx.fill();
+                    this.ctx.strokeStyle = 'white';
+                    this.ctx.lineWidth = 2;
+                    this.ctx.stroke();
+                });
+            }
+
+            toggleDarkMode() {
+                const isDark = document.body.hasAttribute('data-mode');
+                if (isDark) {
+                    document.body.removeAttribute('data-mode');
+                } else {
+                    document.body.setAttribute('data-mode', 'dark');
+                }
+            }
+
+            exportAd() {
+                // Create a temporary canvas for export (higher resolution)
+                const tempCanvas = document.createElement('canvas');
+                const tempCtx = tempCanvas.getContext('2d');
+                const format = this.formats[this.currentFormat];
+                
+                // Scale up for better quality
+                const scale = 2;
+                tempCanvas.width = format.width * scale;
+                tempCanvas.height = format.height * scale;
+                
+                // Scale context
+                tempCtx.scale(scale, scale);
+                
+                // Redraw all elements on temp canvas
+                this.elements.forEach(element => {
+                    switch (element.type) {
+                        case 'background':
+                            this.drawBackgroundOnTemp(tempCtx, element);
+                            break;
+                        case 'text':
+                            this.drawTextOnTemp(tempCtx, element);
+                            break;
+                        case 'cta':
+                            this.drawCtaOnTemp(tempCtx, element);
+                            break;
+                    }
+                });
+
+                // Add watermark if enabled
+                if (this.watermarkEnabled) {
+                    tempCtx.fillStyle = 'rgba(0,0,0,0.3)';
+                    tempCtx.font = 'bold 24px Inter';
+                    tempCtx.textAlign = 'left';
+                    tempCtx.textBaseline = 'bottom';
+                    tempCtx.fillText('MarkTika', 10, format.height - 10);
+                }
+
+                // Download
+                const link = document.createElement('a');
+                link.download = `google-ad-${format.width}x${format.height}.png`;
+                link.href = tempCanvas.toDataURL();
+                link.click();
+            }
+
+            drawBackgroundOnTemp(ctx, element) {
+                const gradient = ctx.createLinearGradient(0, 0, element.width, element.height);
+                const gradients = {
+                    'ocean-blue': ['#667eea', '#764ba2'],
+                    'sunset-purple': ['#f093fb', '#f5576c'],
+                    'tropical-green': ['#4facfe', '#00f2fe'],
+                };
+                const colors = gradients[element.gradient] || ['#667eea', '#764ba2'];
+                gradient.addColorStop(0, colors[0]);
+                gradient.addColorStop(1, colors[1]);
+                ctx.fillStyle = gradient;
+                ctx.fillRect(element.x, element.y, element.width, element.height);
+            }
+
+            drawTextOnTemp(ctx, element) {
+                ctx.fillStyle = element.color;
+                ctx.font = `bold ${element.fontSize}px Montserrat`;
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'top';
+                
+                const words = element.text.split(' ');
+                let line = '';
+                let y = element.y;
+
+                for (let n = 0; n < words.length; n++) {
+                    const testLine = line + words[n] + ' ';
+                    const metrics = ctx.measureText(testLine);
+                    const testWidth = metrics.width;
+
+                    if (testWidth > element.width && n > 0) {
+                        ctx.fillText(line, element.x, y);
+                        line = words[n] + ' ';
+                        y += element.fontSize;
+                    } else {
+                        line = testLine;
+                    }
+                }
+                ctx.fillText(line, element.x, y);
+            }
+
+            drawCtaOnTemp(ctx, element) {
+                ctx.fillStyle = '#4285F4';
+                ctx.beginPath();
+                ctx.roundRect(element.x, element.y, element.width, element.height, 20);
+                ctx.fill();
+
+                ctx.fillStyle = 'white';
+                ctx.font = `bold ${element.fontSize}px Inter`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(
+                    element.text,
+                    element.x + element.width / 2,
+                    element.y + element.height / 2
+                );
+            }
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', () => {
+            new GoogleAdsStudio();
+        });
+    </script>
+</body>
+</html>
