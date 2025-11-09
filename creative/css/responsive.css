@@ -1,0 +1,17 @@
+/* responsive.css */
+
+@media (max-width: 1100px){
+  .app-container{grid-template-columns: 320px 1fr;padding:14px}
+  .left-panel{min-height:640px}
+}
+@media (max-width: 860px){
+  .app-container{grid-template-columns: 1fr; padding:12px}
+  .left-panel{order:2}
+  .main-content{order:1}
+  .canvas-wrapper{min-height:360px}
+  .thumbnail{width:100px;height:64px}
+}
+@media (max-width:480px){
+  .panel-header h1{font-size:15px}
+  .canvas-wrapper{padding:10px}
+}
