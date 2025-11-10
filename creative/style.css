@@ -1,4 +1,4 @@
-/* style.css - Luxury Glassmorphism Design System */
+/* style.css - Luxury Glassmorphism Design System - FIXED */
 
 /* ===== CSS VARIABLES ===== */
 :root {
@@ -13,259 +13,6 @@
     --glass-white: rgba(255, 255, 255, 0.1);
     --glass-border: rgba(255, 255, 255, 0.2);
     --glass-shadow: rgba(0, 0, 0, 0.1);
-
-/* ===== MOBILE NAVIGATION ===== */
-.mobile-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(15, 23, 42, 0.95);
-    backdrop-filter: blur(20px);
-    border-top: 1px solid var(--glass-border);
-    display: none;
-    grid-template-columns: repeat(5, 1fr);
-    z-index: 1000;
-    padding: 0.5rem 0;
-}
-
-.nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.5rem;
-    color: rgba(255, 255, 255, 0.6);
-    text-decoration: none;
-    font-size: 0.7rem;
-    transition: all 0.3s ease;
-}
-
-.nav-item.active {
-    color: var(--gold-light);
-}
-
-.nav-item i {
-    font-size: 1.2rem;
-}
-
-/* ===== GO TO TOP BUTTON ===== */
-.go-to-top {
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    background: var(--gold-gradient);
-    border: none;
-    border-radius: 50%;
-    color: var(--deep-navy);
-    font-size: 1.2rem;
-    cursor: pointer;
-    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
-    transition: all 0.3s ease;
-    z-index: 999;
-    display: none;
-}
-
-.go-to-top:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 25px rgba(245, 158, 11, 0.6);
-}
-
-/* ===== CANVAS DEFAULT TEXT ===== */
-.canvas-container {
-    position: relative;
-    width: 100%;
-    height: 400px;
-    background: var(--glass-gradient);
-    backdrop-filter: var(--glass-blur);
-    border: 2px dashed var(--glass-border);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 2rem 0;
-}
-
-.canvas-default-text {
-    text-align: center;
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.canvas-default-text i {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    display: block;
-}
-
-.canvas-default-text h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.canvas-default-text p {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-/* ===== WATERMARK STYLES ===== */
-.watermark {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    color: rgba(255, 255, 255, 0.3);
-    font-size: 0.8rem;
-    font-weight: 500;
-    pointer-events: none;
-    user-select: none;
-}
-
-.watermark::before {
-    content: "MarkTika Studio";
-}
-
-/* ===== CARD LINK STYLES ===== */
-.tool-card, .platform-card {
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.tool-card:hover .card-btn,
-.platform-card:hover .platform-btn {
-    background: var(--gold-gradient);
-    color: var(--deep-navy);
-}
-
-/* ===== RESPONSIVE FIXES ===== */
-@media (max-width: 768px) {
-    .glass-nav {
-        display: none;
-    }
-    
-    .mobile-nav {
-        display: grid;
-    }
-    
-    .luxury-hero {
-        padding-top: 20px;
-        padding-bottom: 80px;
-    }
-    
-    .go-to-top {
-        bottom: 90px;
-    }
-    
-    /* Adjust card grids for mobile */
-    .tools-grid, .platforms-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-    
-    .luxury-card {
-        padding: 1.5rem;
-    }
-    
-    /* Improve mobile typography */
-    .hero-title {
-        font-size: 2rem;
-    }
-    
-    .section-title {
-        font-size: 1.8rem;
-    }
-    
-    /* Mobile card footer layout */
-    .card-footer {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: stretch;
-    }
-    
-    .card-btn, .platform-btn {
-        width: 100%;
-        justify-content: center;
-    }
-}
-
-@media (max-width: 480px) {
-    .container {
-        padding: 0 1rem;
-    }
-    
-    .hero-container {
-        padding: 0 1rem;
-    }
-    
-    .glass-stats {
-        gap: 1rem;
-    }
-    
-    .stat-card {
-        padding: 1.5rem;
-    }
-    
-    .stat-number {
-        font-size: 2rem;
-    }
-    
-    /* Mobile navigation adjustments */
-    .nav-item {
-        padding: 0.25rem;
-    }
-    
-    .nav-item span {
-        font-size: 0.6rem;
-    }
-    
-    .nav-item i {
-        font-size: 1rem;
-    }
-}
-
-/* Additional responsive utilities */
-@media (max-width: 1024px) and (min-width: 769px) {
-    .tools-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .platforms-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* Touch device optimizations */
-@media (hover: none) and (pointer: coarse) {
-    .luxury-card:hover {
-        transform: none;
-    }
-    
-    .glass-btn:hover {
-        transform: none;
-    }
-    
-    /* Increase tap targets for mobile */
-    .nav-item, .glass-btn {
-        min-height: 44px;
-    }
-}
-
-/* High-resolution displays */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .logo-icon, .card-icon, .platform-icon {
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-}
-
-/* Reduced motion for accessibility */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-}
     
     /* Gradients */
     --gold-gradient: linear-gradient(135deg, var(--gold), var(--gold-light));
@@ -442,6 +189,70 @@ body {
     width: 100%;
 }
 
+/* ===== MOBILE NAVIGATION ===== */
+.mobile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid var(--glass-border);
+    display: none;
+    grid-template-columns: repeat(5, 1fr);
+    z-index: 1000;
+    padding: 0.5rem 0;
+    transition: transform 0.3s ease;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 0.7rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    min-height: 44px;
+}
+
+.nav-item.active {
+    color: var(--gold-light);
+}
+
+.nav-item i {
+    font-size: 1.2rem;
+}
+
+/* ===== GO TO TOP BUTTON ===== */
+.go-to-top {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: var(--gold-gradient);
+    border: none;
+    border-radius: 50%;
+    color: var(--deep-navy);
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
+    transition: all 0.3s ease;
+    z-index: 999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.go-to-top:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(245, 158, 11, 0.6);
+}
+
 /* ===== GLASS BUTTONS ===== */
 .glass-btn {
     background: var(--glass-gradient);
@@ -458,6 +269,9 @@ body {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    text-decoration: none;
+    border: none;
+    font-family: inherit;
 }
 
 .glass-btn::before {
@@ -494,7 +308,7 @@ body {
     display: flex;
     align-items: center;
     position: relative;
-    padding-top: 80px;
+    padding: 80px 0 2rem;
 }
 
 .hero-container {
@@ -674,6 +488,7 @@ body {
     position: relative;
     overflow: hidden;
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .luxury-card:hover {
@@ -888,6 +703,58 @@ body {
     font-size: 0.9rem;
 }
 
+/* ===== CANVAS DEFAULT TEXT ===== */
+.canvas-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background: var(--glass-gradient);
+    backdrop-filter: var(--glass-blur);
+    border: 2px dashed var(--glass-border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.canvas-default-text {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.canvas-default-text i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.canvas-default-text h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.canvas-default-text p {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* ===== WATERMARK STYLES ===== */
+.watermark {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.8rem;
+    font-weight: 500;
+    pointer-events: none;
+    user-select: none;
+}
+
+.watermark::before {
+    content: "MarkTika Studio";
+}
+
 /* ===== AD CONTAINERS ===== */
 .ad-container {
     margin: 2rem 0;
@@ -907,6 +774,7 @@ body {
     backdrop-filter: var(--glass-blur);
     border-top: 1px solid var(--glass-border);
     padding: 4rem 0 2rem;
+    margin-bottom: 60px;
 }
 
 .footer-content {
@@ -955,6 +823,7 @@ body {
     text-decoration: none;
     margin-bottom: 0.5rem;
     transition: color 0.3s ease;
+    cursor: pointer;
 }
 
 .footer-column a:hover {
@@ -988,6 +857,41 @@ body {
     color: var(--gold-light);
 }
 
+/* ===== LOADING OVERLAY ===== */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.loading-content {
+    text-align: center;
+    color: white;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top: 3px solid var(--gold);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 1024px) {
     .hero-container {
@@ -1007,13 +911,22 @@ body {
 }
 
 @media (max-width: 768px) {
-    .nav-container {
-        flex-direction: column;
-        gap: 1rem;
+    .glass-nav {
+        display: none;
     }
     
-    .nav-links {
-        gap: 1rem;
+    .mobile-nav {
+        display: grid;
+    }
+    
+    .luxury-hero {
+        padding-top: 20px;
+        padding-bottom: 80px;
+    }
+    
+    .go-to-top {
+        bottom: 90px;
+        display: none !important;
     }
     
     .hero-title {
@@ -1026,6 +939,26 @@ body {
     
     .section-title {
         font-size: 2rem;
+    }
+    
+    .tools-grid, .platforms-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .luxury-card {
+        padding: 1.5rem;
+    }
+    
+    .card-footer {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .card-btn, .platform-btn {
+        width: 100%;
+        justify-content: center;
     }
     
     .footer-links {
@@ -1045,17 +978,63 @@ body {
         padding: 0 1rem;
     }
     
-    .tools-grid, .platforms-grid {
-        grid-template-columns: 1fr;
+    .hero-container {
+        padding: 0 1rem;
     }
     
-    .luxury-card {
+    .glass-stats {
+        gap: 1rem;
+    }
+    
+    .stat-card {
         padding: 1.5rem;
     }
     
-    .card-footer {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: flex-start;
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .nav-item {
+        padding: 0.25rem;
+    }
+    
+    .nav-item span {
+        font-size: 0.6rem;
+    }
+    
+    .nav-item i {
+        font-size: 1rem;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .luxury-card:hover {
+        transform: none;
+    }
+    
+    .glass-btn:hover {
+        transform: none;
+    }
+    
+    .nav-item, .glass-btn {
+        min-height: 44px;
+    }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
 }
