@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MarkTilka Studio - Complete Design Platform</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -21,6 +24,7 @@
                     <a href="#social-media">Social Media</a>
                     <a href="#professional">Professional</a>
                     <a href="#ecommerce">E-commerce</a>
+                    <a href="#app-stores">App Stores</a>
                 </div>
                 <div class="search-bar">
                     <i class="fas fa-search"></i>
@@ -33,7 +37,6 @@
     <!-- AdSense Banner -->
     <div class="ad-container">
         <div class="container">
-            <!-- AdSense Leaderboard -->
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
@@ -128,19 +131,6 @@
         </div>
     </section>
 
-    <!-- AdSense Rectangle -->
-    <div class="ad-container">
-        <div class="container">
-            <!-- AdSense Rectangle -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                 data-ad-slot="0987654321"
-                 data-ad-format="rectangle"
-                 data-full-width-responsive="true"></ins>
-        </div>
-    </div>
-
     <!-- Design Tools Section -->
     <section class="container" id="design-tools">
         <div class="section-header">
@@ -179,7 +169,894 @@
                 </div>
             </div>
             
-            <!-- More tool cards... -->
+            <!-- Abstract Generator -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-shapes"></i>
+                    </div>
+                    <h3 class="card-title">Abstract Generator</h3>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">Generate artistic abstract designs with geometric shapes and modern art</p>
+                    <div class="card-features">
+                        <span class="feature-tag">Geometric</span>
+                        <span class="feature-tag">Fluid Art</span>
+                        <span class="feature-tag">Modern Art</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-file-image"></i>
+                            <span>PNG, SVG, JPG</span>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="openTool('abstract')">Open Tool</button>
+                </div>
+            </div>
+            
+            <!-- Gradient Generator -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-gradient"></i>
+                    </div>
+                    <h3 class="card-title">Gradient Generator</h3>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">Create beautiful color gradients for backgrounds and design elements</p>
+                    <div class="card-features">
+                        <span class="feature-tag">Linear</span>
+                        <span class="feature-tag">Radial</span>
+                        <span class="feature-tag">Angular</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-code"></i>
+                            <span>CSS, PNG, JPG</span>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="openTool('gradient')">Open Tool</button>
+                </div>
+            </div>
+            
+            <!-- Logo Generator -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <i class="fas fa-signature"></i>
+                    </div>
+                    <h3 class="card-title">Logo Generator</h3>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">Design professional business logos with templates and custom elements</p>
+                    <div class="card-features">
+                        <span class="feature-tag">Templates</span>
+                        <span class="feature-tag">Custom Text</span>
+                        <span class="feature-tag">Icons</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-file-image"></i>
+                            <span>SVG, PNG</span>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="openTool('logo')">Open Tool</button>
+                </div>
+            </div>
+
+            <!-- Typography Generator -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">
+                        <i class="fas fa-text-height"></i>
+                    </div>
+                    <h3 class="card-title">Typography Generator</h3>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">Create beautiful text effects and typography designs</p>
+                    <div class="card-features">
+                        <span class="feature-tag">Font Pairing</span>
+                        <span class="feature-tag">Text Effects</span>
+                        <span class="feature-tag">CSS Ready</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-file-image"></i>
+                            <span>PNG, SVG, CSS</span>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="openTool('typography')">Open Tool</button>
+                </div>
+            </div>
+
+            <!-- Pattern Generator -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                        <i class="fas fa-border-all"></i>
+                    </div>
+                    <h3 class="card-title">Pattern Generator</h3>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">Create seamless patterns and textures for backgrounds</p>
+                    <div class="card-features">
+                        <span class="feature-tag">Seamless</span>
+                        <span class="feature-tag">Textures</span>
+                        <span class="feature-tag">Customizable</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-file-image"></i>
+                            <span>PNG, JPG, SVG</span>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="openTool('pattern')">Open Tool</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AdSense Rectangle -->
+    <div class="ad-container">
+        <div class="container">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="0987654321"
+                 data-ad-format="rectangle"
+                 data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <!-- Social Media Platforms Section -->
+    <section class="container" id="social-media">
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">📱 Social Media Platforms</h2>
+                <p class="section-subtitle">Optimized designs for every social network</p>
+            </div>
+            <a href="#" class="view-all">View All Platforms <i class="fas fa-arrow-right"></i></a>
+        </div>
+        
+        <div class="cards-grid">
+            <!-- Instagram -->
+            <div class="card platform-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <h3 class="card-title">Instagram</h3>
+                </div>
+                <div class="card-body">
+                    <div class="platform-formats">
+                        <div class="format-item">
+                            <span class="format-name">Feed Post</span>
+                            <span class="format-dimensions">1080 × 1080</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Portrait Post</span>
+                            <span class="format-dimensions">1080 × 1350</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Stories</span>
+                            <span class="format-dimensions">1080 × 1920</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Reels Cover</span>
+                            <span class="format-dimensions">1080 × 1920</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Profile Picture</span>
+                            <span class="format-dimensions">320 × 320</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>9 Formats</span>
+                        </div>
+                    </div>
+                    <button class="btn">Open Studio</button>
+                </div>
+            </div>
+            
+            <!-- Facebook -->
+            <div class="card platform-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #1877F2;">
+                        <i class="fab fa-facebook"></i>
+                    </div>
+                    <h3 class="card-title">Facebook</h3>
+                </div>
+                <div class="card-body">
+                    <div class="platform-formats">
+                        <div class="format-item">
+                            <span class="format-name">Feed Image</span>
+                            <span class="format-dimensions">1200 × 630</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Story</span>
+                            <span class="format-dimensions">1080 × 1920</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Reel</span>
+                            <span class="format-dimensions">1080 × 1920</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Page Cover</span>
+                            <span class="format-dimensions">851 × 315</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Profile Picture</span>
+                            <span class="format-dimensions">400 × 400</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>8 Formats</span>
+                        </div>
+                    </div>
+                    <button class="btn">Open Studio</button>
+                </div>
+            </div>
+            
+            <!-- LinkedIn -->
+            <div class="card platform-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #0A66C2;">
+                        <i class="fab fa-linkedin"></i>
+                    </div>
+                    <h3 class="card-title">LinkedIn</h3>
+                </div>
+                <div class="card-body">
+                    <div class="platform-formats">
+                        <div class="format-item">
+                            <span class="format-name">Feed Image</span>
+                            <span class="format-dimensions">1200 × 627</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Square Image</span>
+                            <span class="format-dimensions">1080 × 1080</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Company Cover</span>
+                            <span class="format-dimensions">1128 × 191</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Profile Banner</span>
+                            <span class="format-dimensions">1584 × 396</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Event Cover</span>
+                            <span class="format-dimensions">1920 × 1080</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>7 Formats</span>
+                        </div>
+                    </div>
+                    <button class="btn">Open Studio</button>
+                </div>
+            </div>
+            
+            <!-- TikTok -->
+            <div class="card platform-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #000000;">
+                        <i class="fab fa-tiktok"></i>
+                    </div>
+                    <h3 class="card-title">TikTok</h3>
+                </div>
+                <div class="card-body">
+                    <div class="platform-formats">
+                        <div class="format-item">
+                            <span class="format-name">Video Feed</span>
+                            <span class="format-dimensions">1080 × 1920</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Profile Picture</span>
+                            <span class="format-dimensions">200 × 200</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">LIVE Thumbnail</span>
+                            <span class="format-dimensions">1080 × 1920</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Effect Thumbnail</span>
+                            <span class="format-dimensions">1080 × 1920</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>6 Formats</span>
+                        </div>
+                    </div>
+                    <button class="btn">Open Studio</button>
+                </div>
+            </div>
+
+            <!-- Pinterest -->
+            <div class="card platform-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #E60023;">
+                        <i class="fab fa-pinterest"></i>
+                    </div>
+                    <h3 class="card-title">Pinterest</h3>
+                </div>
+                <div class="card-body">
+                    <div class="platform-formats">
+                        <div class="format-item">
+                            <span class="format-name">Standard Pin</span>
+                            <span class="format-dimensions">1000 × 1500</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Square Pin</span>
+                            <span class="format-dimensions">1000 × 1000</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Idea Pin</span>
+                            <span class="format-dimensions">1080 × 1920</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Board Cover</span>
+                            <span class="format-dimensions">600 × 600</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>5 Formats</span>
+                        </div>
+                    </div>
+                    <button class="btn">Open Studio</button>
+                </div>
+            </div>
+
+            <!-- Twitter -->
+            <div class="card platform-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #1DA1F2;">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                    <h3 class="card-title">Twitter / X</h3>
+                </div>
+                <div class="card-body">
+                    <div class="platform-formats">
+                        <div class="format-item">
+                            <span class="format-name">Feed Image</span>
+                            <span class="format-dimensions">1200 × 675</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Header Banner</span>
+                            <span class="format-dimensions">1500 × 500</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Profile Picture</span>
+                            <span class="format-dimensions">400 × 400</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Card Image</span>
+                            <span class="format-dimensions">800 × 418</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>5 Formats</span>
+                        </div>
+                    </div>
+                    <button class="btn">Open Studio</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional & Advertising Section -->
+    <section class="container" id="professional">
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">💼 Professional & Advertising</h2>
+                <p class="section-subtitle">Design assets for business and marketing</p>
+            </div>
+            <a href="#" class="view-all">View All Tools <i class="fas fa-arrow-right"></i></a>
+        </div>
+        
+        <div class="cards-grid">
+            <!-- Google Ads -->
+            <div class="card platform-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #4285F4;">
+                        <i class="fab fa-google"></i>
+                    </div>
+                    <h3 class="card-title">Google Ads</h3>
+                </div>
+                <div class="card-body">
+                    <div class="platform-formats">
+                        <div class="format-item">
+                            <span class="format-name">Small Square</span>
+                            <span class="format-dimensions">200 × 200</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Leaderboard</span>
+                            <span class="format-dimensions">728 × 90</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Large Rectangle</span>
+                            <span class="format-dimensions">336 × 280</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Skyscraper</span>
+                            <span class="format-dimensions">120 × 600</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Mobile Banner</span>
+                            <span class="format-dimensions">320 × 50</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>18 Formats</span>
+                        </div>
+                    </div>
+                    <button class="btn">Open Studio</button>
+                </div>
+            </div>
+            
+            <!-- Microsoft Ads -->
+            <div class="card platform-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #0078D4;">
+                        <i class="fab fa-microsoft"></i>
+                    </div>
+                    <h3 class="card-title">Microsoft Ads</h3>
+                </div>
+                <div class="card-body">
+                    <div class="platform-formats">
+                        <div class="format-item">
+                            <span class="format-name">Rectangle</span>
+                            <span class="format-dimensions">300 × 250</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Leaderboard</span>
+                            <span class="format-dimensions">728 × 90</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Skyscraper</span>
+                            <span class="format-dimensions">160 × 600</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Large Leaderboard</span>
+                            <span class="format-dimensions">970 × 90</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>4 Formats</span>
+                        </div>
+                    </div>
+                    <button class="btn">Open Studio</button>
+                </div>
+            </div>
+            
+            <!-- Quora -->
+            <div class="card platform-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #B92B27;">
+                        <i class="fab fa-quora"></i>
+                    </div>
+                    <h3 class="card-title">Quora</h3>
+                </div>
+                <div class="card-body">
+                    <div class="platform-formats">
+                        <div class="format-item">
+                            <span class="format-name">Feed Image</span>
+                            <span class="format-dimensions">1200 × 628</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Ad Image</span>
+                            <span class="format-dimensions">1200 × 628</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Cover Image</span>
+                            <span class="format-dimensions">1200 × 300</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>3 Formats</span>
+                        </div>
+                    </div>
+                    <button class="btn">Open Studio</button>
+                </div>
+            </div>
+            
+            <!-- Medium -->
+            <div class="card platform-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #000000;">
+                        <i class="fab fa-medium"></i>
+                    </div>
+                    <h3 class="card-title">Medium</h3>
+                </div>
+                <div class="card-body">
+                    <div class="platform-formats">
+                        <div class="format-item">
+                            <span class="format-name">Featured Image</span>
+                            <span class="format-dimensions">1400 × 788</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Story Header</span>
+                            <span class="format-dimensions">1500 × 900</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Profile Picture</span>
+                            <span class="format-dimensions">400 × 400</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>3 Formats</span>
+                        </div>
+                    </div>
+                    <button class="btn">Open Studio</button>
+                </div>
+            </div>
+
+            <!-- YouTube -->
+            <div class="card platform-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #FF0000;">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                    <h3 class="card-title">YouTube</h3>
+                </div>
+                <div class="card-body">
+                    <div class="platform-formats">
+                        <div class="format-item">
+                            <span class="format-name">Thumbnail</span>
+                            <span class="format-dimensions">1280 × 720</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Channel Banner</span>
+                            <span class="format-dimensions">2560 × 1440</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Shorts</span>
+                            <span class="format-dimensions">1080 × 1920</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Profile Picture</span>
+                            <span class="format-dimensions">800 × 800</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>5 Formats</span>
+                        </div>
+                    </div>
+                    <button class="btn">Open Studio</button>
+                </div>
+            </div>
+
+            <!-- Reddit -->
+            <div class="card platform-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #FF4500;">
+                        <i class="fab fa-reddit"></i>
+                    </div>
+                    <h3 class="card-title">Reddit</h3>
+                </div>
+                <div class="card-body">
+                    <div class="platform-formats">
+                        <div class="format-item">
+                            <span class="format-name">Feed Image</span>
+                            <span class="format-dimensions">1200 × 628</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Header Banner</span>
+                            <span class="format-dimensions">1920 × 384</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Profile Picture</span>
+                            <span class="format-dimensions">256 × 256</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Community Icon</span>
+                            <span class="format-dimensions">256 × 256</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>4 Formats</span>
+                        </div>
+                    </div>
+                    <button class="btn">Open Studio</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- E-commerce Section -->
+    <section class="container" id="ecommerce">
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">🛒 E-commerce Platforms</h2>
+                <p class="section-subtitle">Product images and store designs</p>
+            </div>
+            <a href="#" class="view-all">View All Platforms <i class="fas fa-arrow-right"></i></a>
+        </div>
+        
+        <div class="cards-grid">
+            <!-- Amazon -->
+            <div class="card platform-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #FF9900;">
+                        <i class="fab fa-amazon"></i>
+                    </div>
+                    <h3 class="card-title">Amazon</h3>
+                </div>
+                <div class="card-body">
+                    <div class="platform-formats">
+                        <div class="format-item">
+                            <span class="format-name">Product Image</span>
+                            <span class="format-dimensions">2000 × 2000</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Storefront Banner</span>
+                            <span class="format-dimensions">3000 × 600</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">A+ Content</span>
+                            <span class="format-dimensions">970 × 600</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>4 Formats</span>
+                        </div>
+                    </div>
+                    <button class="btn">Open Studio</button>
+                </div>
+            </div>
+            
+            <!-- Shopify -->
+            <div class="card platform-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #7AB55C;">
+                        <i class="fab fa-shopify"></i>
+                    </div>
+                    <h3 class="card-title">Shopify</h3>
+                </div>
+                <div class="card-body">
+                    <div class="platform-formats">
+                        <div class="format-item">
+                            <span class="format-name">Product Image</span>
+                            <span class="format-dimensions">2048 × 2048</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Slideshow Banner</span>
+                            <span class="format-dimensions">1200 × 800</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Collection Image</span>
+                            <span class="format-dimensions">2048 × 2048</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>3 Formats</span>
+                        </div>
+                    </div>
+                    <button class="btn">Open Studio</button>
+                </div>
+            </div>
+            
+            <!-- Etsy -->
+            <div class="card platform-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #F16521;">
+                        <i class="fab fa-etsy"></i>
+                    </div>
+                    <h3 class="card-title">Etsy</h3>
+                </div>
+                <div class="card-body">
+                    <div class="platform-formats">
+                        <div class="format-item">
+                            <span class="format-name">Product Image</span>
+                            <span class="format-dimensions">2000 × 2000</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Shop Banner</span>
+                            <span class="format-dimensions">1200 × 300</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Profile Picture</span>
+                            <span class="format-dimensions">400 × 400</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>3 Formats</span>
+                        </div>
+                    </div>
+                    <button class="btn">Open Studio</button>
+                </div>
+            </div>
+            
+            <!-- eBay -->
+            <div class="card platform-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #0064D2;">
+                        <i class="fab fa-ebay"></i>
+                    </div>
+                    <h3 class="card-title">eBay</h3>
+                </div>
+                <div class="card-body">
+                    <div class="platform-formats">
+                        <div class="format-item">
+                            <span class="format-name">Product Image</span>
+                            <span class="format-dimensions">1600 × 1600</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Store Banner</span>
+                            <span class="format-dimensions">1200 × 270</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>2 Formats</span>
+                        </div>
+                    </div>
+                    <button class="btn">Open Studio</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Stores Section -->
+    <section class="container" id="app-stores">
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">📱 App Stores & Digital Platforms</h2>
+                <p class="section-subtitle">App screenshots and store assets</p>
+            </div>
+            <a href="#" class="view-all">View All Platforms <i class="fas fa-arrow-right"></i></a>
+        </div>
+        
+        <div class="cards-grid">
+            <!-- Apple App Store -->
+            <div class="card platform-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #000000;">
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <h3 class="card-title">Apple App Store</h3>
+                </div>
+                <div class="card-body">
+                    <div class="platform-formats">
+                        <div class="format-item">
+                            <span class="format-name">iPhone Screenshot</span>
+                            <span class="format-dimensions">1284 × 2778</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">iPad Screenshot</span>
+                            <span class="format-dimensions">2048 × 2732</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">App Icon</span>
+                            <span class="format-dimensions">1024 × 1024</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">App Preview</span>
+                            <span class="format-dimensions">1080 × 1920</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>5 Formats</span>
+                        </div>
+                    </div>
+                    <button class="btn">Open Studio</button>
+                </div>
+            </div>
+            
+            <!-- Google Play Store -->
+            <div class="card platform-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #4285F4;">
+                        <i class="fab fa-google-play"></i>
+                    </div>
+                    <h3 class="card-title">Google Play Store</h3>
+                </div>
+                <div class="card-body">
+                    <div class="platform-formats">
+                        <div class="format-item">
+                            <span class="format-name">Phone Screenshot</span>
+                            <span class="format-dimensions">1080 × 1920</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">Feature Graphic</span>
+                            <span class="format-dimensions">1024 × 500</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">App Icon</span>
+                            <span class="format-dimensions">512 × 512</span>
+                        </div>
+                        <div class="format-item">
+                            <span class="format-name">TV Banner</span>
+                            <span class="format-dimensions">1280 × 720</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>5 Formats</span>
+                        </div>
+                    </div>
+                    <button class="btn">Open Studio</button>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -198,6 +1075,7 @@
                         <a href="#" onclick="openTool('abstract')">Abstract Generator</a>
                         <a href="#" onclick="openTool('gradient')">Gradient Generator</a>
                         <a href="#" onclick="openTool('logo')">Logo Generator</a>
+                        <a href="#" onclick="openTool('typography')">Typography Generator</a>
                     </div>
                 </div>
                 <div class="footer-column">
@@ -206,6 +1084,7 @@
                         <a href="#social-media">Social Media</a>
                         <a href="#professional">Professional</a>
                         <a href="#ecommerce">E-commerce</a>
+                        <a href="#app-stores">App Stores</a>
                         <a href="#advertising">Advertising</a>
                     </div>
                 </div>
@@ -216,6 +1095,7 @@
                         <a href="#">Documentation</a>
                         <a href="#">Tutorials</a>
                         <a href="#">Contact Us</a>
+                        <a href="#">API</a>
                     </div>
                 </div>
             </div>
@@ -231,7 +1111,6 @@
         </div>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script src="script.js"></script>
     <script src="ads/ad-manager.js"></script>
 </body>
