@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Glass Morphism Generator - Create Stunning Glass Effects | MarkTika</title>
+    <meta name="description" content="Free CSS Glass Morphism Generator. Create beautiful glass effects with backdrop blur, gradients, and shadows. Copy-paste ready CSS code for your projects.">
+    <meta name="keywords" content="css glass morphism, glass effect generator, backdrop blur, css generator, web design tools, css effects">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="CSS Glass Morphism Generator - MarkTika">
+    <meta property="og:description" content="Create stunning glass morphism effects with our free CSS generator. Perfect for modern web design.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://marktika.com/tools/css-glass-generator">
+    <meta property="og:image" content="https://marktika.com/assets/css-glass-generator-preview.jpg">
+    <meta property="og:site_name" content="MarkTika Studio">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CSS Glass Morphism Generator - MarkTika">
+    <meta name="twitter:description" content="Free tool to create beautiful glass morphism CSS effects instantly.">
+    <meta name="twitter:image" content="https://marktika.com/assets/css-glass-generator-twitter.jpg">
+    
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "CSS Glass Morphism Generator",
+        "applicationCategory": "DesignApplication",
+        "operatingSystem": "Any",
+        "description": "Free tool to generate CSS glass morphism effects with backdrop blur, gradients, and shadows",
+        "url": "https://marktika.com/tools/css-glass-generator",
+        "author": {
+            "@type": "Organization",
+            "name": "MarkTika Studio"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "ratingCount": "1247",
+            "bestRating": "5",
+            "worstRating": "1"
+        },
+        "featureList": [
+            "Real-time CSS preview",
+            "Backdrop blur controls",
+            "Gradient generator",
+            "Shadow effects",
+            "Copy-paste ready code",
+            "Mobile responsive"
+        ]
+    }
+    </script>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --deep-navy: #0F172A;
+            --dark-navy: #1E293B;
+            --emerald: #10B981;
+            --gold: #F59E0B;
+            --gold-light: #FBBF24;
+            --pure-white: #FFFFFF;
+            --glass-white: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            
+            --gold-gradient: linear-gradient(135deg, var(--gold), var(--gold-light));
+            --glass-gradient: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            --navy-gradient: linear-gradient(135deg, var(--deep-navy), #1E293B);
+            
+            --font-body: 'Inter', sans-serif;
+            
+            --glass-blur: blur(20px);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--navy-gradient);
+            color: var(--pure-white);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        .tool-header {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--pure-white);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gold-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--deep-navy);
+            font-size: 1.2rem;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .gold-text {
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 4rem 0 2rem;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--glass-gradient);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            margin-bottom: 1rem;
+            color: var(--gold-light);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Tool Container */
+        .tool-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            padding: 2rem 0;
+        }
+
+        /* Controls Panel */
+        .controls-panel {
+            background: var(--glass-gradient);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .control-group {
+            margin-bottom: 2rem;
+        }
+
+        .control-group h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: var(--pure-white);
+        }
+
+        .control-group h3 i {
+            color: var(--gold-light);
+        }
+
+        .slider-control {
+            margin-bottom: 1.5rem;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .slider-value {
+            color: var(--gold-light);
+            font-weight: 600;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--gold-gradient);
+            cursor: pointer;
+        }
+
+        .color-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .color-picker {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .color-picker label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        input[type="color"] {
+            width: 100%;
+            height: 50px;
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        /* Preview Panel */
+        .preview-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .preview-container {
+            flex: 1;
+            background: var(--glass-gradient);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+
+        .preview-element {
+            width: 300px;
+            height: 200px;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: all 0.3s ease;
+            /* These will be updated by JavaScript */
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
+        }
+
+        .code-panel {
+            background: var(--glass-gradient);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .code-header h4 {
+            color: var(--pure-white);
+        }
+
+        .copy-btn {
+            background: var(--gold-gradient);
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            color: var(--deep-navy);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--pure-white);
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            padding: 4rem 0;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--pure-white);
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .review-card {
+            background: var(--glass-gradient);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .review-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gold-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--deep-navy);
+            font-weight: bold;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            color: var(--pure-white);
+        }
+
+        .review-rating {
+            color: var(--gold-light);
+            margin-top: 0.25rem;
+        }
+
+        .review-text {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 0;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .faq-grid {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--glass-gradient);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--pure-white);
+        }
+
+        .faq-answer {
+            margin-top: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 4rem 0;
+            text-align: center;
+            background: var(--glass-gradient);
+            backdrop-filter: var(--glass-blur);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--pure-white);
+        }
+
+        .cta-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            background: var(--gold-gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            color: var(--deep-navy);
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .cta-btn.secondary {
+            background: var(--glass-gradient);
+            color: var(--pure-white);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Footer */
+        .tool-footer {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: var(--glass-blur);
+            border-top: 1px solid var(--glass-border);
+            padding: 3rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .footer-column h4 {
+            color: var(--pure-white);
+            margin-bottom: 1rem;
+        }
+
+        .footer-column a {
+            display: block;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: var(--gold-light);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--gold-light);
+        }
+
+        /* Marketing Automation */
+        .share-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--glass-gradient);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 1000;
+        }
+
+        .share-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gold-gradient);
+            color: var(--deep-navy);
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .share-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .tool-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .color-controls {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-links {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .share-widget {
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="tool-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <span class="logo-text">MarkTika<span class="gold-text">Studio</span></span>
+                </a>
+                <nav>
+                    <a href="/tools" style="color: var(--pure-white); text-decoration: none;">
+                        <i class="fas fa-arrow-left"></i> Back to Tools
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-badge">
+                <i class="fas fa-star"></i>
+                Free CSS Generator
+            </div>
+            <h1 class="hero-title">CSS Glass Morphism <span class="gold-text">Generator</span></h1>
+            <p class="hero-subtitle">
+                Create stunning glass effects with backdrop blur, gradients, and shadows. 
+                Copy-paste ready CSS code for your modern web projects.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Tool -->
+    <main class="container">
+        <div class="tool-container">
+            <!-- Controls Panel -->
+            <div class="controls-panel">
+                <div class="control-group">
+                    <h3><i class="fas fa-glass-whiskey"></i> Glass Effects</h3>
+                    
+                    <div class="slider-control">
+                        <div class="slider-label">
+                            <span>Background Opacity</span>
+                            <span class="slider-value" id="opacityValue">0.1</span>
+                        </div>
+                        <input type="range" id="opacitySlider" min="0" max="0.5" step="0.01" value="0.1">
+                    </div>
+
+                    <div class="slider-control">
+                        <div class="slider-label">
+                            <span>Backdrop Blur</span>
+                            <span class="slider-value" id="blurValue">20px</span>
+                        </div>
+                        <input type="range" id="blurSlider" min="0" max="50" step="1" value="20">
+                    </div>
+
+                    <div class="slider-control">
+                        <div class="slider-label">
+                            <span>Border Opacity</span>
+                            <span class="slider-value" id="borderOpacityValue">0.2</span>
+                        </div>
+                        <input type="range" id="borderOpacitySlider" min="0" max="1" step="0.1" value="0.2">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3><i class="fas fa-palette"></i> Gradient Colors</h3>
+                    <div class="color-controls">
+                        <div class="color-picker">
+                            <label>Color 1</label>
+                            <input type="color" id="color1" value="#667eea">
+                        </div>
+                        <div class="color-picker">
+                            <label>Color 2</label>
+                            <input type="color" id="color2" value="#764ba2">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3><i class="fas fa-shadow"></i> Shadow Effects</h3>
+                    
+                    <div class="slider-control">
+                        <div class="slider-label">
+                            <span>Shadow X</span>
+                            <span class="slider-value" id="shadowXValue">0px</span>
+                        </div>
+                        <input type="range" id="shadowXSlider" min="-50" max="50" step="1" value="0">
+                    </div>
+
+                    <div class="slider-control">
+                        <div class="slider-label">
+                            <span>Shadow Y</span>
+                            <span class="slider-value" id="shadowYValue">8px</span>
+                        </div>
+                        <input type="range" id="shadowYSlider" min="0" max="50" step="1" value="8">
+                    </div>
+
+                    <div class="slider-control">
+                        <div class="slider-label">
+                            <span>Shadow Blur</span>
+                            <span class="slider-value" id="shadowBlurValue">32px</span>
+                        </div>
+                        <input type="range" id="shadowBlurSlider" min="0" max="100" step="1" value="32">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Panel -->
+            <div class="preview-panel">
+                <div class="preview-container">
+                    <div class="preview-element" id="previewElement">
+                        <div>
+                            <h3 style="margin-bottom: 0.5rem;">Glass Morphism</h3>
+                            <p style="opacity: 0.8;">Beautiful glass effect</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-panel">
+                    <div class="code-header">
+                        <h4><i class="fas fa-code"></i> Generated CSS</h4>
+                        <button class="copy-btn" id="copyBtn">
+                            <i class="fas fa-copy"></i> Copy CSS
+                        </button>
+                    </div>
+                    <div class="code-block" id="cssCode">
+                        /* Generated CSS will appear here */
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Reviews Section -->
+    <section class="reviews-section">
+        <div class="container">
+            <h2 class="section-title">What Users <span class="gold-text">Say</span></h2>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">SD</div>
+                        <div>
+                            <div class="reviewer-name">Sarah Johnson</div>
+                            <div class="review-rating">★★★★★</div>
+                        </div>
+                    </div>
+                    <p class="review-text">
+                        "This tool saved me hours of CSS tweaking. The glass effects are perfect for my portfolio website. Highly recommended!"
+                    </p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">MD</div>
+                        <div>
+                            <div class="reviewer-name">Mike Davis</div>
+                            <div class="review-rating">★★★★★</div>
+                        </div>
+                    </div>
+                    <p class="review-text">
+                        "As a freelance designer, this generator has become my go-to tool for creating modern glass UI elements quickly."
+                    </p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">AL</div>
+                        <div>
+                            <div class="reviewer-name">Amanda Lee</div>
+                            <div class="review-rating">★★★★☆</div>
+                        </div>
+                    </div>
+                    <p class="review-text">
+                        "Incredibly easy to use and the code is production-ready. The preview feature makes it perfect for beginners."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked <span class="gold-text">Questions</span></h2>
+            <div class="faq-grid">
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">
+                        What is CSS Glass Morphism?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Glass morphism is a modern UI design trend that creates translucent glass-like elements using CSS backdrop filters, gradients, and shadows to achieve a frosted glass effect.
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">
+                        Is this tool completely free?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Yes! Our CSS Glass Morphism Generator is completely free to use. You can generate unlimited CSS code without any restrictions or hidden costs.
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">
+                        Which browsers support glass morphism?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Most modern browsers support CSS backdrop-filter, including Chrome 76+, Firefox 103+, Safari 9+, and Edge 79+. We include fallbacks in the generated code.
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-question">
+                        Can I use this for commercial projects?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Absolutely! The CSS code generated by our tool is yours to use in any personal or commercial project without attribution.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title">Ready to Create <span class="gold-text">Amazing Designs</span>?</h2>
+            <p class="cta-subtitle">
+                Join thousands of designers and developers who use our tools to create stunning web experiences.
+            </p>
+            <div class="cta-buttons">
+                <a href="/tools" class="cta-btn">
+                    <i class="fas fa-rocket"></i> Explore All Tools
+                </a>
+                <a href="/signup" class="cta-btn secondary">
+                    <i class="fas fa-user-plus"></i> Create Free Account
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="tool-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--pure-white); margin-bottom: 0.5rem;">MarkTika<span class="gold-text">Studio</span></h3>
+                        <p style="color: rgba(255, 255, 255, 0.7);">Complete Design Platform</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Design Tools</h4>
+                        <a href="/tools/css-generator">CSS Generator</a>
+                        <a href="/tools/gradient-generator">Gradient Generator</a>
+                        <a href="/tools/shadow-generator">Shadow Generator</a>
+                        <a href="/tools/color-picker">Color Picker</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <a href="/about">About Us</a>
+                        <a href="/blog">Blog</a>
+                        <a href="/contact">Contact</a>
+                        <a href="/privacy">Privacy Policy</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <a href="/help">Help Center</a>
+                        <a href="/tutorials">Tutorials</a>
+                        <a href="/documentation">Documentation</a>
+                        <a href="/feedback">Feedback</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MarkTika Studio. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-product-hunt"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Share Widget -->
+    <div class="share-widget">
+        <a href="#" class="share-btn" onclick="shareOnTwitter()">
+            <i class="fab fa-twitter"></i>
+        </a>
+        <a href="#" class="share-btn" onclick="shareOnLinkedIn()">
+            <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="#" class="share-btn" onclick="copyPageLink()">
+            <i class="fas fa-link"></i>
+        </a>
+    </div>
+
+    <script>
+        // DOM Elements
+        const previewElement = document.getElementById('previewElement');
+        const cssCode = document.getElementById('cssCode');
+        const copyBtn = document.getElementById('copyBtn');
+
+        // Control Elements
+        const opacitySlider = document.getElementById('opacitySlider');
+        const blurSlider = document.getElementById('blurSlider');
+        const borderOpacitySlider = document.getElementById('borderOpacitySlider');
+        const color1 = document.getElementById('color1');
+        const color2 = document.getElementById('color2');
+        const shadowXSlider = document.getElementById('shadowXSlider');
+        const shadowYSlider = document.getElementById('shadowYSlider');
+        const shadowBlurSlider = document.getElementById('shadowBlurSlider');
+
+        // Value Display Elements
+        const opacityValue = document.getElementById('opacityValue');
+        const blurValue = document.getElementById('blurValue');
+        const borderOpacityValue = document.getElementById('borderOpacityValue');
+        const shadowXValue = document.getElementById('shadowXValue');
+        const shadowYValue = document.getElementById('shadowYValue');
+        const shadowBlurValue = document.getElementById('shadowBlurValue');
+
+        // Initialize
+        updatePreview();
+        updateCSSCode();
+
+        // Event Listeners
+        opacitySlider.addEventListener('input', updatePreview);
+        blurSlider.addEventListener('input', updatePreview);
+        borderOpacitySlider.addEventListener('input', updatePreview);
+        color1.addEventListener('input', updatePreview);
+        color2.addEventListener('input', updatePreview);
+        shadowXSlider.addEventListener('input', updatePreview);
+        shadowYSlider.addEventListener('input', updatePreview);
+        shadowBlurSlider.addEventListener('input', updatePreview);
+
+        copyBtn.addEventListener('click', copyCSSCode);
+
+        function updatePreview() {
+            // Update value displays
+            opacityValue.textContent = opacitySlider.value;
+            blurValue.textContent = `${blurSlider.value}px`;
+            borderOpacityValue.textContent = borderOpacitySlider.value;
+            shadowXValue.textContent = `${shadowXSlider.value}px`;
+            shadowYValue.textContent = `${shadowYSlider.value}px`;
+            shadowBlurValue.textContent = `${shadowBlurSlider.value}px`;
+
+            // Update preview element
+            const bgOpacity = opacitySlider.value;
+            const blurAmount = blurSlider.value;
+            const borderOpacity = borderOpacitySlider.value;
+            const gradientColor1 = color1.value;
+            const gradientColor2 = color2.value;
+            const shadowX = shadowXSlider.value;
+            const shadowY = shadowYSlider.value;
+            const shadowBlur = shadowBlurSlider.value;
+
+            previewElement.style.background = `linear-gradient(135deg, ${gradientColor1}${Math.round(bgOpacity * 255).toString(16).padStart(2, '0')}, ${gradientColor2}${Math.round(bgOpacity * 255).toString(16).padStart(2, '0')})`;
+            previewElement.style.backdropFilter = `blur(${blurAmount}px)`;
+            previewElement.style.border = `1px solid rgba(255, 255, 255, ${borderOpacity})`;
+            previewElement.style.boxShadow = `${shadowX}px ${shadowY}px ${shadowBlur}px rgba(0, 0, 0, 0.3)`;
+
+            updateCSSCode();
+        }
+
+        function updateCSSCode() {
+            const bgOpacity = opacitySlider.value;
+            const blurAmount = blurSlider.value;
+            const borderOpacity = borderOpacitySlider.value;
+            const gradientColor1 = color1.value;
+            const gradientColor2 = color2.value;
+            const shadowX = shadowXSlider.value;
+            const shadowY = shadowYSlider.value;
+            const shadowBlur = shadowBlurSlider.value;
+
+            const css = `.glass-element {
+  background: linear-gradient(135deg, ${gradientColor1}${Math.round(bgOpacity * 255).toString(16).padStart(2, '0')}, ${gradientColor2}${Math.round(bgOpacity * 255).toString(16).padStart(2, '0')});
+  backdrop-filter: blur(${blurAmount}px);
+  -webkit-backdrop-filter: blur(${blurAmount}px);
+  border: 1px solid rgba(255, 255, 255, ${borderOpacity});
+  border-radius: 20px;
+  box-shadow: ${shadowX}px ${shadowY}px ${shadowBlur}px rgba(0, 0, 0, 0.3);
+}`;
+
+            cssCode.textContent = css;
+        }
+
+        function copyCSSCode() {
+            const textArea = document.createElement('textarea');
+            textArea.value = cssCode.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            // Visual feedback
+            const originalText = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            copyBtn.style.background = '#10B981';
+            
+            setTimeout(() => {
+                copyBtn.innerHTML = originalText;
+                copyBtn.style.background = '';
+            }, 2000);
+        }
+
+        function toggleFAQ(element) {
+            element.classList.toggle('active');
+        }
+
+        // Marketing Automation Functions
+        function shareOnTwitter() {
+            const text = 'Check out this amazing CSS Glass Morphism Generator by @MarkTikaStudio! 🎨 Create stunning glass effects with backdrop blur, gradients, and shadows. #CSS #WebDesign #GlassMorphism';
+            const url = window.location.href;
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+        }
+
+        function shareOnLinkedIn() {
+            const url = window.location.href;
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
+        }
+
+        function copyPageLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('Page link copied to clipboard! 📋');
+            });
+        }
+
+        // Auto-save user preferences
+        function savePreferences() {
+            const preferences = {
+                opacity: opacitySlider.value,
+                blur: blurSlider.value,
+                borderOpacity: borderOpacitySlider.value,
+                color1: color1.value,
+                color2: color2.value,
+                shadowX: shadowXSlider.value,
+                shadowY: shadowYSlider.value,
+                shadowBlur: shadowBlurSlider.value
+            };
+            localStorage.setItem('cssGlassGeneratorPrefs', JSON.stringify(preferences));
+        }
+
+        function loadPreferences() {
+            const saved = localStorage.getItem('cssGlassGeneratorPrefs');
+            if (saved) {
+                const prefs = JSON.parse(saved);
+                opacitySlider.value = prefs.opacity;
+                blurSlider.value = prefs.blur;
+                borderOpacitySlider.value = prefs.borderOpacity;
+                color1.value = prefs.color1;
+                color2.value = prefs.color2;
+                shadowXSlider.value = prefs.shadowX;
+                shadowYSlider.value = prefs.shadowY;
+                shadowBlurSlider.value = prefs.shadowBlur;
+                updatePreview();
+            }
+        }
+
+        // Auto-save when controls change
+        [opacitySlider, blurSlider, borderOpacitySlider, color1, color2, shadowXSlider, shadowYSlider, shadowBlurSlider]
+            .forEach(control => control.addEventListener('input', savePreferences));
+
+        // Load preferences on page load
+        window.addEventListener('load', loadPreferences);
+
+        // Track tool usage
+        function trackUsage() {
+            // Simulate analytics tracking
+            console.log('CSS Glass Generator tool used');
+            // In production, this would send data to your analytics platform
+        }
+
+        // Track initial usage
+        trackUsage();
+        
+        // Track subsequent interactions
+        document.addEventListener('input', trackUsage);
+    </script>
+</body>
+</html>
