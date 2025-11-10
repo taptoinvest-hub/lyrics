@@ -1,40 +1,26 @@
-/* style.css - Luxury Glassmorphism Design System - COMPLETE & FIXED */
+/* style.css - Complete Working Design System */
 
-/* ===== CSS VARIABLES ===== */
 :root {
-    /* Luxury Color Palette */
     --deep-navy: #0F172A;
     --dark-navy: #1E293B;
     --emerald: #10B981;
     --gold: #F59E0B;
     --gold-light: #FBBF24;
-    --gold-dark: #D97706;
     --pure-white: #FFFFFF;
     --glass-white: rgba(255, 255, 255, 0.1);
     --glass-border: rgba(255, 255, 255, 0.2);
-    --glass-shadow: rgba(0, 0, 0, 0.1);
     
-    /* Gradients */
     --gold-gradient: linear-gradient(135deg, var(--gold), var(--gold-light));
-    --emerald-gradient: linear-gradient(135deg, var(--emerald), #34D399);
     --glass-gradient: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
     --navy-gradient: linear-gradient(135deg, var(--deep-navy), #1E293B);
     
-    /* Typography */
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Inter', sans-serif;
     
-    /* Spacing */
-    --section-padding: 5rem 0;
-    --container-max: 1400px;
-    
-    /* Effects */
     --glass-blur: blur(20px);
     --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
-    --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
-/* ===== RESET & BASE STYLES ===== */
 * {
     margin: 0;
     padding: 0;
@@ -51,16 +37,15 @@ body {
     color: var(--pure-white);
     line-height: 1.6;
     overflow-x: hidden;
-    padding-bottom: 0;
 }
 
 .container {
-    max-width: var(--container-max);
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 2rem;
 }
 
-/* ===== LUXURY BACKGROUND ===== */
+/* Luxury Background */
 .luxury-bg {
     position: fixed;
     top: 0;
@@ -77,19 +62,8 @@ body {
     height: 100%;
     background-image: 
         radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%);
     animation: particleFloat 20s ease-in-out infinite;
-}
-
-.gradient-waves {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(ellipse at 0% 0%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-        radial-gradient(ellipse at 100% 100%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
-    animation: wavePulse 15s ease-in-out infinite;
 }
 
 @keyframes particleFloat {
@@ -97,12 +71,7 @@ body {
     50% { transform: translateY(-20px) scale(1.02); }
 }
 
-@keyframes wavePulse {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; }
-}
-
-/* ===== GLASS NAVIGATION ===== */
+/* Glass Navigation */
 .glass-nav {
     position: fixed;
     top: 0;
@@ -112,11 +81,10 @@ body {
     backdrop-filter: var(--glass-blur);
     border-bottom: 1px solid var(--glass-border);
     z-index: 1000;
-    transition: all 0.3s ease;
 }
 
 .nav-container {
-    max-width: var(--container-max);
+    max-width: 1400px;
     margin: 0 auto;
     padding: 1rem 2rem;
     display: flex;
@@ -190,7 +158,7 @@ body {
     width: 100%;
 }
 
-/* ===== MOBILE NAVIGATION ===== */
+/* Mobile Navigation */
 .mobile-nav {
     position: fixed;
     bottom: 0;
@@ -203,7 +171,6 @@ body {
     grid-template-columns: repeat(5, 1fr);
     z-index: 1000;
     padding: 0.5rem 0;
-    transition: transform 0.3s ease;
 }
 
 .nav-item {
@@ -228,7 +195,7 @@ body {
     font-size: 1.2rem;
 }
 
-/* ===== GO TO TOP BUTTON ===== */
+/* Go to Top Button */
 .go-to-top {
     position: fixed;
     bottom: 80px;
@@ -244,7 +211,7 @@ body {
     box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
     transition: all 0.3s ease;
     z-index: 999;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
 }
@@ -254,7 +221,7 @@ body {
     box-shadow: 0 6px 25px rgba(245, 158, 11, 0.6);
 }
 
-/* ===== GLASS BUTTONS ===== */
+/* Glass Buttons */
 .glass-btn {
     background: var(--glass-gradient);
     backdrop-filter: var(--glass-blur);
@@ -303,7 +270,7 @@ body {
     font-weight: 600;
 }
 
-/* ===== LUXURY HERO SECTION ===== */
+/* Luxury Hero Section */
 .luxury-hero {
     min-height: 100vh;
     display: flex;
@@ -313,7 +280,7 @@ body {
 }
 
 .hero-container {
-    max-width: var(--container-max);
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 2rem;
     display: grid;
@@ -363,7 +330,7 @@ body {
     line-height: 1.6;
 }
 
-/* ===== GLASS STATS ===== */
+/* Glass Stats */
 .glass-stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -436,9 +403,9 @@ body {
     font-weight: 500;
 }
 
-/* ===== LUXURY SECTIONS ===== */
+/* Luxury Sections */
 .luxury-section {
-    padding: var(--section-padding);
+    padding: 5rem 0;
     position: relative;
 }
 
@@ -473,7 +440,7 @@ body {
     color: rgba(255, 255, 255, 0.7);
 }
 
-/* ===== LUXURY CARDS ===== */
+/* Luxury Cards */
 .tools-grid, .platforms-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -538,8 +505,6 @@ body {
 .bg-gradient-4 { background: linear-gradient(135deg, #43e97b, #38f9d7); }
 .bg-gradient-5 { background: linear-gradient(135deg, #ff9a9e, #fecfef); }
 .bg-gradient-6 { background: linear-gradient(135deg, #a8edea, #fed6e3); }
-.bg-gradient-7 { background: linear-gradient(135deg, #d299c2, #fef9d7); }
-.bg-gradient-8 { background: linear-gradient(135deg, #89f7fe, #66a6ff); }
 
 .card-badge {
     display: flex;
@@ -627,25 +592,12 @@ body {
     font-size: 1.2rem;
 }
 
-/* Platform Gradients */
 .instagram-gradient { background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D); }
 .facebook-gradient { background: #1877F2; }
 .linkedin-gradient { background: #0A66C2; }
-.tiktok-gradient { background: #000000; }
-.pinterest-gradient { background: #E60023; }
-.twitter-gradient { background: #1DA1F2; }
-.youtube-gradient { background: #FF0000; }
 .google-gradient { background: #4285F4; }
-.microsoft-gradient { background: #0078D4; }
-.quora-gradient { background: #B92B27; }
-.medium-gradient { background: #000000; }
-.reddit-gradient { background: #FF4500; }
 .amazon-gradient { background: #FF9900; }
-.shopify-gradient { background: #7AB55C; }
-.etsy-gradient { background: #F16521; }
-.ebay-gradient { background: #0064D2; }
 .apple-gradient { background: #000000; }
-.googleplay-gradient { background: #4285F4; }
 
 .platform-name {
     font-size: 1.5rem;
@@ -704,38 +656,7 @@ body {
     font-size: 0.9rem;
 }
 
-/* ===== VIEW ALL CARD ===== */
-.view-all-card {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: var(--glass-gradient);
-    border: 2px dashed var(--glass-border);
-}
-
-.view-all-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-}
-
-.view-all-content i {
-    font-size: 3rem;
-    color: var(--gold-light);
-}
-
-.view-all-content h3 {
-    font-size: 1.5rem;
-    font-weight: 600;
-}
-
-.view-all-btn {
-    margin-top: 1rem;
-}
-
-/* ===== AD CONTAINERS ===== */
+/* Ad Containers */
 .ad-container {
     margin: 2rem 0;
 }
@@ -759,11 +680,6 @@ body {
     padding: 2rem;
     color: rgba(255, 255, 255, 0.6);
     text-align: center;
-    min-height: 90px;
-}
-
-.ad-placeholder.rectangle {
-    min-height: 250px;
 }
 
 .ad-placeholder i {
@@ -771,17 +687,11 @@ body {
     margin-bottom: 0.5rem;
 }
 
-.ad-placeholder span {
-    font-weight: 500;
-    margin-bottom: 0.25rem;
+.ad-placeholder.rectangle {
+    height: 250px;
 }
 
-.ad-placeholder small {
-    font-size: 0.8rem;
-    opacity: 0.7;
-}
-
-/* ===== LUXURY FOOTER ===== */
+/* Luxury Footer */
 .luxury-footer {
     background: rgba(15, 23, 42, 0.8);
     backdrop-filter: var(--glass-blur);
@@ -869,7 +779,7 @@ body {
     color: var(--gold-light);
 }
 
-/* ===== LOADING OVERLAY ===== */
+/* Loading Overlay */
 .loading-overlay {
     position: fixed;
     top: 0;
@@ -904,7 +814,7 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
+/* Responsive Design */
 @media (max-width: 1024px) {
     .hero-container {
         grid-template-columns: 1fr;
@@ -939,7 +849,6 @@ body {
     .go-to-top {
         bottom: 80px;
         right: 20px;
-        display: flex !important;
     }
     
     .hero-title {
@@ -984,10 +893,6 @@ body {
         gap: 1rem;
         text-align: center;
     }
-    
-    body {
-        padding-bottom: 60px;
-    }
 }
 
 @media (max-width: 480px) {
@@ -1029,29 +934,5 @@ body {
     
     .section-title {
         font-size: 1.8rem;
-    }
-}
-
-/* Touch device optimizations */
-@media (hover: none) and (pointer: coarse) {
-    .luxury-card:hover {
-        transform: none;
-    }
-    
-    .glass-btn:hover {
-        transform: none;
-    }
-    
-    .nav-item, .glass-btn {
-        min-height: 44px;
-    }
-}
-
-/* Reduced motion for accessibility */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
     }
 }
