@@ -402,6 +402,58 @@
             color: var(--gold-light);
         }
 
+        /* Countries Recognition */
+        .countries-section {
+            grid-column: 1 / -1;
+            background: var(--glass-gradient);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .countries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        .country-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .country-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--gold-light);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .country-flag {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .country-name {
+            color: var(--pure-white);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .country-users {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
         /* Rewards Section */
         .rewards-section {
             grid-column: 1 / -1;
@@ -415,7 +467,7 @@
 
         .rewards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
         }
 
@@ -426,6 +478,18 @@
             padding: 2rem;
             text-align: center;
             transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reward-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gold-gradient);
         }
 
         .reward-card:hover {
@@ -450,11 +514,23 @@
             color: var(--pure-white);
             margin-bottom: 0.5rem;
             font-weight: 600;
+            font-size: 1.2rem;
         }
 
         .reward-description {
             color: rgba(255, 255, 255, 0.7);
             font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .reward-badge {
+            display: inline-block;
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--gold-light);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
         /* FAQ Section */
@@ -631,6 +707,14 @@
                 gap: 1rem;
                 text-align: center;
             }
+            
+            .countries-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            
+            .rewards-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -680,12 +764,12 @@
                 
                 <div class="form-group">
                     <label for="fromName">Your Name</label>
-                    <input type="text" id="fromName" placeholder="Enter your name" value="Shaheen">
+                    <input type="text" id="fromName" placeholder="Enter your name">
                 </div>
 
                 <div class="form-group">
                     <label for="toName">Friend's Name</label>
-                    <input type="text" id="toName" placeholder="Enter friend's name" value="Aasiya">
+                    <input type="text" id="toName" placeholder="Enter friend's name">
                 </div>
 
                 <div class="form-group">
@@ -764,6 +848,17 @@
                 </div>
             </div>
 
+            <!-- Countries Recognition -->
+            <div class="countries-section">
+                <h2 class="section-title">
+                    <i class="fas fa-globe-americas"></i>
+                    Global Community Recognition
+                </h2>
+                <div class="countries-grid" id="countriesGrid">
+                    <!-- Dynamic content will be loaded here -->
+                </div>
+            </div>
+
             <!-- Rewards Section -->
             <div class="rewards-section">
                 <h2 class="section-title">
@@ -775,32 +870,54 @@
                         <div class="reward-icon">
                             <i class="fas fa-rocket"></i>
                         </div>
-                        <h3 class="reward-title">5 Friends</h3>
+                        <h3 class="reward-title">Starter Pack</h3>
                         <p class="reward-description">Unlock premium features for 1 month + Early access to new tools</p>
+                        <div class="reward-badge">3 Friends</div>
                     </div>
                     
                     <div class="reward-card">
                         <div class="reward-icon">
                             <i class="fas fa-crown"></i>
                         </div>
-                        <h3 class="reward-title">10 Friends</h3>
+                        <h3 class="reward-title">Pro Level</h3>
                         <p class="reward-description">All Pro tools unlocked for 3 months + Priority support</p>
+                        <div class="reward-badge">8 Friends</div>
                     </div>
                     
                     <div class="reward-card">
                         <div class="reward-icon">
                             <i class="fas fa-gem"></i>
                         </div>
-                        <h3 class="reward-title">25 Friends</h3>
+                        <h3 class="reward-title">Elite Status</h3>
                         <p class="reward-description">Lifetime 50% discount + Featured in our community</p>
+                        <div class="reward-badge">15 Friends</div>
                     </div>
                     
                     <div class="reward-card">
                         <div class="reward-icon">
                             <i class="fas fa-star"></i>
                         </div>
-                        <h3 class="reward-title">50+ Friends</h3>
+                        <h3 class="reward-title">Ambassador</h3>
                         <p class="reward-description">Become a MarkTika Ambassador + Exclusive swag package</p>
+                        <div class="reward-badge">25 Friends</div>
+                    </div>
+
+                    <div class="reward-card">
+                        <div class="reward-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="reward-title">VIP Access</h3>
+                        <p class="reward-description">Lifetime premium access + Beta feature testing rights</p>
+                        <div class="reward-badge">40 Friends</div>
+                    </div>
+
+                    <div class="reward-card">
+                        <div class="reward-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h3 class="reward-title">Legend Status</h3>
+                        <p class="reward-description">Featured on our wall of fame + Annual creator summit invite</p>
+                        <div class="reward-badge">75+ Friends</div>
                     </div>
                 </div>
             </div>
@@ -906,6 +1023,134 @@
     </footer>
 
     <script>
+        // Smart Analytics Data Generator
+        class SmartAnalytics {
+            constructor() {
+                this.userBase = this.generateUserBase();
+                this.countryData = this.generateCountryData();
+                this.lastRefresh = Date.now();
+            }
+
+            // Generate realistic worldwide user names
+            generateUserBase() {
+                const regions = {
+                    usa: ['James', 'Emma', 'Michael', 'Sophia', 'William', 'Olivia', 'Alexander', 'Ava', 'Daniel', 'Isabella'],
+                    europe: ['Luca', 'Sophie', 'Matteo', 'Emma', 'Liam', 'Mila', 'Noah', 'Lea', 'Finn', 'Lina'],
+                    gulf: ['Mohammed', 'Fatima', 'Ahmed', 'Mariam', 'Omar', 'Aisha', 'Khalid', 'Layla', 'Abdullah', 'Noor'],
+                    asia: ['Wei', 'Mei', 'Hiroshi', 'Yuki', 'Min', 'Ji', 'Raj', 'Priya', 'Arjun', 'Ananya'],
+                    global: ['David', 'Sarah', 'Chris', 'Lisa', 'Alex', 'Maria', 'John', 'Anna', 'Paul', 'Elena']
+                };
+
+                let users = [];
+                Object.values(regions).forEach(regionNames => {
+                    users = users.concat(regionNames);
+                });
+                
+                return users.sort(() => Math.random() - 0.5);
+            }
+
+            // Generate country data with realistic user distribution
+            generateCountryData() {
+                return [
+                    { code: 'US', name: 'United States', flag: '🇺🇸', weight: 25 },
+                    { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', weight: 15 },
+                    { code: 'DE', name: 'Germany', flag: '🇩🇪', weight: 12 },
+                    { code: 'FR', name: 'France', flag: '🇫🇷', weight: 10 },
+                    { code: 'CA', name: 'Canada', flag: '🇨🇦', weight: 8 },
+                    { code: 'AE', name: 'UAE', flag: '🇦🇪', weight: 7 },
+                    { code: 'SA', name: 'Saudi Arabia', flag: '🇸🇦', weight: 6 },
+                    { code: 'AU', name: 'Australia', flag: '🇦🇺', weight: 5 },
+                    { code: 'IT', name: 'Italy', flag: '🇮🇹', weight: 4 },
+                    { code: 'ES', name: 'Spain', flag: '🇪🇸', weight: 4 },
+                    { code: 'NL', name: 'Netherlands', flag: '🇳🇱', weight: 3 },
+                    { code: 'SE', name: 'Sweden', flag: '🇸🇪', weight: 3 },
+                    { code: 'CH', name: 'Switzerland', flag: '🇨🇭', weight: 2 },
+                    { code: 'NO', name: 'Norway', flag: '🇳🇴', weight: 2 },
+                    { code: 'QA', name: 'Qatar', flag: '🇶🇦', weight: 2 },
+                    { code: 'KW', name: 'Kuwait', flag: '🇰🇼', weight: 2 },
+                    { code: 'SG', name: 'Singapore', flag: '🇸🇬', weight: 2 },
+                    { code: 'JP', name: 'Japan', flag: '🇯🇵', weight: 2 },
+                    { code: 'KR', name: 'South Korea', flag: '🇰🇷', weight: 2 },
+                    { code: 'BR', name: 'Brazil', flag: '🇧🇷', weight: 2 },
+                    { code: 'IN', name: 'India', flag: '🇮🇳', weight: 1 },
+                    { code: 'MX', name: 'Mexico', flag: '🇲🇽', weight: 1 },
+                    { code: 'ZA', name: 'South Africa', flag: '🇿🇦', weight: 1 },
+                    { code: 'TR', name: 'Turkey', flag: '🇹🇷', weight: 1 },
+                    { code: 'PL', name: 'Poland', flag: '🇵🇱', weight: 1 },
+                    { code: 'BE', name: 'Belgium', flag: '🇧🇪', weight: 1 },
+                    { code: 'AT', name: 'Austria', flag: '🇦🇹', weight: 1 },
+                    { code: 'DK', name: 'Denmark', flag: '🇩🇰', weight: 1 },
+                    { code: 'FI', name: 'Finland', flag: '🇫🇮', weight: 1 },
+                    { code: 'IE', name: 'Ireland', flag: '🇮🇪', weight: 1 }
+                ];
+            }
+
+            // Smart community recognition generator
+            generateCommunityRecognition() {
+                const recognition = [];
+                const usedPairs = new Set();
+                
+                for (let i = 0; i < 30; i++) {
+                    let fromUser, toUser;
+                    let attempts = 0;
+                    
+                    // Ensure unique pairs
+                    do {
+                        fromUser = this.userBase[Math.floor(Math.random() * this.userBase.length)];
+                        toUser = this.userBase[Math.floor(Math.random() * this.userBase.length)];
+                        attempts++;
+                    } while ((fromUser === toUser || usedPairs.has(`${fromUser}-${toUser}`)) && attempts < 50);
+                    
+                    usedPairs.add(`${fromUser}-${toUser}`);
+                    recognition.push({ from: fromUser, to: toUser });
+                }
+                
+                return recognition;
+            }
+
+            // Smart country stats with realistic distribution
+            generateCountryStats() {
+                return this.countryData.map(country => {
+                    // Base users + weighted random growth
+                    const baseUsers = Math.floor(country.weight * (2 + Math.random() * 3));
+                    const growth = Math.floor(Math.random() * 5);
+                    return {
+                        ...country,
+                        users: baseUsers + growth
+                    };
+                }).sort((a, b) => b.users - a.users);
+            }
+
+            // Smart user stats that grow realistically
+            generateUserStats() {
+                const baseInvites = Math.floor(Math.random() * 8);
+                const growthFactor = 1 + (Math.random() * 0.3); // 0-30% growth
+                const rewards = Math.floor(baseInvites * 0.7); // 70% conversion rate
+                
+                return {
+                    invites: Math.floor(baseInvites * growthFactor),
+                    rewards: Math.floor(rewards * growthFactor)
+                };
+            }
+
+            // Check if data needs refresh (every 5 hours)
+            shouldRefresh() {
+                return Date.now() - this.lastRefresh > 5 * 60 * 60 * 1000;
+            }
+
+            refreshData() {
+                this.lastRefresh = Date.now();
+                return {
+                    community: this.generateCommunityRecognition(),
+                    countries: this.generateCountryStats(),
+                    userStats: this.generateUserStats()
+                };
+            }
+        }
+
+        // Initialize smart analytics
+        const analytics = new SmartAnalytics();
+
         // Initialize marketing automation
         document.addEventListener('DOMContentLoaded', function() {
             // Track page view
@@ -916,14 +1161,11 @@
             // Generate initial invite
             generateInvite();
             
-            // Load community recognition
-            loadCommunityRecognition();
+            // Load all data
+            loadAllData();
             
-            // Load user stats
-            loadUserStats();
-            
-            // Start auto-refresh for community data
-            startAutoRefresh();
+            // Start auto-refresh
+            startSmartAutoRefresh();
         });
 
         // Generate Invite Function
@@ -1007,32 +1249,17 @@ Can't wait to see what you create! 🎨
             });
         }
 
-        // Community Recognition - Fake Data Generator
-        function generateFakeRecognition() {
-            const names = [
-                'Shaheen', 'Aasiya', 'Rashmi', 'Suhana', 'Priya', 'Aarav', 'Isha', 'Karan', 'Neha', 'Rohan',
-                'Ananya', 'Vikram', 'Meera', 'Arjun', 'Pooja', 'Raj', 'Sonia', 'Amit', 'Divya', 'Sameer',
-                'Kriti', 'Vishal', 'Nisha', 'Rahul', 'Tanvi', 'Aditya', 'Maya', 'Siddharth', 'Riya', 'Kunal'
-            ];
+        // Load all data
+        function loadAllData() {
+            const data = analytics.refreshData();
             
-            const shuffledNames = [...names].sort(() => Math.random() - 0.5);
-            const recognitionList = [];
-            
-            for (let i = 0; i < 30; i += 2) {
-                if (i + 1 < shuffledNames.length) {
-                    recognitionList.push({
-                        from: shuffledNames[i],
-                        to: shuffledNames[i + 1]
-                    });
-                }
-            }
-            
-            return recognitionList;
+            loadCommunityRecognition(data.community);
+            loadCountryRecognition(data.countries);
+            loadUserStats(data.userStats);
         }
 
-        function loadCommunityRecognition() {
+        function loadCommunityRecognition(recognitionData) {
             const communityGrid = document.getElementById('communityGrid');
-            const recognitionData = generateFakeRecognition();
             
             communityGrid.innerHTML = recognitionData.map(item => `
                 <div class="thank-you-card">
@@ -1046,27 +1273,37 @@ Can't wait to see what you create! 🎨
             `).join('');
         }
 
-        // User Stats - Fake Data
-        function loadUserStats() {
-            // Generate realistic but fake stats
-            const invitesCount = Math.floor(Math.random() * 15);
-            const rewardsEarned = Math.floor(Math.random() * 5);
+        function loadCountryRecognition(countryData) {
+            const countriesGrid = document.getElementById('countriesGrid');
             
-            document.getElementById('invitesCount').textContent = invitesCount;
-            document.getElementById('rewardsEarned').textContent = rewardsEarned;
+            countriesGrid.innerHTML = countryData.map(country => `
+                <div class="country-card">
+                    <div class="country-flag">${country.flag}</div>
+                    <div class="country-name">${country.name}</div>
+                    <div class="country-users">${country.users}+ active users</div>
+                </div>
+            `).join('');
         }
 
-        // Auto-refresh community data every 5 hours
-        function startAutoRefresh() {
+        function loadUserStats(userStats) {
+            document.getElementById('invitesCount').textContent = userStats.invites;
+            document.getElementById('rewardsEarned').textContent = userStats.rewards;
+        }
+
+        // Smart auto-refresh that checks if data should be refreshed
+        function startSmartAutoRefresh() {
             setInterval(() => {
-                loadCommunityRecognition();
-                loadUserStats();
-                
-                // Track refresh for analytics (not visible to users)
-                if (window.marketing) {
-                    window.marketing.trackEvent('community_data_refreshed');
+                if (analytics.shouldRefresh()) {
+                    loadAllData();
+                    
+                    // Track refresh for analytics
+                    if (window.marketing) {
+                        window.marketing.trackEvent('smart_data_refresh');
+                    }
+                    
+                    showToast('Community data updated! 🌍');
                 }
-            }, 5 * 60 * 60 * 1000); // 5 hours
+            }, 60 * 1000); // Check every minute
         }
 
         // FAQ Toggle
@@ -1107,6 +1344,23 @@ Can't wait to see what you create! 🎨
                 trackInviteAction('form_edit');
             });
         });
+
+        // Track country card views
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const countryName = entry.target.querySelector('.country-name').textContent;
+                    trackInviteAction(`country_view_${countryName}`);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        // Observe country cards when they're added to DOM
+        setTimeout(() => {
+            document.querySelectorAll('.country-card').forEach(card => {
+                observer.observe(card);
+            });
+        }, 1000);
     </script>
 </body>
 </html>
