@@ -1,729 +1,861 @@
-// marketing-automation.js - Universal Marketing Functions for MarkTika
-class MarkTikaMarketing {
+// marketing-automation.js - Universal Marketing Automation for MarkTika
+class MarketingAutomation {
     constructor() {
-        this.version = '1.0.0';
+        this.referralCode = this.getReferralCode();
+        this.visitorId = this.getVisitorId();
         this.init();
     }
 
     init() {
+        this.setupReferralSystem();
         this.setupAnalytics();
-        this.setupUserTracking();
         this.setupSocialSharing();
-        this.setupEmailCapture();
         this.setupExitIntent();
-        this.setupScrollTracking();
-        this.setupCTAOptimization();
-        this.setupABTesting();
-        console.log('MarkTika Marketing Automation v' + this.version + ' initialized');
+        this.setupEmailCapture();
+        this.setupUserTracking();
     }
 
-    // ==================== ANALYTICS & TRACKING ====================
-
-    setupAnalytics() {
-        // Google Analytics 4
-        if (typeof gtag !== 'undefined') {
-            this.trackEvent('page_view', {
-                page_title: document.title,
-                page_location: window.location.href,
-                page_path: window.location.pathname
-            });
+    // 🔄 REFERRAL SYSTEM
+    setupReferralSystem() {
+        // Check if this is a referral visit
+        const referringUser = this.getReferringUser();
+        
+        if (referringUser) {
+            this.showThankYouPopup(referringUser);
+            this.trackReferral(referringUser);
         }
 
-        // Custom event tracking
+        // Generate referral code for current user
+        this.generateReferralCode();
+    }
+
+    getReferralCode() {
+        return localStorage.getItem('marktika_referral_code') || this.generateReferralCode();
+    }
+
+    generateReferralCode() {
+        const code = 'MT' + Math.random().toString(36).substr(2, 8).toUpperCase();
+        localStorage.setItem('marktika_referral_code', code);
+        return code;
+    }
+
+    getReferringUser() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('ref') || localStorage.getItem('referring_user');
+    }
+
+    showThankYouPopup(referringUser) {
+        // Store referring user for future visits
+        localStorage.setItem('referring_user', referringUser);
+        
+        // Show popup after page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                this.createThankYouPopup(referringUser);
+            }, 2000);
+        });
+    }
+
+    createThankYouPopup(referringUser) {
+        const popup = document.createElement('div');
+        popup.className = 'referral-popup';
+        popup.innerHTML = `
+            <div class="popup-overlay"></div>
+            <div class="popup-content">
+                <div class="popup-header">
+                    <i class="fas fa-gift"></i>
+                    <h3>Welcome to MarkTika! 🎉</h3>
+                    <button class="close-popup">&times;</button>
+                </div>
+                <div class="popup-body">
+                    <p>Thank you <strong>${referringUser}</strong> for referring you to MarkTika Studio!</p>
+                    <div class="referral-benefits">
+                        <div class="benefit-item">
+                            <i class="fas fa-rocket"></i>
+                            <span>Premium features unlocked</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-gem"></i>
+                            <span>Special referral bonus</span>
+                        </div>
+                    </div>
+                    <div class="referral-actions">
+                        <button class="btn-primary" onclick="marketing.createReferralInvite()">
+                            <i class="fas fa-share-alt"></i>
+                            Invite Friends & Earn Rewards
+                        </button>
+                        <button class="btn-secondary close-popup">
+                            Explore Tools
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Add styles
+        this.injectReferralStyles();
+        
+        document.body.appendChild(popup);
+
+        // Close popup handlers
+        popup.querySelectorAll('.close-popup').forEach(btn => {
+            btn.addEventListener('click', () => {
+                popup.remove();
+            });
+        });
+
+        // Auto-close after 10 seconds
+        setTimeout(() => {
+            if (document.body.contains(popup)) {
+                popup.remove();
+            }
+        }, 10000);
+    }
+
+    createReferralInvite() {
+        const inviteModal = document.createElement('div');
+        inviteModal.className = 'referral-modal';
+        inviteModal.innerHTML = `
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-users"></i> Invite Friends & Earn Rewards</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="referral-stats">
+                        <div class="stat">
+                            <div class="stat-number" id="referralCount">0</div>
+                            <div class="stat-label">Friends Invited</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number" id="rewardPoints">0</div>
+                            <div class="stat-label">Reward Points</div>
+                        </div>
+                    </div>
+                    
+                    <div class="referral-code-section">
+                        <label>Your Referral Code:</label>
+                        <div class="code-container">
+                            <input type="text" value="${this.referralCode}" readonly id="referralCodeInput">
+                            <button onclick="marketing.copyReferralCode()" class="copy-btn">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="referral-link-section">
+                        <label>Your Referral Link:</label>
+                        <div class="link-container">
+                            <input type="text" value="${window.location.origin}?ref=${this.referralCode}" readonly id="referralLinkInput">
+                            <button onclick="marketing.copyReferralLink()" class="copy-btn">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="share-buttons">
+                        <button onclick="marketing.shareOnWhatsApp()" class="share-btn whatsapp">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </button>
+                        <button onclick="marketing.shareOnEmail()" class="share-btn email">
+                            <i class="fas fa-envelope"></i> Email
+                        </button>
+                        <button onclick="marketing.shareOnTwitter()" class="share-btn twitter">
+                            <i class="fab fa-twitter"></i> Twitter
+                        </button>
+                    </div>
+
+                    <div class="rewards-info">
+                        <h4>🎁 Referral Rewards</h4>
+                        <ul>
+                            <li>5 friends → Premium features for 1 month</li>
+                            <li>10 friends → All Pro tools unlocked</li>
+                            <li>25 friends → Lifetime 50% discount</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(inviteModal);
+
+        // Close modal
+        inviteModal.querySelector('.close-modal').addEventListener('click', () => {
+            inviteModal.remove();
+        });
+
+        inviteModal.querySelector('.modal-overlay').addEventListener('click', () => {
+            inviteModal.remove();
+        });
+
+        this.loadReferralStats();
+    }
+
+    // 📊 ANALYTICS & TRACKING
+    setupAnalytics() {
+        // Track page views
         this.trackPageView();
-        this.setupPerformanceTracking();
+        
+        // Track user interactions
+        this.trackUserBehavior();
+        
+        // Track conversion events
+        this.trackConversions();
     }
 
     trackPageView() {
-        const pageData = {
-            url: window.location.href,
-            title: document.title,
-            referrer: document.referrer,
+        const analyticsData = {
+            page: window.location.pathname,
+            referral: this.getReferringUser(),
+            visitorId: this.visitorId,
             timestamp: new Date().toISOString(),
-            userAgent: navigator.userAgent,
-            screenResolution: `${screen.width}x${screen.height}`,
-            language: navigator.language
+            userAgent: navigator.userAgent
         };
 
-        this.saveToStorage('page_views', pageData);
-        this.sendToAnalytics('page_view', pageData);
+        // Send to analytics service
+        this.sendToAnalytics('page_view', analyticsData);
     }
 
-    trackEvent(eventName, eventData = {}) {
-        const event = {
-            name: eventName,
-            data: eventData,
-            timestamp: new Date().toISOString(),
-            sessionId: this.getSessionId()
-        };
-
-        // Google Analytics
-        if (typeof gtag !== 'undefined') {
-            gtag('event', eventName, eventData);
-        }
-
-        // Custom analytics
-        this.saveToStorage('events', event);
-        this.sendToAnalytics('event', event);
-
-        console.log('Tracked event:', eventName, eventData);
-    }
-
-    trackToolUsage(toolName, action = 'used') {
-        this.trackEvent('tool_usage', {
-            tool_name: toolName,
-            action: action,
-            duration: this.getToolUsageDuration(toolName),
-            features_used: this.getUsedFeatures()
-        });
-    }
-
-    // ==================== USER BEHAVIOR TRACKING ====================
-
-    setupUserTracking() {
-        this.generateUserId();
-        this.trackSession();
-        this.setupClickTracking();
-        this.setupFormTracking();
-    }
-
-    generateUserId() {
-        let userId = this.getFromStorage('user_id');
-        if (!userId) {
-            userId = 'user_' + Math.random().toString(36).substr(2, 9);
-            this.saveToStorage('user_id', userId);
-        }
-        return userId;
-    }
-
-    getSessionId() {
-        let sessionId = sessionStorage.getItem('session_id');
-        if (!sessionId) {
-            sessionId = 'session_' + Date.now();
-            sessionStorage.setItem('session_id', sessionId);
-        }
-        return sessionId;
-    }
-
-    trackSession() {
-        const sessionStart = sessionStorage.getItem('session_start');
-        if (!sessionStart) {
-            sessionStorage.setItem('session_start', Date.now());
-            this.trackEvent('session_start');
-        }
-
-        // Track session duration
-        setInterval(() => {
-            const startTime = parseInt(sessionStorage.getItem('session_start'));
-            const duration = Date.now() - startTime;
-            this.saveToStorage('session_duration', duration);
-        }, 30000);
-    }
-
-    setupClickTracking() {
+    trackUserBehavior() {
+        // Track tool usage
         document.addEventListener('click', (e) => {
-            const target = e.target;
-            const clickData = {
-                element: target.tagName.toLowerCase(),
-                id: target.id || 'none',
-                class: target.className || 'none',
-                text: target.textContent?.trim().substring(0, 50) || 'none',
-                href: target.href || 'none',
-                position: this.getElementPosition(target)
-            };
-
-            this.trackEvent('click', clickData);
-        });
-    }
-
-    setupFormTracking() {
-        document.addEventListener('submit', (e) => {
-            const form = e.target;
-            const formData = {
-                form_id: form.id || 'unknown',
-                form_action: form.action || 'unknown',
-                fields: this.getFormFields(form)
-            };
-
-            this.trackEvent('form_submit', formData);
-        });
-
-        // Track form interactions
-        document.addEventListener('input', this.debounce((e) => {
-            if (e.target.matches('input, textarea, select')) {
-                this.trackEvent('form_interaction', {
-                    field_name: e.target.name || e.target.id,
-                    field_type: e.target.type,
-                    value_length: e.target.value.length
+            if (e.target.closest('.tool-card, .card-btn, .copy-btn')) {
+                this.trackEvent('tool_usage', {
+                    tool: e.target.closest('[data-tool]')?.getAttribute('data-tool'),
+                    action: e.target.textContent.trim()
                 });
             }
-        }, 1000));
-    }
+        });
 
-    // ==================== SOCIAL SHARING ====================
-
-    setupSocialSharing() {
-        // Auto-inject share buttons on tool pages
-        this.injectShareWidgets();
-        
         // Track social shares
-        this.trackSocialInteractions();
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.share-btn')) {
+                this.trackEvent('social_share', {
+                    platform: e.target.closest('.share-btn').classList[1]
+                });
+            }
+        });
     }
 
-    injectShareWidgets() {
-        if (document.querySelector('.tool-content')) {
-            const shareWidget = this.createShareWidget();
-            document.body.appendChild(shareWidget);
-        }
+    trackReferral(referringUser) {
+        this.trackEvent('referral_visit', {
+            referring_user: referringUser,
+            new_visitor: this.visitorId
+        });
     }
 
-    createShareWidget() {
-        const widget = document.createElement('div');
-        widget.className = 'marketing-share-widget';
-        widget.innerHTML = `
+    // 📱 SOCIAL SHARING
+    setupSocialSharing() {
+        // Add social sharing buttons to all pages
+        this.injectSocialShareWidget();
+    }
+
+    injectSocialShareWidget() {
+        const shareWidget = document.createElement('div');
+        shareWidget.className = 'social-share-widget';
+        shareWidget.innerHTML = `
+            <div class="share-label">Share this tool:</div>
             <div class="share-buttons">
-                <button onclick="marketing.shareOnTwitter()" class="share-btn twitter">
+                <button class="share-btn twitter" onclick="marketing.shareOnTwitter()">
                     <i class="fab fa-twitter"></i>
                 </button>
-                <button onclick="marketing.shareOnLinkedIn()" class="share-btn linkedin">
+                <button class="share-btn linkedin" onclick="marketing.shareOnLinkedIn()">
                     <i class="fab fa-linkedin"></i>
                 </button>
-                <button onclick="marketing.shareOnFacebook()" class="share-btn facebook">
+                <button class="share-btn facebook" onclick="marketing.shareOnFacebook()">
                     <i class="fab fa-facebook"></i>
                 </button>
-                <button onclick="marketing.copyPageLink()" class="share-btn link">
+                <button class="share-btn copy-link" onclick="marketing.copyPageLink()">
                     <i class="fas fa-link"></i>
                 </button>
             </div>
         `;
 
-        this.addShareWidgetStyles();
-        return widget;
+        // Inject into page if not already present
+        if (!document.querySelector('.social-share-widget')) {
+            document.body.appendChild(shareWidget);
+            this.injectSocialShareStyles();
+        }
     }
 
-    shareOnTwitter() {
-        const text = `Check out this amazing tool on @MarkTikaStudio! ${document.title}`;
-        const url = window.location.href;
-        const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-        
-        this.trackEvent('social_share', { platform: 'twitter', content: document.title });
-        window.open(shareUrl, '_blank', 'width=600,height=400');
+    // 🚪 EXIT INTENT CAPTURE
+    setupExitIntent() {
+        document.addEventListener('mouseout', (e) => {
+            if (e.clientY < 0) {
+                this.showExitIntentPopup();
+            }
+        });
     }
 
-    shareOnLinkedIn() {
-        const url = window.location.href;
-        const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
-        
-        this.trackEvent('social_share', { platform: 'linkedin', content: document.title });
-        window.open(shareUrl, '_blank', 'width=600,height=400');
+    showExitIntentPopup() {
+        if (this.hasSeenExitPopup()) return;
+
+        const popup = document.createElement('div');
+        popup.className = 'exit-intent-popup';
+        popup.innerHTML = `
+            <div class="popup-overlay"></div>
+            <div class="popup-content">
+                <button class="close-popup">&times;</button>
+                <div class="popup-body">
+                    <i class="fas fa-gift"></i>
+                    <h3>Wait! Get 10% Off 🎁</h3>
+                    <p>Subscribe to our newsletter and get exclusive discounts and early access to new tools!</p>
+                    <form class="email-capture-form" onsubmit="marketing.handleEmailCapture(event)">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit">Get My Discount</button>
+                    </form>
+                    <p class="small-text">No spam, unsubscribe anytime</p>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(popup);
+        this.markExitPopupSeen();
     }
 
-    shareOnFacebook() {
-        const url = window.location.href;
-        const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    // 📧 EMAIL CAPTURE
+    setupEmailCapture() {
+        // Add email capture to tool pages
+        this.injectEmailCaptureForms();
+    }
+
+    injectEmailCaptureForms() {
+        // Add to tool pages automatically
+        if (window.location.pathname.includes('/tools/')) {
+            const captureForm = document.createElement('div');
+            captureForm.className = 'email-capture-section';
+            captureForm.innerHTML = `
+                <div class="capture-content">
+                    <h4>💌 Get Pro Tips & Updates</h4>
+                    <p>Join our newsletter for design resources and tool updates</p>
+                    <form class="capture-form" onsubmit="marketing.handleEmailCapture(event)">
+                        <input type="email" placeholder="Your email address" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            `;
+
+            // Insert before footer
+            const footer = document.querySelector('footer');
+            if (footer) {
+                footer.parentNode.insertBefore(captureForm, footer);
+            }
+        }
+    }
+
+    // 👤 USER TRACKING & PERSONALIZATION
+    setupUserTracking() {
+        this.trackUserPreferences();
+        this.personalizeContent();
+    }
+
+    trackUserPreferences() {
+        // Track user's tool preferences
+        const toolPreferences = JSON.parse(localStorage.getItem('tool_preferences') || '{}');
         
-        this.trackEvent('social_share', { platform: 'facebook', content: document.title });
-        window.open(shareUrl, '_blank', 'width=600,height=400');
+        document.addEventListener('click', (e) => {
+            const toolCard = e.target.closest('[data-tool]');
+            if (toolCard) {
+                const toolName = toolCard.getAttribute('data-tool');
+                toolPreferences[toolName] = (toolPreferences[toolName] || 0) + 1;
+                localStorage.setItem('tool_preferences', JSON.stringify(toolPreferences));
+            }
+        });
+    }
+
+    personalizeContent() {
+        // Personalize based on user behavior
+        const preferences = JSON.parse(localStorage.getItem('tool_preferences') || '{}');
+        const favoriteTools = Object.entries(preferences)
+            .sort(([,a], [,b]) => b - a)
+            .slice(0, 3)
+            .map(([tool]) => tool);
+
+        if (favoriteTools.length > 0) {
+            this.highlightFavoriteTools(favoriteTools);
+        }
+    }
+
+    // 🔧 UTILITY FUNCTIONS
+    getVisitorId() {
+        let visitorId = localStorage.getItem('marktika_visitor_id');
+        if (!visitorId) {
+            visitorId = 'visitor_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('marktika_visitor_id', visitorId);
+        }
+        return visitorId;
+    }
+
+    copyReferralCode() {
+        navigator.clipboard.writeText(this.referralCode).then(() => {
+            this.showToast('Referral code copied! 📋');
+        });
+    }
+
+    copyReferralLink() {
+        const link = `${window.location.origin}?ref=${this.referralCode}`;
+        navigator.clipboard.writeText(link).then(() => {
+            this.showToast('Referral link copied! 📋');
+        });
     }
 
     copyPageLink() {
         navigator.clipboard.writeText(window.location.href).then(() => {
-            this.showNotification('Page link copied to clipboard! 📋', 'success');
-            this.trackEvent('link_copied', { type: 'page_link' });
-        }).catch(() => {
-            this.showNotification('Failed to copy link', 'error');
+            this.showToast('Page link copied! 📋');
         });
     }
 
-    // ==================== EMAIL CAPTURE ====================
-
-    setupEmailCapture() {
-        this.setupExitIntentPopup();
-        this.setupScrollBasedCapture();
-        this.setupTimeBasedCapture();
+    // 📤 SHARING FUNCTIONS
+    shareOnWhatsApp() {
+        const text = `Check out MarkTika Studio - Amazing design tools! Use my referral code: ${this.referralCode}`;
+        const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+        window.open(url, '_blank');
     }
 
-    setupExitIntentPopup() {
-        document.addEventListener('mouseout', (e) => {
-            if (e.relatedTarget === null && e.clientY < 50) {
-                if (!this.getFromStorage('exit_intent_shown')) {
-                    this.showEmailCaptureModal('exit_intent');
-                    this.saveToStorage('exit_intent_shown', true);
-                }
+    shareOnEmail() {
+        const subject = 'Check out MarkTika Studio - Amazing Design Tools!';
+        const body = `Hi! I thought you'd love MarkTika Studio - they have incredible design tools that are super helpful.\n\nUse my referral code for special benefits: ${this.referralCode}\n\nCheck it out: ${window.location.origin}`;
+        window.open(`mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+    }
+
+    shareOnTwitter() {
+        const text = `Check out MarkTika Studio - Amazing design tools with glass morphism effects! 🎨\n\nUse my referral code for special benefits: ${this.referralCode}\n\n#DesignTools #WebDesign`;
+        const url = window.location.href;
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+    }
+
+    shareOnLinkedIn() {
+        const url = window.location.href;
+        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
+    }
+
+    shareOnFacebook() {
+        const url = window.location.href;
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+    }
+
+    // 🎯 EVENT HANDLERS
+    handleEmailCapture(event) {
+        event.preventDefault();
+        const email = event.target.querySelector('input[type="email"]').value;
+        
+        this.trackEvent('email_capture', { email });
+        this.showToast('Thanks for subscribing! 🎉');
+        
+        // Reset form
+        event.target.reset();
+    }
+
+    // 📈 LOAD REFERRAL STATS
+    async loadReferralStats() {
+        // Simulate API call
+        const stats = await this.fetchReferralStats();
+        
+        document.getElementById('referralCount').textContent = stats.referralCount;
+        document.getElementById('rewardPoints').textContent = stats.rewardPoints;
+    }
+
+    async fetchReferralStats() {
+        // Simulate API response
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve({
+                    referralCount: Math.floor(Math.random() * 10),
+                    rewardPoints: Math.floor(Math.random() * 100)
+                });
+            }, 500);
+        });
+    }
+
+    // 🎨 STYLE INJECTION
+    injectReferralStyles() {
+        const styles = `
+            .referral-popup {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 10000;
+                font-family: 'Inter', sans-serif;
             }
-        });
-    }
-
-    setupScrollBasedCapture() {
-        let scrollTriggered = false;
-        window.addEventListener('scroll', () => {
-            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
             
-            if (scrollPercent > 70 && !scrollTriggered) {
-                if (!this.getFromStorage('scroll_capture_shown')) {
-                    this.showEmailCaptureModal('scroll_based');
-                    this.saveToStorage('scroll_capture_shown', true);
-                    scrollTriggered = true;
-                }
+            .popup-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                backdrop-filter: blur(5px);
             }
-        });
-    }
-
-    setupTimeBasedCapture() {
-        setTimeout(() => {
-            if (!this.getFromStorage('time_capture_shown')) {
-                this.showEmailCaptureModal('time_based');
-                this.saveToStorage('time_capture_shown', true);
+            
+            .popup-content {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                border-radius: 20px;
+                padding: 2rem;
+                max-width: 500px;
+                width: 90%;
+                color: white;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             }
-        }, 30000); // 30 seconds
-    }
-
-    showEmailCaptureModal(triggerType) {
-        const modal = document.createElement('div');
-        modal.className = 'marketing-email-modal';
-        modal.innerHTML = `
-            <div class="modal-content">
-                <button class="close-btn" onclick="this.parentElement.parentElement.remove()">×</button>
-                <h3>🚀 Get Free Design Resources!</h3>
-                <p>Join 10,000+ designers and get weekly CSS tips, free templates, and exclusive tools.</p>
-                <form onsubmit="marketing.handleEmailCapture(event)" class="email-form">
-                    <input type="email" name="email" placeholder="Enter your email" required>
-                    <button type="submit">Get Free Resources</button>
-                </form>
-                <p class="privacy-text">No spam. Unsubscribe anytime.</p>
-            </div>
+            
+            .popup-header {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .popup-header h3 {
+                margin: 0;
+                flex: 1;
+            }
+            
+            .close-popup {
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            .referral-benefits {
+                margin: 1.5rem 0;
+            }
+            
+            .benefit-item {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .referral-actions {
+                display: flex;
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+            
+            .btn-primary, .btn-secondary {
+                padding: 0.75rem 1.5rem;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                font-weight: 600;
+                transition: transform 0.2s;
+            }
+            
+            .btn-primary {
+                background: #F59E0B;
+                color: #0F172A;
+            }
+            
+            .btn-secondary {
+                background: rgba(255, 255, 255, 0.2);
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+            }
+            
+            .btn-primary:hover, .btn-secondary:hover {
+                transform: translateY(-2px);
+            }
+            
+            /* Modal Styles */
+            .referral-modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 10001;
+            }
+            
+            .modal-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                backdrop-filter: blur(10px);
+            }
+            
+            .modal-content {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: #1E293B;
+                border-radius: 20px;
+                padding: 2rem;
+                max-width: 600px;
+                width: 90%;
+                max-height: 90vh;
+                overflow-y: auto;
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .modal-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 2rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                padding-bottom: 1rem;
+            }
+            
+            .close-modal {
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            .referral-stats {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+                margin-bottom: 2rem;
+            }
+            
+            .stat {
+                text-align: center;
+                padding: 1rem;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+                font-weight: bold;
+                color: #F59E0B;
+            }
+            
+            .code-container, .link-container {
+                display: flex;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .code-container input, .link-container input {
+                flex: 1;
+                padding: 0.75rem;
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 8px;
+                color: white;
+            }
+            
+            .copy-btn {
+                background: #F59E0B;
+                border: none;
+                padding: 0 1rem;
+                border-radius: 8px;
+                color: #0F172A;
+                cursor: pointer;
+                font-weight: 600;
+            }
+            
+            .share-buttons {
+                display: flex;
+                gap: 0.5rem;
+                margin: 1.5rem 0;
+                flex-wrap: wrap;
+            }
+            
+            .share-btn {
+                flex: 1;
+                padding: 0.75rem;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+                min-width: 120px;
+            }
+            
+            .share-btn.whatsapp { background: #25D366; color: white; }
+            .share-btn.email { background: #EA4335; color: white; }
+            .share-btn.twitter { background: #1DA1F2; color: white; }
+            
+            .rewards-info {
+                background: rgba(245, 158, 11, 0.1);
+                padding: 1.5rem;
+                border-radius: 10px;
+                margin-top: 1.5rem;
+            }
+            
+            .rewards-info ul {
+                margin: 1rem 0 0 0;
+                padding-left: 1.5rem;
+            }
+            
+            .rewards-info li {
+                margin-bottom: 0.5rem;
+            }
+            
+            /* Toast notifications */
+            .toast {
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                background: #10B981;
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                z-index: 10002;
+                animation: slideIn 0.3s ease;
+            }
+            
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            /* Social Share Widget */
+            .social-share-widget {
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                background: rgba(15, 23, 42, 0.9);
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 50px;
+                padding: 1rem;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                z-index: 9999;
+            }
+            
+            .share-label {
+                color: white;
+                font-weight: 500;
+                white-space: nowrap;
+            }
+            
+            .social-share-widget .share-buttons {
+                display: flex;
+                gap: 0.5rem;
+                margin: 0;
+            }
+            
+            .social-share-widget .share-btn {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(255, 255, 255, 0.1);
+                color: white;
+                border: none;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            
+            .social-share-widget .share-btn:hover {
+                transform: scale(1.1);
+                background: #F59E0B;
+                color: #0F172A;
+            }
         `;
 
-        document.body.appendChild(modal);
-        this.trackEvent('email_capture_shown', { trigger: triggerType });
-        this.addModalStyles();
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = styles;
+        document.head.appendChild(styleSheet);
     }
 
-    async handleEmailCapture(event) {
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        const email = formData.get('email');
+    injectSocialShareStyles() {
+        // Styles are included in injectReferralStyles
+    }
 
-        // Validate email
-        if (!this.isValidEmail(email)) {
-            this.showNotification('Please enter a valid email address', 'error');
-            return;
-        }
-
-        // Add to email list
-        const result = await this.addToEmailList(email);
+    // 🎪 TOAST NOTIFICATIONS
+    showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
         
-        if (result.success) {
-            this.showNotification('🎉 Welcome! Check your email for free resources.', 'success');
-            this.trackEvent('email_captured', { 
-                email: email, 
-                source: 'modal',
-                tool: this.getCurrentToolName() 
-            });
-            
-            // Remove modal
-            event.target.closest('.marketing-email-modal').remove();
-            
-            // Show thank you message
-            this.showThankYouMessage();
-        } else {
-            this.showNotification('Something went wrong. Please try again.', 'error');
-        }
-    }
-
-    // ==================== EXIT INTENT & ENGAGEMENT ====================
-
-    setupExitIntent() {
-        let mouseY = 0;
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseY = e.clientY;
-            
-            // Trigger exit intent when moving toward top
-            if (e.clientY < 100) {
-                this.trackEvent('exit_intent_detected');
-            }
-        });
-
-        // Track page leave attempts
-        document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'hidden') {
-                this.trackEvent('page_leave_attempt');
-            }
-        });
-    }
-
-    setupScrollTracking() {
-        let maxScroll = 0;
-        
-        window.addEventListener('scroll', this.debounce(() => {
-            const currentScroll = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            maxScroll = Math.max(maxScroll, currentScroll);
-            
-            // Track scroll milestones
-            [25, 50, 75, 90, 100].forEach(milestone => {
-                if (currentScroll >= milestone && maxScroll < milestone + 5) {
-                    this.trackEvent('scroll_milestone', { percentage: milestone });
-                }
-            });
-        }, 500));
-    }
-
-    // ==================== CTA OPTIMIZATION ====================
-
-    setupCTAOptimization() {
-        this.enhanceCTAs();
-        this.trackCTAInteractions();
-    }
-
-    enhanceCTAs() {
-        // Add tracking to all CTA buttons
-        document.querySelectorAll('button, a').forEach(element => {
-            if (this.isCTA(element)) {
-                element.addEventListener('click', () => {
-                    this.trackEvent('cta_click', {
-                        text: element.textContent?.trim(),
-                        type: this.getCTAType(element),
-                        position: this.getElementPosition(element)
-                    });
-                });
-            }
-        });
-    }
-
-    trackCTAInteractions() {
-        // Track CTA visibility
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && this.isCTA(entry.target)) {
-                    this.trackEvent('cta_view', {
-                        text: entry.target.textContent?.trim(),
-                        type: this.getCTAType(entry.target)
-                    });
-                }
-            });
-        }, { threshold: 0.5 });
-
-        document.querySelectorAll('button, a').forEach(element => {
-            if (this.isCTA(element)) observer.observe(element);
-        });
-    }
-
-    // ==================== A/B TESTING ====================
-
-    setupABTesting() {
-        this.initializeABTests();
-    }
-
-    initializeABTests() {
-        // Example A/B test for CTA button color
-        const testVariation = this.getABTestVariation('cta_color');
-        
-        if (testVariation === 'B') {
-            document.querySelectorAll('.cta-btn, .primary-btn').forEach(btn => {
-                btn.style.background = 'linear-gradient(135deg, #10B981, #059669)'; // Green variation
-            });
-        }
-    }
-
-    getABTestVariation(testName) {
-        let variation = this.getFromStorage(`ab_test_${testName}`);
-        if (!variation) {
-            variation = Math.random() > 0.5 ? 'A' : 'B';
-            this.saveToStorage(`ab_test_${testName}`, variation);
-        }
-        return variation;
-    }
-
-    // ==================== UTILITY FUNCTIONS ====================
-
-    debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-
-    saveToStorage(key, value) {
-        try {
-            const data = JSON.parse(localStorage.getItem('marketing_data') || '{}');
-            data[key] = value;
-            localStorage.setItem('marketing_data', JSON.stringify(data));
-        } catch (e) {
-            console.warn('Could not save to storage:', e);
-        }
-    }
-
-    getFromStorage(key) {
-        try {
-            const data = JSON.parse(localStorage.getItem('marketing_data') || '{}');
-            return data[key];
-        } catch (e) {
-            return null;
-        }
-    }
-
-    isValidEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
-    getCurrentToolName() {
-        return document.title.split(' - ')[0] || 'unknown';
-    }
-
-    getElementPosition(element) {
-        const rect = element.getBoundingClientRect();
-        return {
-            x: Math.round(rect.left),
-            y: Math.round(rect.top),
-            visible: rect.top < window.innerHeight && rect.bottom > 0
-        };
-    }
-
-    isCTA(element) {
-        const text = element.textContent?.toLowerCase() || '';
-        const ctaKeywords = ['sign up', 'get started', 'download', 'try now', 'learn more', 'buy now', 'subscribe'];
-        return ctaKeywords.some(keyword => text.includes(keyword)) || 
-               element.classList.contains('cta') ||
-               element.classList.contains('primary-btn');
-    }
-
-    getCTAType(element) {
-        if (element.classList.contains('primary-btn')) return 'primary';
-        if (element.classList.contains('secondary-btn')) return 'secondary';
-        return 'default';
-    }
-
-    showNotification(message, type = 'info') {
-        const notification = document.createElement('div');
-        notification.className = `marketing-notification marketing-notification-${type}`;
-        notification.textContent = message;
-        
-        document.body.appendChild(notification);
+        document.body.appendChild(toast);
         
         setTimeout(() => {
-            notification.remove();
-        }, 5000);
+            toast.remove();
+        }, 3000);
     }
 
-    // ==================== STYLES ====================
-
-    addShareWidgetStyles() {
-        if (!document.getElementById('marketing-styles')) {
-            const styles = document.createElement('style');
-            styles.id = 'marketing-styles';
-            styles.textContent = `
-                .marketing-share-widget {
-                    position: fixed;
-                    bottom: 2rem;
-                    right: 2rem;
-                    background: rgba(15, 23, 42, 0.9);
-                    backdrop-filter: blur(20px);
-                    border: 1px solid rgba(255, 255, 255, 0.2);
-                    border-radius: 50px;
-                    padding: 1rem;
-                    display: flex;
-                    gap: 0.5rem;
-                    z-index: 10000;
-                }
-
-                .share-btn {
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 50%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    background: linear-gradient(135deg, #F59E0B, #FBBF24);
-                    color: #0F172A;
-                    border: none;
-                    cursor: pointer;
-                    transition: transform 0.3s ease;
-                }
-
-                .share-btn:hover {
-                    transform: scale(1.1);
-                }
-
-                .marketing-email-modal {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: rgba(0, 0, 0, 0.8);
-                    backdrop-filter: blur(5px);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    z-index: 10001;
-                }
-
-                .marketing-email-modal .modal-content {
-                    background: linear-gradient(135deg, #1E293B, #0F172A);
-                    border: 1px solid rgba(255, 255, 255, 0.2);
-                    border-radius: 20px;
-                    padding: 2rem;
-                    max-width: 400px;
-                    width: 90%;
-                    position: relative;
-                }
-
-                .marketing-email-modal .close-btn {
-                    position: absolute;
-                    top: 1rem;
-                    right: 1rem;
-                    background: none;
-                    border: none;
-                    color: white;
-                    font-size: 1.5rem;
-                    cursor: pointer;
-                }
-
-                .marketing-email-modal .email-form {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 1rem;
-                    margin: 1.5rem 0;
-                }
-
-                .marketing-email-modal input {
-                    padding: 1rem;
-                    border: 1px solid rgba(255, 255, 255, 0.2);
-                    border-radius: 10px;
-                    background: rgba(255, 255, 255, 0.1);
-                    color: white;
-                }
-
-                .marketing-email-modal button {
-                    background: linear-gradient(135deg, #F59E0B, #FBBF24);
-                    color: #0F172A;
-                    border: none;
-                    padding: 1rem;
-                    border-radius: 10px;
-                    font-weight: 600;
-                    cursor: pointer;
-                }
-
-                .marketing-notification {
-                    position: fixed;
-                    top: 2rem;
-                    right: 2rem;
-                    padding: 1rem 1.5rem;
-                    border-radius: 10px;
-                    color: white;
-                    z-index: 10002;
-                    max-width: 300px;
-                }
-
-                .marketing-notification-success {
-                    background: linear-gradient(135deg, #10B981, #059669);
-                }
-
-                .marketing-notification-error {
-                    background: linear-gradient(135deg, #EF4444, #DC2626);
-                }
-
-                .marketing-notification-info {
-                    background: linear-gradient(135deg, #3B82F6, #2563EB);
-                }
-            `;
-            document.head.appendChild(styles);
-        }
-    }
-
-    addModalStyles() {
-        // Styles are already added in addShareWidgetStyles
-    }
-
-    // ==================== API INTEGRATIONS ====================
-
-    async sendToAnalytics(eventType, data) {
-        // In production, this would send to your analytics platform
-        console.log('Analytics Event:', eventType, data);
+    // 📊 ANALYTICS HELPERS
+    sendToAnalytics(event, data) {
+        // Simulate sending to analytics service
+        console.log('Analytics Event:', event, data);
         
-        // Example: Send to your backend
-        try {
-            await fetch('/api/analytics', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ eventType, data, timestamp: new Date().toISOString() })
-            });
-        } catch (error) {
-            console.warn('Analytics send failed:', error);
+        // In production, this would send to Google Analytics, Mixpanel, etc.
+        if (typeof gtag !== 'undefined') {
+            gtag('event', event, data);
         }
     }
 
-    async addToEmailList(email) {
-        // In production, this would integrate with your email service
-        try {
-            const response = await fetch('/api/email/subscribe', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    email, 
-                    source: 'marketing_automation',
-                    tool: this.getCurrentToolName()
-                })
-            });
-            return await response.json();
-        } catch (error) {
-            console.warn('Email subscription failed:', error);
-            return { success: false };
-        }
-    }
-
-    // ==================== PERFORMANCE TRACKING ====================
-
-    setupPerformanceTracking() {
-        // Track page load performance
-        window.addEventListener('load', () => {
-            const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
-            this.trackEvent('page_performance', {
-                load_time: loadTime,
-                page: window.location.pathname
-            });
+    trackEvent(event, data) {
+        this.sendToAnalytics(event, {
+            ...data,
+            visitorId: this.visitorId,
+            page: window.location.pathname
         });
-
-        // Track Core Web Vitals (simplified)
-        if ('PerformanceObserver' in window) {
-            const observer = new PerformanceObserver((list) => {
-                list.getEntries().forEach(entry => {
-                    this.trackEvent('web_vital', {
-                        name: entry.name,
-                        value: entry.value,
-                        rating: this.getVitalRating(entry.name, entry.value)
-                    });
-                });
-            });
-            observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift'] });
-        }
     }
 
-    getVitalRating(name, value) {
-        // Simplified rating logic
-        if (name === 'LCP') return value < 2500 ? 'good' : value < 4000 ? 'needs-improvement' : 'poor';
-        if (name === 'FID') return value < 100 ? 'good' : value < 300 ? 'needs-improvement' : 'poor';
-        if (name === 'CLS') return value < 0.1 ? 'good' : value < 0.25 ? 'needs-improvement' : 'poor';
-        return 'unknown';
+    // 🚫 EXIT INTENT HELPERS
+    hasSeenExitPopup() {
+        return localStorage.getItem('exit_popup_seen') === 'true';
+    }
+
+    markExitPopupSeen() {
+        localStorage.setItem('exit_popup_seen', 'true');
+    }
+
+    // 🎨 CONTENT PERSONALIZATION
+    highlightFavoriteTools(favoriteTools) {
+        favoriteTools.forEach(tool => {
+            const toolElement = document.querySelector(`[data-tool="${tool}"]`);
+            if (toolElement) {
+                toolElement.style.border = '2px solid #F59E0B';
+                toolElement.style.position = 'relative';
+                
+                const badge = document.createElement('div');
+                badge.style.position = 'absolute';
+                badge.style.top = '10px';
+                badge.style.right = '10px';
+                badge.style.background = '#F59E0B';
+                badge.style.color = '#0F172A';
+                badge.style.padding = '2px 8px';
+                badge.style.borderRadius = '10px';
+                badge.style.fontSize = '0.8rem';
+                badge.style.fontWeight = 'bold';
+                badge.textContent = 'FAVORITE';
+                
+                toolElement.appendChild(badge);
+            }
+        });
     }
 }
 
 // Initialize marketing automation
-const marketing = new MarkTikaMarketing();
+const marketing = new MarketingAutomation();
 
 // Make available globally
-window.MarkTikaMarketing = MarkTikaMarketing;
 window.marketing = marketing;
 
-// Auto-initialize when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => marketing.init());
-} else {
-    marketing.init();
+// Export for module usage
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { MarketingAutomation };
 }
