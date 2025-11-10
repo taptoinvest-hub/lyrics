@@ -16,6 +16,7 @@ class MarkTikaStudio {
         this.setupCardLinks();
         this.setupFooterLinks();
         this.setupAdSense();
+        this.setupSmoothScrolling();
     }
 
     // Navigation Setup
@@ -57,10 +58,15 @@ class MarkTikaStudio {
         if (!mobileNav) return;
         
         let lastScrollTop = 0;
+        let isScrolling;
         
         window.addEventListener('scroll', () => {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             
+            // Clear timeout
+            window.clearTimeout(isScrolling);
+            
+            // Show/hide mobile nav
             if (scrollTop > lastScrollTop && scrollTop > 100) {
                 // Scrolling down
                 mobileNav.style.transform = 'translateY(100%)';
@@ -75,8 +81,35 @@ class MarkTikaStudio {
                 }
             }
             
+            // Set timeout
+            isScrolling = setTimeout(() => {
+                mobileNav.style.transform = 'translateY(0)';
+                if (goToTopBtn && scrollTop > 300) {
+                    goToTopBtn.style.bottom = '80px';
+                }
+            }, 66);
+            
             lastScrollTop = scrollTop;
         }, { passive: true });
+    }
+
+    setupSmoothScrolling() {
+        // Add smooth scrolling to all internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = window.innerWidth <= 768 ? 60 : 80;
+                    const targetPosition = target.offsetTop - offset;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
     }
 
     scrollToSection(sectionId) {
@@ -257,13 +290,22 @@ class MarkTikaStudio {
 
     // Footer Links
     setupFooterLinks() {
-        const footerToolLinks = document.querySelectorAll('.footer-column a[data-tool]');
+        const footerToolLinks = document.querySelectorAll('.footer-column a[href*="tools/"]');
+        const footerSectionLinks = document.querySelectorAll('.footer-column a[href^="#"]');
         
         footerToolLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                const toolName = link.getAttribute('data-tool');
-                this.openToolPage(toolName);
+                const toolUrl = link.getAttribute('href');
+                this.navigateToPage(toolUrl);
+            });
+        });
+
+        footerSectionLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                this.scrollToSection(targetId);
             });
         });
     }
@@ -274,21 +316,26 @@ class MarkTikaStudio {
             'image-cropper': 'tools/image-cropper.html',
             'format-converter': 'tools/format-converter.html',
             'image-compressor': 'tools/image-compressor.html',
+            'canvas-size-adjuster': 'tools/canvas-size-adjuster.html',
+            'bulk-image-processor': 'tools/bulk-image-processor.html',
             'color-adjustment': 'tools/color-adjustment.html',
+            'color-temperature': 'tools/color-temperature.html',
+            'exposure-corrector': 'tools/exposure-corrector.html',
+            'vibrance-tool': 'tools/vibrance-tool.html',
+            'color-channel-mixer': 'tools/color-channel-mixer.html',
+            'black-white-converter': 'tools/black-white-converter.html',
+            'sepia-tone-generator': 'tools/sepia-tone-generator.html',
+            'color-inverter': 'tools/color-inverter.html',
+            'threshold-tool': 'tools/threshold-tool.html',
             'background-generator': 'tools/background-generator.html',
+            'vintage-filter': 'tools/vintage-filter.html',
             'view-all-tools': 'tools/index.html'
         };
 
-        const pageUrl = toolPages[toolName] || 'tools/coming-soon.html';
-        const toolTitle = document.querySelector(`[data-tool="${toolName}"] .card-title`)?.textContent || toolName;
-        
-        this.showLoading(`Opening ${toolTitle}...`);
-        
-        setTimeout(() => {
-            this.hideLoading();
-            console.log(`Navigating to: ${pageUrl}`);
-            alert(`🚀 Opening ${toolTitle}\n\nIn production, this would navigate to:\n${pageUrl}\n\nAll 107 tools are properly linked in the complete version.`);
-        }, 1000);
+        const pageUrl = toolPages[toolName];
+        if (pageUrl) {
+            this.navigateToPage(pageUrl);
+        }
     }
 
     // Platform Navigation
@@ -297,21 +344,36 @@ class MarkTikaStudio {
             'instagram': 'studios/instagram-studio.html',
             'facebook': 'studios/facebook-studio.html',
             'linkedin': 'studios/linkedin-studio.html',
+            'tiktok': 'studios/tiktok-studio.html',
+            'pinterest': 'studios/pinterest-studio.html',
+            'twitter': 'studios/twitter-studio.html',
+            'youtube': 'studios/youtube-studio.html',
             'google-ads': 'studios/google-ads-studio.html',
+            'microsoft-ads': 'studios/microsoft-ads-studio.html',
             'amazon': 'studios/amazon-studio.html',
-            'apple-app-store': 'studios/apple-app-store.html'
+            'apple-app-store': 'studios/apple-app-store-studio.html',
+            'view-all-social': 'studios/index.html'
         };
 
-        const studioUrl = platformStudios[platformName] || 'studios/coming-soon.html';
-        const platformTitle = document.querySelector(`[data-platform="${platformName}"] .platform-name`)?.textContent || platformName;
-        
-        this.showLoading(`Opening ${platformTitle} Studio...`);
+        const studioUrl = platformStudios[platformName];
+        if (studioUrl) {
+            this.navigateToPage(studioUrl);
+        }
+    }
+
+    // Page Navigation
+    navigateToPage(url) {
+        this.showLoading(`Loading ${url.split('/').pop()}...`);
         
         setTimeout(() => {
             this.hideLoading();
-            console.log(`Navigating to: ${studioUrl}`);
-            alert(`🎯 Opening ${platformTitle} Studio\n\nIn production, this would navigate to:\n${studioUrl}\n\nAll platform studios are properly linked.`);
-        }, 1000);
+            // In production, this would be: window.location.href = url;
+            console.log(`Navigating to: ${url}`);
+            
+            // Simulate page navigation for demo
+            const pageName = url.split('/').pop().replace('.html', '').replace(/-/g, ' ');
+            alert(`🚀 Opening: ${pageName}\n\nIn production, this would navigate to:\n${url}\n\nAll tools and studios are properly linked.`);
+        }, 800);
     }
 
     // Loading States
@@ -328,6 +390,9 @@ class MarkTikaStudio {
         `;
         
         document.body.appendChild(loadingOverlay);
+        
+        // Prevent scrolling while loading
+        document.body.style.overflow = 'hidden';
     }
 
     hideLoading() {
@@ -335,6 +400,9 @@ class MarkTikaStudio {
         if (existingOverlay) {
             existingOverlay.remove();
         }
+        
+        // Restore scrolling
+        document.body.style.overflow = '';
     }
 
     // AdSense
@@ -344,6 +412,29 @@ class MarkTikaStudio {
         } catch (e) {
             console.log('AdSense ready');
         }
+    }
+
+    // Utility Methods
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // Performance optimization
+    optimizePerformance() {
+        // Debounce scroll events
+        const optimizedScrollHandler = this.debounce(() => {
+            this.updateActiveSection();
+        }, 10);
+
+        window.addEventListener('scroll', optimizedScrollHandler, { passive: true });
     }
 }
 
@@ -394,12 +485,89 @@ function openFilePicker() {
     input.click();
 }
 
-// Initialize
+// Keyboard Shortcuts
+function setupKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+        // Escape key to close modals/overlays
+        if (e.key === 'Escape') {
+            const loadingOverlay = document.querySelector('.loading-overlay');
+            if (loadingOverlay) {
+                loadingOverlay.remove();
+                document.body.style.overflow = '';
+            }
+        }
+        
+        // Space bar to scroll down (when not in input)
+        if (e.key === ' ' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+            window.scrollBy(0, window.innerHeight * 0.8);
+        }
+    });
+}
+
+// Touch Device Detection
+function isTouchDevice() {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+}
+
+// Initialize touch device optimizations
+function initTouchOptimizations() {
+    if (isTouchDevice()) {
+        // Add touch-specific optimizations
+        document.body.classList.add('touch-device');
+        
+        // Increase tap targets for mobile
+        const interactiveElements = document.querySelectorAll('.glass-btn, .nav-item, .luxury-card');
+        interactiveElements.forEach(el => {
+            el.style.cursor = 'pointer';
+        });
+    }
+}
+
+// Performance Monitoring
+function setupPerformanceMonitoring() {
+    // Log page load performance
+    window.addEventListener('load', () => {
+        const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+        console.log(`Page loaded in ${loadTime}ms`);
+    });
+}
+
+// Error Handling
+function setupErrorHandling() {
+    window.addEventListener('error', (e) => {
+        console.error('Global error:', e.error);
+    });
+    
+    window.addEventListener('unhandledrejection', (e) => {
+        console.error('Unhandled promise rejection:', e.reason);
+    });
+}
+
+// Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    new MarkTikaStudio();
+    // Initialize main application
+    const studio = new MarkTikaStudio();
+    
+    // Setup additional features
+    setupKeyboardShortcuts();
+    initTouchOptimizations();
+    setupPerformanceMonitoring();
+    setupErrorHandling();
+    
+    // Performance optimizations
+    studio.optimizePerformance();
+    
+    console.log('MarkTika Studio initialized successfully');
 });
 
-// Global Functions
+// Global Functions for tool pages
+window.MarkTikaStudio = MarkTikaStudio;
 window.addWatermark = addWatermark;
 window.createCanvasDefaultText = createCanvasDefaultText;
 window.openFilePicker = openFilePicker;
+
+// Export for module usage (if needed)
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { MarkTikaStudio, addWatermark, createCanvasDefaultText, openFilePicker };
+}
