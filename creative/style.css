@@ -1,4 +1,4 @@
-/* style.css - Luxury Glassmorphism Design System - FIXED */
+/* style.css - Luxury Glassmorphism Design System - COMPLETE & FIXED */
 
 /* ===== CSS VARIABLES ===== */
 :root {
@@ -51,6 +51,7 @@ body {
     color: var(--pure-white);
     line-height: 1.6;
     overflow-x: hidden;
+    padding-bottom: 0;
 }
 
 .container {
@@ -199,9 +200,10 @@ body {
     backdrop-filter: blur(20px);
     border-top: 1px solid var(--glass-border);
     display: none;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     z-index: 1000;
     padding: 0.5rem 0;
+    transition: transform 0.3s ease;
 }
 
 .nav-item {
@@ -242,7 +244,7 @@ body {
     box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
     transition: all 0.3s ease;
     z-index: 999;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -628,8 +630,22 @@ body {
 /* Platform Gradients */
 .instagram-gradient { background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D); }
 .facebook-gradient { background: #1877F2; }
-.twitter-gradient { background: #1DA1F2; }
 .linkedin-gradient { background: #0A66C2; }
+.tiktok-gradient { background: #000000; }
+.pinterest-gradient { background: #E60023; }
+.twitter-gradient { background: #1DA1F2; }
+.youtube-gradient { background: #FF0000; }
+.google-gradient { background: #4285F4; }
+.microsoft-gradient { background: #0078D4; }
+.quora-gradient { background: #B92B27; }
+.medium-gradient { background: #000000; }
+.reddit-gradient { background: #FF4500; }
+.amazon-gradient { background: #FF9900; }
+.shopify-gradient { background: #7AB55C; }
+.etsy-gradient { background: #F16521; }
+.ebay-gradient { background: #0064D2; }
+.apple-gradient { background: #000000; }
+.googleplay-gradient { background: #4285F4; }
 
 .platform-name {
     font-size: 1.5rem;
@@ -688,6 +704,37 @@ body {
     font-size: 0.9rem;
 }
 
+/* ===== VIEW ALL CARD ===== */
+.view-all-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: var(--glass-gradient);
+    border: 2px dashed var(--glass-border);
+}
+
+.view-all-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.view-all-content i {
+    font-size: 3rem;
+    color: var(--gold-light);
+}
+
+.view-all-content h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.view-all-btn {
+    margin-top: 1rem;
+}
+
 /* ===== AD CONTAINERS ===== */
 .ad-container {
     margin: 2rem 0;
@@ -699,6 +746,39 @@ body {
     border: 1px solid var(--glass-border);
     border-radius: 12px;
     padding: 1rem;
+}
+
+.ad-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 2rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    min-height: 90px;
+}
+
+.ad-placeholder.rectangle {
+    min-height: 250px;
+}
+
+.ad-placeholder i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.ad-placeholder span {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.ad-placeholder small {
+    font-size: 0.8rem;
+    opacity: 0.7;
 }
 
 /* ===== LUXURY FOOTER ===== */
@@ -857,7 +937,9 @@ body {
     }
     
     .go-to-top {
-        display: none !important;
+        bottom: 80px;
+        right: 20px;
+        display: flex !important;
     }
     
     .hero-title {
@@ -901,6 +983,10 @@ body {
         flex-direction: column;
         gap: 1rem;
         text-align: center;
+    }
+    
+    body {
+        padding-bottom: 60px;
     }
 }
 
