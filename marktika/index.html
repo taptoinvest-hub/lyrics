@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MarkTika Studio | Complete Design Platform</title>
-    <!-- Remove problematic AdSense script for now -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -27,6 +26,11 @@
             </div>
             
             <div class="nav-links">
+                <a href="#categories" class="nav-link">
+                    <i class="fas fa-th-large"></i>
+                    <span>All Categories</span>
+                    <div class="gold-underline"></div>
+                </a>
                 <a href="#design-tools" class="nav-link">
                     <i class="fas fa-palette"></i>
                     <span>Design Tools</span>
@@ -37,19 +41,9 @@
                     <span>Social Media</span>
                     <div class="gold-underline"></div>
                 </a>
-                <a href="#professional" class="nav-link">
+                <a href="#business" class="nav-link">
                     <i class="fas fa-briefcase"></i>
-                    <span>Professional</span>
-                    <div class="gold-underline"></div>
-                </a>
-                <a href="#ecommerce" class="nav-link">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span>E-commerce</span>
-                    <div class="gold-underline"></div>
-                </a>
-                <a href="#app-stores" class="nav-link">
-                    <i class="fas fa-mobile-alt"></i>
-                    <span>App Stores</span>
+                    <span>Business</span>
                     <div class="gold-underline"></div>
                 </a>
             </div>
@@ -65,25 +59,21 @@
 
     <!-- Mobile Bottom Navigation -->
     <div class="mobile-nav">
-        <div class="nav-item active" data-target="design-tools">
+        <div class="nav-item active" data-target="categories">
+            <i class="fas fa-th-large"></i>
+            <span>All</span>
+        </div>
+        <div class="nav-item" data-target="design-tools">
             <i class="fas fa-palette"></i>
-            <span>Tools</span>
+            <span>Design</span>
         </div>
         <div class="nav-item" data-target="social-media">
             <i class="fas fa-share-alt"></i>
             <span>Social</span>
         </div>
-        <div class="nav-item" data-target="professional">
+        <div class="nav-item" data-target="business">
             <i class="fas fa-briefcase"></i>
             <span>Business</span>
-        </div>
-        <div class="nav-item" data-target="ecommerce">
-            <i class="fas fa-shopping-bag"></i>
-            <span>Shop</span>
-        </div>
-        <div class="nav-item" data-target="app-stores">
-            <i class="fas fa-mobile-alt"></i>
-            <span>Apps</span>
         </div>
     </div>
 
@@ -92,208 +82,83 @@
         <i class="fas fa-chevron-up"></i>
     </button>
 
-    <!-- Luxury Hero Section with Slider -->
+    <!-- Luxury Hero Section -->
     <section class="luxury-hero">
-        <div class="hero-slider">
-            <!-- Slide 1 -->
-            <div class="hero-slide active">
-                <div class="hero-container">
-                    <div class="hero-content">
-                        <div class="hero-badge">
-                            <i class="fas fa-star"></i>
-                            <span>Premium Design Platform</span>
-                        </div>
-                        
-                        <h1 class="hero-title">
-                            <span class="title-line">Create</span>
-                            <span class="title-line gold-gradient">Stunning Visuals</span>
-                            <span class="title-line">For Every Platform</span>
-                        </h1>
-                        
-                        <p class="hero-subtitle">
-                            Professional design tools with luxury glassmorphism interface. 
-                            <span class="gold-text">25+ platforms, 800 tools, 200+ dimensions.</span>
-                        </p>
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-star"></i>
+                    <span>800 Premium Tools</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    <span class="title-line">Complete</span>
+                    <span class="title-line gold-gradient">Design Platform</span>
+                    <span class="title-line">For Professionals</span>
+                </h1>
+                
+                <p class="hero-subtitle">
+                    20 categories, 800 tools, unlimited creativity. Everything you need for professional design and marketing.
+                </p>
 
-                        <div class="hero-actions">
-                            <button class="glass-btn premium-btn hero-btn">
-                                <i class="fas fa-rocket"></i>
-                                <span>Get Started Free</span>
-                            </button>
-                            <button class="glass-btn hero-btn">
-                                <i class="fas fa-play-circle"></i>
-                                <span>Watch Demo</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Glass Stats Counter -->
-                    <div class="glass-stats">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-layer-group"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="stat-number" data-count="25">0</div>
-                                <div class="stat-label">Platforms</div>
-                            </div>
-                            <div class="stat-glow"></div>
-                        </div>
-                        
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-tools"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="stat-number" data-count="800">0</div>
-                                <div class="stat-label">Design Tools</div>
-                            </div>
-                            <div class="stat-glow"></div>
-                        </div>
-                        
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-expand-alt"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="stat-number" data-count="200">0</div>
-                                <div class="stat-label">Dimensions</div>
-                            </div>
-                            <div class="stat-glow"></div>
-                        </div>
-                        
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-download"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="stat-number" data-count="15">0</div>
-                                <div class="stat-label">Formats</div>
-                            </div>
-                            <div class="stat-glow"></div>
-                        </div>
-                    </div>
+                <div class="hero-actions">
+                    <button class="glass-btn premium-btn hero-btn" id="exploreAllBtn">
+                        <i class="fas fa-rocket"></i>
+                        <span>Explore All Tools</span>
+                    </button>
+                    <button class="glass-btn hero-btn" id="watchDemoBtn">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Watch Demo</span>
+                    </button>
                 </div>
             </div>
 
-            <!-- Slide 2 -->
-            <div class="hero-slide">
-                <div class="hero-container">
-                    <div class="hero-content">
-                        <div class="hero-badge">
-                            <i class="fas fa-bolt"></i>
-                            <span>AI-Powered Tools</span>
-                        </div>
-                        
-                        <h1 class="hero-title">
-                            <span class="title-line">Smart</span>
-                            <span class="title-line gold-gradient">AI Design</span>
-                            <span class="title-line">Assistant</span>
-                        </h1>
-                        
-                        <p class="hero-subtitle">
-                            Artificial intelligence meets creative design. 
-                            <span class="gold-text">Auto-crop, smart filters, instant optimization.</span>
-                        </p>
-
-                        <div class="hero-actions">
-                            <button class="glass-btn premium-btn hero-btn">
-                                <i class="fas fa-robot"></i>
-                                <span>Try AI Tools</span>
-                            </button>
-                            <button class="glass-btn hero-btn">
-                                <i class="fas fa-magic"></i>
-                                <span>See Examples</span>
-                            </button>
-                        </div>
+            <!-- Glass Stats Counter -->
+            <div class="glass-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-layer-group"></i>
                     </div>
-
-                    <div class="hero-features">
-                        <div class="feature-grid">
-                            <div class="feature-item">
-                                <i class="fas fa-brain"></i>
-                                <span>Smart Cropping</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-palette"></i>
-                                <span>Auto Color</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-expand"></i>
-                                <span>Background Remove</span>
-                            </div>
-                            <div class="feature-item">
-                                <i class="fas fa-sync"></i>
-                                <span>Batch Processing</span>
-                            </div>
-                        </div>
+                    <div class="stat-content">
+                        <div class="stat-number" data-count="20">0</div>
+                        <div class="stat-label">Categories</div>
                     </div>
+                    <div class="stat-glow"></div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" data-count="800">0</div>
+                        <div class="stat-label">Design Tools</div>
+                    </div>
+                    <div class="stat-glow"></div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-expand-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" data-count="200">0</div>
+                        <div class="stat-label">Dimensions</div>
+                    </div>
+                    <div class="stat-glow"></div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" data-count="15">0</div>
+                        <div class="stat-label">Formats</div>
+                    </div>
+                    <div class="stat-glow"></div>
                 </div>
             </div>
-
-            <!-- Slide 3 -->
-            <div class="hero-slide">
-                <div class="hero-container">
-                    <div class="hero-content">
-                        <div class="hero-badge">
-                            <i class="fas fa-users"></i>
-                            <span>Team Collaboration</span>
-                        </div>
-                        
-                        <h1 class="hero-title">
-                            <span class="title-line">Design</span>
-                            <span class="title-line gold-gradient">Together</span>
-                            <span class="title-line">In Real-Time</span>
-                        </h1>
-                        
-                        <p class="hero-subtitle">
-                            Collaborate with your team seamlessly. 
-                            <span class="gold-text">Real-time editing, comments, version control.</span>
-                        </p>
-
-                        <div class="hero-actions">
-                            <button class="glass-btn premium-btn hero-btn">
-                                <i class="fas fa-users"></i>
-                                <span>Invite Team</span>
-                            </button>
-                            <button class="glass-btn hero-btn">
-                                <i class="fas fa-share-alt"></i>
-                                <span>Share Project</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="collaboration-stats">
-                        <div class="collab-stat">
-                            <div class="collab-number">∞</div>
-                            <div class="collab-label">Team Members</div>
-                        </div>
-                        <div class="collab-stat">
-                            <div class="collab-number">50+</div>
-                            <div class="collab-label">Real-time Editors</div>
-                        </div>
-                        <div class="collab-stat">
-                            <div class="collab-number">100GB</div>
-                            <div class="collab-label">Cloud Storage</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Hero Slider Controls -->
-        <div class="hero-controls">
-            <button class="hero-control prev-control">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <div class="hero-dots">
-                <span class="dot active" data-slide="0"></span>
-                <span class="dot" data-slide="1"></span>
-                <span class="dot" data-slide="2"></span>
-            </div>
-            <button class="hero-control next-control">
-                <i class="fas fa-chevron-right"></i>
-            </button>
         </div>
     </section>
 
@@ -308,25 +173,52 @@
         </div>
     </div>
 
+    <!-- All Categories Overview -->
+    <section class="luxury-section" id="categories">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <i class="fas fa-th-large"></i>
+                    All Categories
+                </div>
+                <h2 class="section-title">Explore <span class="gold-text">800 Tools</span> Across 20 Categories</h2>
+                <p class="section-subtitle">Professional tools for every design and marketing need</p>
+            </div>
+
+            <!-- Category Navigation -->
+            <div class="category-nav">
+                <button class="category-filter active" data-category="all">All Categories</button>
+                <button class="category-filter" data-category="design">Design & Image</button>
+                <button class="category-filter" data-category="social">Social Media</button>
+                <button class="category-filter" data-category="business">Business</button>
+                <button class="category-filter" data-category="productivity">Productivity</button>
+            </div>
+        </div>
+    </section>
+
     <!-- Design & Image Tools Section -->
-    <section class="luxury-section" id="design-tools">
+    <section class="luxury-section category-section" id="design-tools" data-category="design">
         <div class="container">
             <div class="section-header">
                 <div class="section-badge">
                     <i class="fas fa-palette"></i>
                     Design & Image Tools
                 </div>
-                <h2 class="section-title">Complete Suite of <span class="gold-text">Design Tools</span></h2>
-                <p class="section-subtitle">40 professional tools for image editing and design</p>
+                <h2 class="section-title">Professional <span class="gold-text">Design Tools</span></h2>
+                <p class="section-subtitle">40 tools for image editing, manipulation, and creative design</p>
             </div>
 
-            <div class="tools-grid">
+            <div class="category-grid">
                 <!-- Tool 1 -->
                 <div class="luxury-card tool-card" data-tool="image-cropper">
                     <div class="card-glow"></div>
                     <div class="card-header">
                         <div class="card-icon bg-gradient-1">
                             <i class="fas fa-crop"></i>
+                        </div>
+                        <div class="card-badge">
+                            <i class="fas fa-fire"></i>
+                            Popular
                         </div>
                     </div>
                     <div class="card-body">
@@ -383,38 +275,7 @@
                     </div>
                 </div>
 
-                <!-- Tool 3 -->
-                <div class="luxury-card tool-card" data-tool="image-compressor">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <div class="card-icon bg-gradient-3">
-                            <i class="fas fa-compress"></i>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">Image Compressor</h3>
-                        <p class="card-description">Quality-based size reduction with optimization</p>
-                        <div class="card-features">
-                            <span class="feature-tag">Quality Control</span>
-                            <span class="feature-tag">Size Optimization</span>
-                            <span class="feature-tag">Batch Process</span>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="card-meta">
-                            <div class="meta-item">
-                                <i class="fas fa-weight-hanging"></i>
-                                Size Optimization
-                            </div>
-                        </div>
-                        <button class="glass-btn card-btn">
-                            <span>Open Tool</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- View All Tools Card -->
+                <!-- View All Category Card -->
                 <div class="luxury-card category-card" data-category="design-image">
                     <div class="card-glow"></div>
                     <div class="card-header">
@@ -425,21 +286,20 @@
                     <div class="card-body">
                         <h3 class="card-title">View All 40 Tools</h3>
                         <p class="card-description">Access complete suite of professional image editing tools</p>
-                        <div class="card-features">
-                            <span class="feature-tag">40 Tools</span>
-                            <span class="feature-tag">All Categories</span>
-                            <span class="feature-tag">Professional</span>
+                        <div class="category-stats">
+                            <div class="stat">
+                                <i class="fas fa-tools"></i>
+                                40 Tools
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                15K Users
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <div class="card-meta">
-                            <div class="meta-item">
-                                <i class="fas fa-tools"></i>
-                                Complete Suite
-                            </div>
-                        </div>
                         <button class="glass-btn card-btn view-all-btn" data-category="design-image">
-                            <span>Explore All Tools</span>
+                            <span>Explore Category</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
@@ -449,7 +309,7 @@
     </section>
 
     <!-- Social Media Tools Section -->
-    <section class="luxury-section" id="social-media">
+    <section class="luxury-section category-section" id="social-media" data-category="social">
         <div class="container">
             <div class="section-header">
                 <div class="section-badge">
@@ -460,13 +320,17 @@
                 <p class="section-subtitle">40 tools for social media management and optimization</p>
             </div>
 
-            <div class="tools-grid">
+            <div class="category-grid">
                 <!-- Tool 1 -->
                 <div class="luxury-card tool-card" data-tool="instagram-studio">
                     <div class="card-glow"></div>
                     <div class="card-header">
                         <div class="card-icon instagram-gradient">
                             <i class="fab fa-instagram"></i>
+                        </div>
+                        <div class="card-badge">
+                            <i class="fas fa-fire"></i>
+                            Popular
                         </div>
                     </div>
                     <div class="card-body">
@@ -523,38 +387,7 @@
                     </div>
                 </div>
 
-                <!-- Tool 3 -->
-                <div class="luxury-card tool-card" data-tool="tiktok-studio">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <div class="card-icon tiktok-gradient">
-                            <i class="fab fa-tiktok"></i>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">TikTok Studio</h3>
-                        <p class="card-description">Video optimization and thumbnail tools for TikTok</p>
-                        <div class="card-features">
-                            <span class="feature-tag">Videos</span>
-                            <span class="feature-tag">Thumbnails</span>
-                            <span class="feature-tag">Covers</span>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="card-meta">
-                            <div class="meta-item">
-                                <i class="fas fa-ruler-combined"></i>
-                                6 Formats
-                            </div>
-                        </div>
-                        <button class="glass-btn card-btn">
-                            <span>Open Studio</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- View All Tools Card -->
+                <!-- View All Category Card -->
                 <div class="luxury-card category-card" data-category="social-media">
                     <div class="card-glow"></div>
                     <div class="card-header">
@@ -565,21 +398,20 @@
                     <div class="card-body">
                         <h3 class="card-title">View All 40 Tools</h3>
                         <p class="card-description">Complete social media management toolkit</p>
-                        <div class="card-features">
-                            <span class="feature-tag">40 Tools</span>
-                            <span class="feature-tag">All Platforms</span>
-                            <span class="feature-tag">Management</span>
+                        <div class="category-stats">
+                            <div class="stat">
+                                <i class="fas fa-tools"></i>
+                                40 Tools
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                12K Users
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <div class="card-meta">
-                            <div class="meta-item">
-                                <i class="fas fa-share-alt"></i>
-                                Social Suite
-                            </div>
-                        </div>
                         <button class="glass-btn card-btn view-all-btn" data-category="social-media">
-                            <span>Explore All Tools</span>
+                            <span>Explore Category</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
@@ -589,7 +421,7 @@
     </section>
 
     <!-- Content Marketing Section -->
-    <section class="luxury-section" id="content-marketing">
+    <section class="luxury-section category-section" id="content-marketing" data-category="business">
         <div class="container">
             <div class="section-header">
                 <div class="section-badge">
@@ -600,13 +432,17 @@
                 <p class="section-subtitle">40 tools for content creation and marketing strategy</p>
             </div>
 
-            <div class="tools-grid">
+            <div class="category-grid">
                 <!-- Tool 1 -->
                 <div class="luxury-card tool-card" data-tool="blog-title-generator">
                     <div class="card-glow"></div>
                     <div class="card-header">
                         <div class="card-icon bg-gradient-4">
                             <i class="fas fa-heading"></i>
+                        </div>
+                        <div class="card-badge">
+                            <i class="fas fa-brain"></i>
+                            AI Powered
                         </div>
                     </div>
                     <div class="card-body">
@@ -621,7 +457,7 @@
                     <div class="card-footer">
                         <div class="card-meta">
                             <div class="meta-item">
-                                <i class="fas fa-brain"></i>
+                                <i class="fas fa-magic"></i>
                                 AI Assistant
                             </div>
                         </div>
@@ -663,38 +499,7 @@
                     </div>
                 </div>
 
-                <!-- Tool 3 -->
-                <div class="luxury-card tool-card" data-tool="headline-analyzer">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <div class="card-icon bg-gradient-6">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">Headline Analyzer</h3>
-                        <p class="card-description">Optimize your headlines for maximum click-through rates</p>
-                        <div class="card-features">
-                            <span class="feature-tag">Analysis</span>
-                            <span class="feature-tag">Optimization</span>
-                            <span class="feature-tag">CTR</span>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="card-meta">
-                            <div class="meta-item">
-                                <i class="fas fa-analytics"></i>
-                                Performance
-                            </div>
-                        </div>
-                        <button class="glass-btn card-btn">
-                            <span>Open Tool</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- View All Tools Card -->
+                <!-- View All Category Card -->
                 <div class="luxury-card category-card" data-category="content-marketing">
                     <div class="card-glow"></div>
                     <div class="card-header">
@@ -705,21 +510,20 @@
                     <div class="card-body">
                         <h3 class="card-title">View All 40 Tools</h3>
                         <p class="card-description">Complete content marketing toolkit</p>
-                        <div class="card-features">
-                            <span class="feature-tag">40 Tools</span>
-                            <span class="feature-tag">Content Creation</span>
-                            <span class="feature-tag">Strategy</span>
+                        <div class="category-stats">
+                            <div class="stat">
+                                <i class="fas fa-tools"></i>
+                                40 Tools
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                8K Users
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <div class="card-meta">
-                            <div class="meta-item">
-                                <i class="fas fa-pen-nib"></i>
-                                Content Suite
-                            </div>
-                        </div>
                         <button class="glass-btn card-btn view-all-btn" data-category="content-marketing">
-                            <span>Explore All Tools</span>
+                            <span>Explore Category</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
@@ -729,7 +533,7 @@
     </section>
 
     <!-- SEO & Analytics Section -->
-    <section class="luxury-section" id="seo-analytics">
+    <section class="luxury-section category-section" id="seo-analytics" data-category="business">
         <div class="container">
             <div class="section-header">
                 <div class="section-badge">
@@ -740,13 +544,17 @@
                 <p class="section-subtitle">40 tools for search engine optimization and analytics</p>
             </div>
 
-            <div class="tools-grid">
+            <div class="category-grid">
                 <!-- Tool 1 -->
                 <div class="luxury-card tool-card" data-tool="keyword-research">
                     <div class="card-glow"></div>
                     <div class="card-header">
                         <div class="card-icon bg-gradient-7">
                             <i class="fas fa-key"></i>
+                        </div>
+                        <div class="card-badge">
+                            <i class="fas fa-chart-line"></i>
+                            Essential
                         </div>
                     </div>
                     <div class="card-body">
@@ -803,38 +611,7 @@
                     </div>
                 </div>
 
-                <!-- Tool 3 -->
-                <div class="luxury-card tool-card" data-tool="backlink-checker">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <div class="card-icon bg-gradient-2">
-                            <i class="fas fa-link"></i>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">Backlink Checker</h3>
-                        <p class="card-description">Analyze your backlink profile and competitor links</p>
-                        <div class="card-features">
-                            <span class="feature-tag">Backlinks</span>
-                            <span class="feature-tag">Analysis</span>
-                            <span class="feature-tag">Competitors</span>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="card-meta">
-                            <div class="meta-item">
-                                <i class="fas fa-network-wired"></i>
-                                Link Analysis
-                            </div>
-                        </div>
-                        <button class="glass-btn card-btn">
-                            <span>Open Tool</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- View All Tools Card -->
+                <!-- View All Category Card -->
                 <div class="luxury-card category-card" data-category="seo-analytics">
                     <div class="card-glow"></div>
                     <div class="card-header">
@@ -845,21 +622,20 @@
                     <div class="card-body">
                         <h3 class="card-title">View All 40 Tools</h3>
                         <p class="card-description">Complete SEO and analytics toolkit</p>
-                        <div class="card-features">
-                            <span class="feature-tag">40 Tools</span>
-                            <span class="feature-tag">SEO</span>
-                            <span class="feature-tag">Analytics</span>
+                        <div class="category-stats">
+                            <div class="stat">
+                                <i class="fas fa-tools"></i>
+                                40 Tools
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                10K Users
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <div class="card-meta">
-                            <div class="meta-item">
-                                <i class="fas fa-search"></i>
-                                SEO Suite
-                            </div>
-                        </div>
                         <button class="glass-btn card-btn view-all-btn" data-category="seo-analytics">
-                            <span>Explore All Tools</span>
+                            <span>Explore Category</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
@@ -868,158 +644,104 @@
         </div>
     </section>
 
-    <!-- Quick Categories Navigation -->
-    <section class="luxury-section" id="quick-categories">
+    <!-- Email Marketing Section -->
+    <section class="luxury-section category-section" id="email-marketing" data-category="business">
         <div class="container">
             <div class="section-header">
                 <div class="section-badge">
-                    <i class="fas fa-th-large"></i>
-                    All Categories
+                    <i class="fas fa-envelope"></i>
+                    Email Marketing
                 </div>
-                <h2 class="section-title">Explore <span class="gold-text">All 20 Categories</span></h2>
-                <p class="section-subtitle">800 tools across 20 professional categories</p>
+                <h2 class="section-title">Email <span class="gold-text">Marketing</span> Tools</h2>
+                <p class="section-subtitle">40 tools for email campaigns and marketing automation</p>
             </div>
 
-            <div class="categories-grid">
-                <!-- Category 1 -->
-                <div class="luxury-card category-card" data-category="design-image">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <div class="card-icon bg-gradient-1">
-                            <i class="fas fa-palette"></i>
-                        </div>
-                        <h3 class="card-title">Design & Image Tools</h3>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-description">40 professional tools for image editing and design</p>
-                        <div class="category-stats">
-                            <div class="stat">
-                                <i class="fas fa-tools"></i>
-                                40 Tools
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-star"></i>
-                                Popular
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <button class="glass-btn card-btn view-all-btn" data-category="design-image">
-                            <span>Explore Category</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Category 2 -->
-                <div class="luxury-card category-card" data-category="social-media">
-                    <div class="card-glow"></div>
-                    <div class="card-header">
-                        <div class="card-icon bg-gradient-2">
-                            <i class="fas fa-share-alt"></i>
-                        </div>
-                        <h3 class="card-title">Social Media Tools</h3>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-description">40 tools for social media management and optimization</p>
-                        <div class="category-stats">
-                            <div class="stat">
-                                <i class="fas fa-tools"></i>
-                                40 Tools
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-chart-line"></i>
-                                Trending
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <button class="glass-btn card-btn view-all-btn" data-category="social-media">
-                            <span>Explore Category</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Category 3 -->
-                <div class="luxury-card category-card" data-category="content-marketing">
+            <div class="category-grid">
+                <!-- Tool 1 -->
+                <div class="luxury-card tool-card" data-tool="email-subject-generator">
                     <div class="card-glow"></div>
                     <div class="card-header">
                         <div class="card-icon bg-gradient-3">
-                            <i class="fas fa-pen-nib"></i>
+                            <i class="fas fa-envelope-open-text"></i>
                         </div>
-                        <h3 class="card-title">Content Marketing</h3>
+                        <div class="card-badge">
+                            <i class="fas fa-brain"></i>
+                            AI Powered
+                        </div>
                     </div>
                     <div class="card-body">
-                        <p class="card-description">40 tools for content creation and marketing strategy</p>
-                        <div class="category-stats">
-                            <div class="stat">
-                                <i class="fas fa-tools"></i>
-                                40 Tools
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-bolt"></i>
-                                AI Powered
-                            </div>
+                        <h3 class="card-title">Email Subject Generator</h3>
+                        <p class="card-description">AI-powered subject lines for better open rates</p>
+                        <div class="card-features">
+                            <span class="feature-tag">AI Powered</span>
+                            <span class="feature-tag">Open Rates</span>
+                            <span class="feature-tag">Optimization</span>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button class="glass-btn card-btn view-all-btn" data-category="content-marketing">
-                            <span>Explore Category</span>
+                        <div class="card-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-magic"></i>
+                                AI Assistant
+                            </div>
+                        </div>
+                        <button class="glass-btn card-btn">
+                            <span>Open Tool</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Category 4 -->
-                <div class="luxury-card category-card" data-category="seo-analytics">
+                <!-- Tool 2 -->
+                <div class="luxury-card tool-card" data-tool="email-template-designer">
                     <div class="card-glow"></div>
                     <div class="card-header">
-                        <div class="card-icon bg-gradient-4">
-                            <i class="fas fa-search"></i>
+                        <div class="card-icon bg-gradient-6">
+                            <i class="fas fa-paint-brush"></i>
                         </div>
-                        <h3 class="card-title">SEO & Analytics</h3>
                     </div>
                     <div class="card-body">
-                        <p class="card-description">40 tools for search engine optimization and analytics</p>
-                        <div class="category-stats">
-                            <div class="stat">
-                                <i class="fas fa-tools"></i>
-                                40 Tools
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-chart-bar"></i>
-                                Analytics
-                            </div>
+                        <h3 class="card-title">Email Template Designer</h3>
+                        <p class="card-description">Create beautiful, responsive email templates</p>
+                        <div class="card-features">
+                            <span class="feature-tag">Templates</span>
+                            <span class="feature-tag">Responsive</span>
+                            <span class="feature-tag">Customizable</span>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button class="glass-btn card-btn view-all-btn" data-category="seo-analytics">
-                            <span>Explore Category</span>
+                        <div class="card-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-palette"></i>
+                                Design
+                            </div>
+                        </div>
+                        <button class="glass-btn card-btn">
+                            <span>Open Tool</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Category 5 -->
+                <!-- View All Category Card -->
                 <div class="luxury-card category-card" data-category="email-marketing">
                     <div class="card-glow"></div>
                     <div class="card-header">
-                        <div class="card-icon bg-gradient-5">
-                            <i class="fas fa-envelope"></i>
+                        <div class="card-icon bg-gradient-8">
+                            <i class="fas fa-ellipsis-h"></i>
                         </div>
-                        <h3 class="card-title">Email Marketing</h3>
                     </div>
                     <div class="card-body">
-                        <p class="card-description">40 tools for email campaigns and marketing automation</p>
+                        <h3 class="card-title">View All 40 Tools</h3>
+                        <p class="card-description">Complete email marketing toolkit</p>
                         <div class="category-stats">
                             <div class="stat">
                                 <i class="fas fa-tools"></i>
                                 40 Tools
                             </div>
                             <div class="stat">
-                                <i class="fas fa-rocket"></i>
-                                Campaigns
+                                <i class="fas fa-users"></i>
+                                7K Users
                             </div>
                         </div>
                     </div>
@@ -1030,35 +752,196 @@
                         </button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
 
-                <!-- Category 6 -->
-                <div class="luxury-card category-card" data-category="advertising-ppc">
+    <!-- Productivity Tools Section -->
+    <section class="luxury-section category-section" id="productivity" data-category="productivity">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <i class="fas fa-tasks"></i>
+                    Productivity Tools
+                </div>
+                <h2 class="section-title">Boost Your <span class="gold-text">Productivity</span></h2>
+                <p class="section-subtitle">40 tools for time management and workflow optimization</p>
+            </div>
+
+            <div class="category-grid">
+                <!-- Tool 1 -->
+                <div class="luxury-card tool-card" data-tool="pomodoro-timer">
                     <div class="card-glow"></div>
                     <div class="card-header">
-                        <div class="card-icon bg-gradient-6">
-                            <i class="fas fa-ad"></i>
+                        <div class="card-icon bg-gradient-2">
+                            <i class="fas fa-clock"></i>
                         </div>
-                        <h3 class="card-title">Advertising & PPC</h3>
+                        <div class="card-badge">
+                            <i class="fas fa-fire"></i>
+                            Popular
+                        </div>
                     </div>
                     <div class="card-body">
-                        <p class="card-description">40 tools for online advertising and pay-per-click campaigns</p>
+                        <h3 class="card-title">Pomodoro Timer</h3>
+                        <p class="card-description">Focus timer with work/break intervals for maximum productivity</p>
+                        <div class="card-features">
+                            <span class="feature-tag">Timer</span>
+                            <span class="feature-tag">Focus</span>
+                            <span class="feature-tag">Productivity</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-brain"></i>
+                                Focus
+                            </div>
+                        </div>
+                        <button class="glass-btn card-btn">
+                            <span>Open Tool</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tool 2 -->
+                <div class="luxury-card tool-card" data-tool="task-manager">
+                    <div class="card-glow"></div>
+                    <div class="card-header">
+                        <div class="card-icon bg-gradient-4">
+                            <i class="fas fa-list-check"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Task Manager</h3>
+                        <p class="card-description">Organize and prioritize your tasks with smart features</p>
+                        <div class="card-features">
+                            <span class="feature-tag">Tasks</span>
+                            <span class="feature-tag">Organization</span>
+                            <span class="feature-tag">Priority</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-check-circle"></i>
+                                Organization
+                            </div>
+                        </div>
+                        <button class="glass-btn card-btn">
+                            <span>Open Tool</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- View All Category Card -->
+                <div class="luxury-card category-card" data-category="productivity">
+                    <div class="card-glow"></div>
+                    <div class="card-header">
+                        <div class="card-icon bg-gradient-8">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">View All 40 Tools</h3>
+                        <p class="card-description">Complete productivity toolkit</p>
                         <div class="category-stats">
                             <div class="stat">
                                 <i class="fas fa-tools"></i>
                                 40 Tools
                             </div>
                             <div class="stat">
-                                <i class="fas fa-bullseye"></i>
-                                Targeting
+                                <i class="fas fa-users"></i>
+                                9K Users
                             </div>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button class="glass-btn card-btn view-all-btn" data-category="advertising-ppc">
+                        <button class="glass-btn card-btn view-all-btn" data-category="productivity">
                             <span>Explore Category</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Categories Overview -->
+    <section class="luxury-section" id="quick-categories">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <i class="fas fa-th-large"></i>
+                    All 20 Categories
+                </div>
+                <h2 class="section-title">Complete <span class="gold-text">Toolkit</span> Overview</h2>
+                <p class="section-subtitle">800 tools across 20 professional categories</p>
+            </div>
+
+            <div class="quick-categories-grid">
+                <!-- Category 1 -->
+                <div class="quick-category-card" data-category="design-image">
+                    <div class="quick-category-icon bg-gradient-1">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h4>Design & Image</h4>
+                    <span>40 Tools</span>
+                </div>
+
+                <!-- Category 2 -->
+                <div class="quick-category-card" data-category="social-media">
+                    <div class="quick-category-icon bg-gradient-2">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <h4>Social Media</h4>
+                    <span>40 Tools</span>
+                </div>
+
+                <!-- Category 3 -->
+                <div class="quick-category-card" data-category="content-marketing">
+                    <div class="quick-category-icon bg-gradient-3">
+                        <i class="fas fa-pen-nib"></i>
+                    </div>
+                    <h4>Content Marketing</h4>
+                    <span>40 Tools</span>
+                </div>
+
+                <!-- Category 4 -->
+                <div class="quick-category-card" data-category="seo-analytics">
+                    <div class="quick-category-icon bg-gradient-4">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h4>SEO & Analytics</h4>
+                    <span>40 Tools</span>
+                </div>
+
+                <!-- Category 5 -->
+                <div class="quick-category-card" data-category="email-marketing">
+                    <div class="quick-category-icon bg-gradient-5">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h4>Email Marketing</h4>
+                    <span>40 Tools</span>
+                </div>
+
+                <!-- Category 6 -->
+                <div class="quick-category-card" data-category="advertising-ppc">
+                    <div class="quick-category-icon bg-gradient-6">
+                        <i class="fas fa-ad"></i>
+                    </div>
+                    <h4>Advertising & PPC</h4>
+                    <span>40 Tools</span>
+                </div>
+
+                <!-- View All Categories -->
+                <div class="quick-category-card view-all-categories">
+                    <div class="quick-category-icon bg-gradient-8">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </div>
+                    <h4>View All Categories</h4>
+                    <span>800 Tools</span>
                 </div>
             </div>
         </div>
